@@ -37,18 +37,3 @@ Ejemplo:
 ```
 practico-05
 ```
-
-Para los trabajos prácticos que cuenten con muchos ejercicios sin relación entre ellos, se aconseja crear un archivo por ejercicio.
-Cada archivo seguirá el siguiente formato "ejercicio-NN"
-
-donde
-- `NN`: número de ejercicio
-
-Ejemplo: trabajo práctico 5, 3 ejercicios no correlativos
-```
-practico-05
-├── ejercicio-01.py
-├── ejercicio-02.py
-└── ejercicio-03.py
-```
-

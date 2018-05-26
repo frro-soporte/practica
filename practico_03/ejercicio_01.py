@@ -1,9 +1,9 @@
 # Implementar la funcion crear_tabla, que cree una tabla Persona con:
-# - IdPersona Int() (autoincremental)
-# - Nombre Char(30)
-# - FechaNacimiento Date()
-# - DNI Int()
-# - Altura Int()
+# - IdPersona: Int() (autoincremental)
+# - Nombre: Char(30)
+# - FechaNacimiento: Date()
+# - DNI: Int()
+# - Altura: Int()
 
 # Implementar la funcion borrar_tabla, que borra la tabla creada anteriormente.
 

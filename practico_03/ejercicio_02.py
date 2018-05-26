@@ -17,4 +17,5 @@ def pruebas():
     assert id_juan > 0
     assert id_marcela > id_juan
 
-pruebas()
+if __name__ == '__main__':
+    pruebas()
