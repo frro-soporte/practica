@@ -23,6 +23,14 @@ class DatosSocio(object):
         """
         return
 
+    def buscar_dni(self, dni_socio):
+        """
+        Devuelve la instancia del socio, dado su dni.
+        Devuelve None si no encuentra nada.
+        :rtype: Socio
+        """
+        return
+
     def todos(self):
         """
         Devuelve listado de todos los socios en la base de datos.
@@ -76,6 +84,10 @@ def pruebas():
     # buscar
     socio_2 = datos.alta(Socio(dni=12345679, nombre='Carlos', apellido='Perez'))
     assert datos.buscar(socio_2.id) == socio_2
+
+    # buscar dni
+    socio_2 = datos.alta(Socio(dni=12345679, nombre='Carlos', apellido='Perez'))
+    assert datos.buscar(socio_2.dni) == socio_2
 
     # modificacion
     socio_3 = datos.alta(Socio(dni=12345680, nombre='Susana', apellido='Gimenez'))
