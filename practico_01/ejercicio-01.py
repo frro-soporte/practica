@@ -2,4 +2,7 @@
 
 
 def suma(a, b):
-    pass
+    c=a+b
+    print(c)
+
+suma(2, 1)
