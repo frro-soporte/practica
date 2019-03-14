@@ -2,4 +2,8 @@
 
 
 def suma(a, b):
+    c= a+b
+    return c
+
+assert(suma(2,2)==4)
     pass
