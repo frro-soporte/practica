@@ -3,5 +3,11 @@
 
 
 # Resolver sin utilizar lista auxiliar
-def numeros_al_final(lista):
-    pass
+def es_palindromo(string):
+    return string == string[::-1]
+
+# Case for palindrome
+assert es_palindromo("rayar") is True
+
+# Case for non-palindrome
+assert es_palindromo("amor") is False

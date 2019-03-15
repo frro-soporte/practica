@@ -2,5 +2,7 @@
 # si numero es primo o no.
 
 
-def es_primo(numero):
-    pass
+def determinar():
+    return len(input())
+
+# Los casos de prueban deben comprobarse con la consola

@@ -4,5 +4,11 @@
 
 # hola -> ho
 # verde -> ver
-def mitad(palabra):
-    pass
+def superposicion(xs, ys):
+    return len(set(xs) & set(ys)) >= 1
+
+# Case for one or more commmon elements
+assert superposicion([1, 2, 3, 4], [3, 6, 9, 12]) is True
+
+# Case for no common elements
+assert superposicion(list(range(10)), list(range(10, 20))) is False
