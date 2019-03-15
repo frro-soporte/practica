@@ -1,5 +1,5 @@
-# Implementar la función suma, que reciba dos números y devuelva su suma.
+# 1. Implementar una función max() que tome como argumento dos números y devuelva el mayor de ellos. 
 
 
-def suma(a, b):
+def maximo(a, b):
     pass
