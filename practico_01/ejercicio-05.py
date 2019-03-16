@@ -1,7 +1,14 @@
-# Implementar la función es_vocal, que reciba un carácter y
-# devuelva un booleano en base a si letra es una vocal o no.
+""" 5. Escribir una función multip() que multiplique respectivamente todos los números de
+una lista. Por ejemplo: multip([1,2,3,4]) debería devolver 24."""
 
+cadena = [3,1,2,6]
 
-# Resolver utilizando listas y el operador in.
-def es_vocal(letra):
-    pass
+def multip(x):
+    cont=1
+    for v in x:
+        cont=cont*v
+    return cont
+
+print(multip(cadena))
+
+assert multip(cadena) == 36
