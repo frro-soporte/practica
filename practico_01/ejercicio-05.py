@@ -9,6 +9,7 @@ def multip(x):
         cont=cont*v
     return cont
 
+
 print(multip(cadena))
 
 assert multip(cadena) == 36
