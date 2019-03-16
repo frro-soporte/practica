@@ -3,6 +3,6 @@
 
 def suma(a, b):
     c=a+b
-    print(c)
+    print("Resultado: ", c)
 
 suma(2, 1)
