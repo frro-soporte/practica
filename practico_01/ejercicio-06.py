@@ -1,6 +1,9 @@
-# Implementar la función multiplicar() que devuelva el producto de todos los números de una lista.
+# Definir una función inversa() que calcule la inversión de una cadena.
+# Por ejemplo la cadena "estoy probando" debería devolver la cadena "odnaborp yotse". 
 
 
-# [1,2,3,4] -> 24
-def multiplicar(lista):
-    pass
+def inversa(c):
+    inv= c[::-1]
+    return inv
+
+assert inversa('hola')=='aloh'
