@@ -2,5 +2,4 @@
 
 
 def maximo(a, b):
-    adads
     pass
