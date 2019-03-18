@@ -24,4 +24,5 @@ def ocupado(obstaculo,casilla):
     if obstaculo == False and casilla == False:
         return False
 
+    
 print (labe(Laberinto))
