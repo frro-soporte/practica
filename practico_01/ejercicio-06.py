@@ -1,6 +1,15 @@
-# Implementar la función multiplicar() que devuelva el producto de todos los números de una lista.
+## Definir una función inversa() que calcule la inversión de una cadena. Por ejemplo la cadena "estoy probando" debería devolver la cadena "odnaborp yotse".
 
+def inversa(cad):
+    reves = cad[::-1]
 
-# [1,2,3,4] -> 24
-def multiplicar(lista):
+    return reves
+
     pass
+
+
+cadena = input("Ingrese la cadena de valores:")
+
+resultado = inversa(cadena)
+
+print(resultado)

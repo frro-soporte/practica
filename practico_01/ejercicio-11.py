@@ -1,6 +1,17 @@
-# Implementar la función es_primo(), que devuelva un booleano en base a
-# si numero es primo o no.
+'''Determinar la cantidad de dígitos de un número ingresado.'''
+
+def cant_digitos(a):
 
 
-def es_primo(numero):
-    pass
+
+
+
+ return len(str(a))
+ pass
+
+
+digitos=int(input("Ingrese los digitos: "))
+
+resultado=cant_digitos(digitos)
+
+print(resultado)

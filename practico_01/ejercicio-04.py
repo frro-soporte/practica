@@ -1,6 +1,19 @@
-# Implementar la función conversor, que ingrese desde la consola grados Celsius
-# y los devuelva transformados a Fahrenheit.
+#Escribir una función que tome un carácter y devuelva True si es una vocal, de lo contrario devuelve False.
+
+def es_vocal(x):
+
+    if(x=='a'or x=='e'or x=='i' or x=='o' or x=='u'):
+
+        print("True")
 
 
-def conversor(grados):
-    pass
+
+    else:
+        print("False")
+
+
+pass
+
+a = input("introduce un cararter: ").lower()
+
+es_vocal(a)

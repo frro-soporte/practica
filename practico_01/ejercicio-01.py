@@ -1,9 +1,27 @@
-# 1. Implementar una función max() que tome como argumento dos números y devuelva el mayor de ellos. 
+'''Definir una función max() que tome como argumento dos números y devuelva el mayor de ellos'''
 
 
-def maximo(a, b):
-    pass
+def max(a,b):
 
-# si no falla es porque esta bien
-assert maximo(10, 5) == 10
-assert maximo(9, 18) == 18
+
+  if(a>b):
+    return a
+
+
+
+  elif (a == b):
+   return a
+  else:
+   return b
+
+pass
+
+a: int = int(input("Introduce un numero: "))
+b: int = int(input("Introduce un numero: "))
+
+mayor =max(a,b)
+
+print("El mayor numero es :"+ str(mayor))
+
+
+
