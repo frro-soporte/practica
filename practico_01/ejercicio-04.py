@@ -2,5 +2,9 @@
 # y los devuelva transformados a Fahrenheit.
 
 
-def conversor(grados):
-    pass
+def conversor(celsius):
+    fahrenheit = (celsius * 9 / 5) + 32
+    print(celsius, '° Celsius son ',fahrenheit, '° Farhenheit')
+
+grados = int(input('Ingrese grados en celsius: '))
+conversor(grados)
