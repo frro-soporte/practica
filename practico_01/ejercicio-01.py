@@ -2,9 +2,12 @@
 # 1. Implementar una función max() que tome como argumento dos números y devuelva el mayor de ellos. 
 
 
-def maximo(a, b):
-    pass
+def max(x,y):
+        if x>y:
+            return x
+        elif x<y:
+           return y
+        else: print('a y b son iguales')
 
-# si no falla es porque esta bien
-assert maximo(10, 5) == 10
-assert maximo(9, 18) == 18
+assert max(10, 5) == 10
+assert max(9, 18) == 18
