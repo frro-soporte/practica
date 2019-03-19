@@ -1,6 +1,15 @@
-# Implementar la función multiplicar() que devuelva el producto de todos los números de una lista.
+# Difinir una funcion inversa() que calcule la inversion de una cadena.
 
 
-# [1,2,3,4] -> 24
-def multiplicar(lista):
-    pass
+def inversa(cad):
+    largo = len(cad)+1
+    ca2 = cad
+    i = 0
+    for i in range(largo):
+        if i == 0:
+            pass
+        else:
+            ca2 = ca2[:i-1] + cad[-i] + ca2[i:]
+    return ca2
+
+print(inversa("Prueba"))
