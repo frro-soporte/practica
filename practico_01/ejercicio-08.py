@@ -19,4 +19,3 @@ def superposicion_loop(lista_1, lista_2):
 print(superposicion_loop([7,2,3],[1,4,5]))
 print(superposicion_loop([1,2,3],[1,4,5]))
 
-print(superposicion_loop([7,2,3],[1,4,5]))
