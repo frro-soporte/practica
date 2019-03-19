@@ -11,9 +11,7 @@ def mas_larga(lista_01):
             aux = len(lista_01[i])
         else:
             pass
-    print(lista_01)
-    print(lista_aux)
     return aux_2
 
 
-print(mas_larga(["Hola","p","pe"]))
+print(mas_larga(["Hola","j","pe"]))
