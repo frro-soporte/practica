@@ -1,7 +1,13 @@
-# Implementar la función numeros_al_final(), que mueve todos los elementos numéricos
-# de lista al final de esta. Devuelve la lista.
+def es_palindromo(cadena):
+    cad_inv = ""
+    cadena = cadena.lower()
+    for i in range(len(cadena)):
+        cad_inv = cad_inv + cadena[len(cadena)-i-1]
+    if cadena == cad_inv:
+        return True
+    else:
+        return False
 
 
-# Resolver sin utilizar lista auxiliar
-def numeros_al_final(lista):
-    pass
+assert es_palindromo("Radar")
+assert es_palindromo("Hola") is False

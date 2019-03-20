@@ -1,6 +1,8 @@
-# Implementar la función multiplicar() que devuelva el producto de todos los números de una lista.
+def inversa(cadena):
+    cad_inv = ""
+    for i in range(len(cadena)):
+        cad_inv = cad_inv + cadena[len(cadena)-i-1]
+    return cad_inv
 
 
-# [1,2,3,4] -> 24
-def multiplicar(lista):
-    pass
+assert inversa("Hola") == "aloH"

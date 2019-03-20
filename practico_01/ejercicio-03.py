@@ -1,8 +1,12 @@
-# Implementar la función operacion, donde:
-# - Si multiplicar es True: devolver la multiplicación entre a y b.
-# - Si multiplicar es False: devolver la division entre a y b.
-# - Si multiplicar es False y b es cero: imprimir por consola "Operación no valida".
+def calc_listas(listita):
+    i = 0
+    while listita[i] is not None:
+        i += 1
+        try:
+            listita[i]
+        except:
+            return i
 
 
-def operacion(a, b, multiplicar):
-    pass
+assert calc_listas("hola") == 4
+assert calc_listas([1, 2, 3, 4]) == 4

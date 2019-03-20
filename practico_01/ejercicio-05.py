@@ -1,7 +1,8 @@
-# Implementar la función es_vocal, que reciba un carácter y
-# devuelva un booleano en base a si letra es una vocal o no.
+def multip(lista):
+    mul = 1
+    for i in range(len(lista)):
+        mul = mul * lista[i]
+    return mul
 
 
-# Resolver utilizando listas y el operador in.
-def es_vocal(letra):
-    pass
+assert multip([1, 2, 3, 4]) == 24

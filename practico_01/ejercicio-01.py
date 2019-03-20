@@ -1,5 +1,9 @@
-# Implementar la función suma, que reciba dos números y devuelva su suma.
+def maximo(n1, n2):
+    if n1>n2:
+        return n1
+    else:
+        return n2
 
 
-def suma(a, b):
-    pass
+assert maximo(12, 13) == 13
+

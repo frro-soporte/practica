@@ -1,6 +1,10 @@
-# Implementar la función conversor, que ingrese desde la consola grados Celsius
-# y los devuelva transformados a Fahrenheit.
+def vocal(c):
+    if (c == "a") or (c == "e") or (c == "i") or (c == "o") or (c == "u"):
+        return True
+    else:
+        return False
 
 
-def conversor(grados):
-    pass
+assert vocal("a")
+assert vocal("b") is False
+
