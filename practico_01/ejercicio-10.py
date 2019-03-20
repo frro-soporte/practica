@@ -1,12 +1,8 @@
-# Implementar las funciones superposicion_x(), que tomen dos listas y devuelva un booleano en base a
-# si tienen al menos 1 elemento en común.
+def mas_larga(lista):
+    long = []
+    for i in range(len(lista)):
+        long.append(len(lista[i]))
+    return lista[long.index(max(long))] #Devuelve solo la primera en caso que haya cadenas de igual longitud (consultar)
 
 
-# se debe implementar utilizando bucles anidados.
-def superposicion_loop(lista_1, lista_2):
-    pass
-
-
-# se debe implementar utilizando conjuntos (sets).
-def superposicion_set(lista_1, lista_2):
-    pass
+assert mas_larga(["hola","mama","jajaja","Mercury"]) == "Mercury"

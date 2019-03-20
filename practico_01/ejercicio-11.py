@@ -1,6 +1,7 @@
-# Implementar la función es_primo(), que devuelva un booleano en base a
-# si numero es primo o no.
+def cant_dig(num):
+    strnum = str(num)
+    return len(strnum)
 
 
-def es_primo(numero):
-    pass
+assert cant_dig(253) == 3
+assert cant_dig(4) == 1
