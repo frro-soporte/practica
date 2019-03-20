@@ -1,8 +1,9 @@
-#Implementar la función mayor, que reciba tres números y devuelva el mayor de ellos.
+
+# 1. Implementar una función max() que tome como argumento dos números y devuelva el mayor de ellos. 
+
 
 a=3
 b=6
-
 def mayor(a, b):
     if a > b:
         solucion = a
