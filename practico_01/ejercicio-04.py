@@ -3,7 +3,7 @@
 
 
 def conversor(grados):
-    x=(grados * 9/5)+ 32
+    x=int((grados * (9/5)) + 32)
     return x
 
-assert conversor(45) == 113
+assert conversor(grados=int(input('Introduce un numero: '))) == 113
