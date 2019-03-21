@@ -1,7 +1,13 @@
-# Implementar la función es_vocal, que reciba un carácter y
-# devuelva un booleano en base a si letra es una vocal o no.
+#5. Escribir una función multip() que multiplique respectivamente todos los números de
+#una lista. Por ejemplo: multip([1,2,3,4]) debería devolver 24
 
+def multip(lista):
+    i=0
+    sum = 1
+    for num in lista:
+        sum = sum*lista[i]
+        i = i + 1
+    print(sum)
+    return sum
 
-# Resolver utilizando listas y el operador in.
-def es_vocal(letra):
-    pass
+multip([5, 2, 3])

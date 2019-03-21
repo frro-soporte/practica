@@ -1,8 +1,15 @@
-# Implementar la función operacion, donde:
-# - Si multiplicar es True: devolver la multiplicación entre a y b.
-# - Si multiplicar es False: devolver la division entre a y b.
-# - Si multiplicar es False y b es cero: imprimir por consola "Operación no valida".
+# 3. Definir una función que calcule la longitud de una lista o una cadena dada.
+
+def longitud(cadena):
+    i = 0
+    if type(cadena) is str or type(cadena) is list:
+        for iteracion in cadena:
+            i = i + 1
+    print(i)
+    return i
 
 
-def operacion(a, b, multiplicar):
-    pass
+a = ['a', 1, 1]
+
+assert(longitud(a) == 3)
+assert(longitud('pizza') == 5)
