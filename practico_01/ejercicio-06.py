@@ -12,4 +12,6 @@ def inversa(cad):
             ca2 = ca2[:i-1] + cad[-i] + ca2[i:]
     return ca2
 
-print(inversa("Prueba"))
+assert (inversa("Prueba") == 'abeurP')
+
+

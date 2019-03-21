@@ -12,8 +12,7 @@ def mayor(a, b, c):
         else:
             return c
 
-print(mayor(2,2,2))
-print(mayor(3,1,1))
-print(mayor(1,4,1))
-print(mayor(1,1,5))
+assert (mayor(3,1,1)==3)
+assert (mayor(1,4,1)==4)
+assert (mayor(1,1,5)==5)
 

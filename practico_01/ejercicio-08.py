@@ -16,6 +16,6 @@ def superposicion_loop(lista_1, lista_2):
                 pass
     return aux2
 
-print(superposicion_loop([7,2,3],[1,4,5]))
-print(superposicion_loop([1,2,3],[1,4,5]))
+assert (superposicion_loop([7,2,3],[1,4,5])== False)
+assert (superposicion_loop([1,2,3],[1,4,5]) == True)
 

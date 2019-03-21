@@ -14,4 +14,4 @@ def mas_larga(lista_01):
     return aux_2
 
 
-print(mas_larga(["Hola","j","pe"]))
+assert (mas_larga(["Hola","j","pe"])=='Hola')

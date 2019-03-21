@@ -8,5 +8,5 @@ def esvocal(let):
     else:
         return False
 
-print(esvocal("v"))
-print(esvocal("a"))
+assert (esvocal("v") == False)
+assert (esvocal("a") == True)

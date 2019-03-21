@@ -4,5 +4,7 @@
 def suma(a, b):
     c=a+b
     print("Resultado: ", c)
+    return c
 
-suma(2, 1)
+assert(suma(2, 1)==3)
+
