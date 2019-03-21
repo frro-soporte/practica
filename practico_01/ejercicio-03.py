@@ -11,10 +11,12 @@ pass
 
 
 
-cad = input("introduce una cadena de caracteres: ")
 
-resultado = longitud(cad)
 
-print("La longitud de la cadena ingresada es: "+str(resultado))
+assert longitud('oso')==3
+
+assert longitud('casa')==4
+
+
 
 

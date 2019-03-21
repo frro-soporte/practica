@@ -2,14 +2,13 @@
 Por ejemplo: generar_n_caracteres(5, "x") debería devolver "xxxxx”'''
 
 
-def generar_n_caracter(a,b):
+def generar_n_caracter(a, b):
 
 
+ b= a*b
 
 
-
- for i in range(a):
-  return "b"*a
+ return b
 
 
 
@@ -19,5 +18,5 @@ pass
 x=int(input("Ingrese un valor entero:"))
 y=input("Ingrese un caracter:")
 
-resultado=generar_n_caracter(x,y)
-print(resultado)
+assert generar_n_caracter(5,'a')=='aaaaa'
+assert generar_n_caracter(3,'b')=='bbb'

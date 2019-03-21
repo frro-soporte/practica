@@ -17,6 +17,6 @@ def suma_n(a):
 
 x = int(input("Ingrese un numero: "))
 
-resultado= suma_n(x)
-
-print(resultado)
+assert suma_n(4)==10
+assert suma_n(5)==15
+assert suma_n(6)==21

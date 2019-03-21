@@ -13,22 +13,16 @@ def superposicion(a,b):
        cont = cont + 1
 
  if (cont > 0):
-     return "TRUE"
+     return True
 
  else:
 
-     return "False"
+     return False
 
 
 
 
 pass
 
-
-x=[1,2,3,4,5]
-
-y=[0,7,8,1,8]
-
-resultado=superposicion(x,y)
-
-print(resultado)
+assert superposicion([1,2,3,4],[1,5,6,7])==True
+assert superposicion([1,2,3,4],[5,6,7,8])==False

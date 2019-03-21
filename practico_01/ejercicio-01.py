@@ -19,9 +19,10 @@ pass
 a: int = int(input("Introduce un numero: "))
 b: int = int(input("Introduce un numero: "))
 
-mayor =max(a,b)
 
-print("El mayor numero es :"+ str(mayor))
+
+assert max(0,1)==1
+assert max(5,7)==7
 
 
 

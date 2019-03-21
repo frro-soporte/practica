@@ -10,6 +10,5 @@ def inversa(cad):
 
 cadena = input("Ingrese la cadena de valores:")
 
-resultado = inversa(cadena)
-
-print(resultado)
+assert inversa('tasa')=='asat'
+assert inversa('casa')=='asac'

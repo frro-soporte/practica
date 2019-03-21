@@ -14,12 +14,5 @@ def mas_larga(a):
 
 
 
-
-
-
-
-lista=["casa","oso","quizás"]
-
-resultado= mas_larga(lista)
-
-print(resultado)
+assert mas_larga(['oso','casa','astronomia'])=='astronomia'
+assert mas_larga(['oso','casa','pie'])=='casa'

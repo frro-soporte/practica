@@ -3,33 +3,30 @@
 def mayor(a, b, c):
 
    if(a>b and a>c):
-       print("El mayor numero imgresado es: "+str(a))
+      return a
 
    elif(b>a and b>c):
 
-       print("El mayor numero imgresado es: "+str(b))
+       return b
 
    elif(a==b and a==c):
 
-       print("El mayor numero ingresado es: "+str(a))
+       return a
 
 
    elif(c>a and c>b):
-       print("El mayor numero imgresado es: " + str(c))
+       return c
 
    elif(a==b and a>c ):
 
-       print("El mayor numero imgresado es: " + str(a))
+       return a
 
    elif (a == b and a < c):
 
-       print("El mayor numero imgresado es: " + str(c))
+       return c
 
 pass
 
-x:int=int(input("Introduce un numero: "))
 
-y: int=int(input("Introduce un numero: "))
-
-z: int=int(input("Introduce un numero: "))
-mayor(x,y,z)
+assert mayor(1,2,3)==3
+assert mayor(5,2,4)==5

@@ -6,16 +6,15 @@ def es_polindromo(cad):
 
  if(cad==reves):
 
-     return "True"
+     return True
 
  else:
-      return "False"
+      return False
 
 
  pass
 
 cadena = input("Ingrese la cadena de valores:")
 
-resultado= es_polindromo(cadena)
-
-print(resultado)
+assert es_polindromo('oso')==True
+assert es_polindromo('bicicleta')==False
