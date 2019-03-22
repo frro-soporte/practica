@@ -7,10 +7,6 @@ def max(a, b):
    return(a)
 
 
-print("Ingresar numero 1: ")
-num1 = input()
-print("Ingresar numero 2: ")
-num2 = input()
+assert max (100, 2500) == 2500
+assert max( 0, -7) == 0
 
-
-print("El número max es: ",max(num1,num2))
