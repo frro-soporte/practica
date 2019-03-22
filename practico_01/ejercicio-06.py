@@ -2,5 +2,14 @@
 
 
 # [1,2,3,4] -> 24
+
+
+
 def multiplicar(lista):
-    pass
+    total=1
+    for elemento in lista:
+        total=total*elemento
+    return(total)
+
+lista = (1,2,3,4)
+assert multiplicar(lista)== 24
