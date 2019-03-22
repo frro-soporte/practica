@@ -4,5 +4,15 @@
 
 # hola -> ho
 # verde -> ver
+import math
+
+
 def mitad(palabra):
-    pass
+    i = math.ceil(int(len(palabra))/2)
+    mit = palabra[0:i]
+    print(mit)
+    return mit
+
+
+assert mitad("hola") == "ho"
+assert mitad("verde") == "ver"
