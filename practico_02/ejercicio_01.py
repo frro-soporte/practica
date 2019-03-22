@@ -4,7 +4,7 @@
 class Rectangulo: 
     global x, y
     def __init__(self, base, altura):
-        x = base
+      poner self.  x = base
         y = altura
 
     def  area(self):
