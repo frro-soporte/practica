@@ -2,7 +2,7 @@
 
 
 def maximo(a, b):
-    pass
+    return max(a,b)
 
 # si no falla es porque esta bien
 assert maximo(10, 5) == 10
