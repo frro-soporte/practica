@@ -4,4 +4,4 @@
 
 # Resolver sin utilizar lista auxiliar
 def numeros_al_final(lista):
-    pass
+    return sorted(lista, key=lambda x: not isinstance(x,str))
