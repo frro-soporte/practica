@@ -2,4 +2,4 @@
 
 
 def mayor(a, b, c):
-    pass
+    return max(max(a,b),c)
