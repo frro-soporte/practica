@@ -5,4 +5,4 @@
 # hola -> ho
 # verde -> ver
 def mitad(palabra):
-    pass
+    return palabra[:round(len(palabra)/2 + 0.5)]
