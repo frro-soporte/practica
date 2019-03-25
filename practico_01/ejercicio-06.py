@@ -3,4 +3,7 @@
 
 # [1,2,3,4] -> 24
 def multiplicar(lista):
-    pass
+    p = 1
+    for i in lista:
+        p*=i
+    return p
