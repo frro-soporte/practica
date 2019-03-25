@@ -4,4 +4,4 @@
 
 # Resolver utilizando listas y el operador in.
 def es_vocal(letra):
-    pass
+    return letra in ("a","e","i","o","u")
