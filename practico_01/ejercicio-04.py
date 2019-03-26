@@ -3,4 +3,6 @@
 
 
 def conversor(grados):
-    pass
+   return (grados * (9/5)) + 32
+
+assert conversor(3)== 37.4
