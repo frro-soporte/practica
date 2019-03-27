@@ -1,8 +1,11 @@
-# Implementar la función mitad(), que devuelve la mitad de palabra.
-# Si la longitud es impar, redondear hacia arriba.
+#Definir una función superposicion() que tome dos listas y devuelva True si tienen al
+#menos 1 miembro en común o devuelva False de lo contrario. Escribir la función
+#usando el bucle for anidado.
 
-
-# hola -> ho
-# verde -> ver
-def mitad(palabra):
-    pass
+def superposicion(lis1,lis2):
+    for i in lis1:
+        for j in lis2:
+            if(i==j):
+                return True
+    return False
+assert (superposicion("ho","la")==False)

@@ -1,6 +1,8 @@
-# Implementar la función es_primo(), que devuelva un booleano en base a
-# si numero es primo o no.
+#Determinar la cantidad de dígitos de un número ingresado.
 
+def cant_digit(num):
+    num2=str(num)
+    long=len(num2)
+    return long
 
-def es_primo(numero):
-    pass
+assert (cant_digit(2658529664)==10)
