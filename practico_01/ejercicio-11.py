@@ -3,4 +3,4 @@
 
 
 def es_primo(numero):
-    return any([numero%i == 0 for i in range(2,numero)])
+    return not any([numero%i == 0 for i in range(2,numero)])
