@@ -1,6 +1,9 @@
-# Implementar la función conversor, que ingrese desde la consola grados Celsius
-# y los devuelva transformados a Fahrenheit.
+vocales = ["a", "e", "i", "o", "u"]
+
+x = caracter.isalpha(input('Ingresar caracter'))
+
+if x in vocales:
+    print("true")
+print("false")
 
 
-def conversor(grados):
-    pass

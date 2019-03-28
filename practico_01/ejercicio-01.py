@@ -1,5 +1,6 @@
-# Implementar la función suma, que reciba dos números y devuelva su suma.
+x = int(input('Ingrese primer numero'))
+y = int(input('Ingrese segundo numero'))
 
+numeroMaximo = max(x,y)
 
-def suma(a, b):
-    pass
+print('El numero maximo es : {}' .format(numeroMaximo))

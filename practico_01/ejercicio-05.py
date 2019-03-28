@@ -1,7 +1,8 @@
-# Implementar la función es_vocal, que reciba un carácter y
-# devuelva un booleano en base a si letra es una vocal o no.
+def multip():
+    numeros = [1,2,3,4]
+    resultado = 1
+    for numero in numeros:
+        resultado = resultado*numero
+    print(resultado)
 
-
-# Resolver utilizando listas y el operador in.
-def es_vocal(letra):
-    pass
+multip()

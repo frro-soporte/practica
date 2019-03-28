@@ -1,8 +1,5 @@
-# Implementar la función operacion, donde:
-# - Si multiplicar es True: devolver la multiplicación entre a y b.
-# - Si multiplicar es False: devolver la division entre a y b.
-# - Si multiplicar es False y b es cero: imprimir por consola "Operación no valida".
+animales = ["perro", "gato", "tigre", "leon", "mono"]
 
+cant = len(animales)
 
-def operacion(a, b, multiplicar):
-    pass
+print('La longitud de la lista es de :{}' .format(cant))

@@ -1,7 +1,15 @@
-# Implementar la función numeros_al_final(), que mueve todos los elementos numéricos
-# de lista al final de esta. Devuelve la lista.
+def palindromo(cadena):
+    index = 0
+    invertida = ""
+    cant = len(cadena)
+    for index in range(cant):
+        cant -=1
+        invertida += invertida.join(cadena[cant])
+
+    if cadena == invertida:
+        print("Es palindromo")
+    else:
+        print("No es palindromo")
 
 
-# Resolver sin utilizar lista auxiliar
-def numeros_al_final(lista):
-    pass
+palindromo(input('ingresar cadena'))

@@ -1,5 +1,6 @@
-# Implementar la función mayor, que reciba tres números y devuelva el mayor de ellos.
+x = int(input('Ingrese primer numero'))
+y = int(input('Ingrese segundo numero'))
+z = int(input('Ingrese tercer numero'))
+numeroMaximo = max(x,y,z)
 
-
-def mayor(a, b, c):
-    pass
+print('El numero maximo es : {}' .format(numeroMaximo))
