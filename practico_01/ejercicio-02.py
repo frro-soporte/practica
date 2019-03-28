@@ -3,3 +3,7 @@
 
 def mayor(a, b, c):
     pass
+
+# si no falla es porque esta bien
+assert maximo(1,10,5) == 10
+assert maximo(4,9,18) == 18
