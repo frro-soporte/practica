@@ -2,18 +2,19 @@
 
 def es_vocal(x):
 
-    if(x=='a'or x=='e'or x=='i' or x=='o' or x=='u'):
+    if(x=='a'or x=='e'or x=='i' or x=='o' or x=='u'or x=='A'or x=='E'or x=='I' or x=='O' or x=='U'):
 
-        print("True")
+        return True
 
 
 
     else:
-        print("False")
+        return False
 
 
 pass
 
-a = input("introduce un cararter: ").lower()
-
-es_vocal(a)
+assert es_vocal('a')==True
+assert es_vocal('g')==False
+assert es_vocal('A')==True
+assert es_vocal('M')==False
