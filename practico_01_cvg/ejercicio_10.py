@@ -12,4 +12,6 @@ def mas_larga(lista):
     return lista_mas_larga
 
 
+assert mas_larga(["jeje", "ja"]) == "jeje"
+
 print(mas_larga(lista))

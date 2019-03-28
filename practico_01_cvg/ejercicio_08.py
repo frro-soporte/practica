@@ -15,4 +15,6 @@ def superposicion (lista1, lista2):
                 return True
     return False
 
-print(superposicion(lista_1, lista_2)
+assert superposicion(["a","b"],["f","b"]) == True
+print(superposicion(lista_1, lista_2))
+

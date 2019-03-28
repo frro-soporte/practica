@@ -20,5 +20,6 @@ def app():
 
     assert esPrimo(2) == True
     assert esPrimo(4) == False
+
 if __name__ == '__main__':
     app()
