@@ -1,6 +1,14 @@
-# Implementar la función es_primo(), que devuelva un booleano en base a
-# si numero es primo o no.
+# Determinar la cantidad de dígitos de un número ingresado.
+def cant_digitos(num):
+    cont = 1
+    if num< 9:
+        return 1
+    while num > 9:
+        num = num /10
+        cont = cont +1
+    return cont
 
+#Prueba de la función
 
-def es_primo(numero):
-    pass
+assert(cant_digitos(1)== 1)
+assert(cant_digitos(100)== 3)

@@ -1,8 +1,13 @@
-# Implementar la función es_palindromo(), que devuelva un booleano en base a
-# si palabra se lee igual de corrido como al revés.
+#Definir una función generar_n_caracteres() que tome un entero n y devuelva el caracter multiplicado por n.
+# Por ejemplo: generar_n_caracteres(5, "x") debería devolver "xxxxx”
+
+def generar_n_caracteres(num : int ,letra: chr(1)) :
+
+    return num * letra
 
 
-# Ejemplos: arenera, radar, ojo, oso, salas.
-# Resolver sin utilizar loops (for/while), sino con slicing.
-def es_palindromo(palabra):
-    pass
+#Prueba de la función
+
+
+assert(generar_n_caracteres(1,'x')== 'x')
+assert(generar_n_caracteres(3,'x')== 'xxx')
