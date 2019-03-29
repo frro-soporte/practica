@@ -35,4 +35,4 @@ class Persona:
         print(self.nombre,self.edad,self.sexo,self.peso,self.altura,self.dni)
 
 persona = Persona("Eduardo",21,"M",75,1.75)
-print(persona.dni)
+assert persona.es_mayor_edad()==True
