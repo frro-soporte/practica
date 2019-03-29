@@ -4,4 +4,11 @@
 
 # Resolver sin utilizar lista auxiliar
 def numeros_al_final(lista):
-    pass
+
+    for i in lista[:]:
+        if type(i) == int or type(i) == float:
+            lista.append(i)
+            lista.remove(i)
+    return lista
+
+assert numeros_al_final([1,2,'r','T',4,'B']) == ['r','T','B',1,2,4]

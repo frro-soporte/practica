@@ -3,4 +3,10 @@
 
 
 def conversor(grados):
-    pass
+    farenheint=(grados*(9/5))+32
+    return farenheint
+
+assert conversor(1)==33.8
+assert conversor(0)==32
+assert conversor(-5)==23
+assert conversor(-20)==-4

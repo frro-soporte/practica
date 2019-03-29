@@ -5,4 +5,13 @@
 # hola -> ho
 # verde -> ver
 def mitad(palabra):
-    pass
+    l=len(palabra)
+    if l%2==0:
+        l=l//2
+    else:
+        l=(l+1)//2
+    mitadpalabra=palabra[:l]
+    return mitadpalabra
+
+assert mitad('hola') == 'ho'
+assert mitad('verde') == 'ver'
