@@ -3,12 +3,17 @@
 # persona (entero).
 # Para obtener la fecha actual, usar el método de clase "now" de la clase datetime (ya importada).
 
+import datetime, math
 
 class Persona:
 
-    # nacimiento es un objeto datetime.datetime
-    def __init__(self, nacimiento):
-        pass
+    def __init__(self,fechaNacimiento):
+        self.fecha_nacimiento=datetime.datetime.strptime(fechaNacimiento,'%d/%m/%Y')
 
     def edad(self):
-        pass
+        fecha_actual=datetime.datetime.now()
+        años_de_edad=(fecha_actual-self.fecha_nacimiento).days/365
+        return math.trunc(años_de_edad)
+
+persona=Persona('05/12/1996')
+assert persona.edad() == 22

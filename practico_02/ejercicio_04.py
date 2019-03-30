@@ -8,15 +8,28 @@
 # - avance(): indica que porcentaje de la carrera tiene aprobada.
 # - edad_ingreso(): indica que edad tenia al ingresar a la carrera (basándose en el año actual).
 
+import time
+from practico_02.ejercicio_03 import Persona
 
-class Estudiante:
+class Estudiante(Persona):
 
-    def __init__(self, carrera, anio, cantidad_materias, cantidad_aprobadas):
-        pass
+    def __init__(self,nombre,edad,sexo,peso,altura,carrera,anioIngreso,cantidadMaterias,cantidadMateriasAprobadas):
+        Persona.__init__(self,nombre,edad,sexo,peso,altura)
+        self.carrera=carrera
+        self.anioIngreso=anioIngreso
+        self.cantidadMaterias=cantidadMaterias
+        self.cantidadMateriasAprobadas=cantidadMateriasAprobadas
 
     def avance(self):
-        pass
+        porcentaje=('{0:.2f}'.format((self.cantidadMateriasAprobadas/self.cantidadMaterias)*100))
+        return porcentaje
 
-    # implementar usando modulo datetime
     def edad_ingreso(self):
-        pass
+        edadIng=(self.edad-(int(time.strftime('%Y'))-self.anioIngreso))
+        return edadIng
+
+estudiante=Estudiante('Agustin Yurescia',22,'H',69.60,1.75,'ISI',2015,41,27)
+assert estudiante.edad_ingreso() == 18
+assert estudiante.avance() == '65.85'
+
+
