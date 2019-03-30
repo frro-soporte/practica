@@ -1,9 +1,13 @@
-vocales = ["a", "e", "i", "o", "u"]
+def esVocal(caracter) -> bool:
+    vocales = ["a", "e", "i", "o", "u"]
 
-x = caracter.isalpha(input('Ingresar caracter'))
+    if caracter in vocales:
+        return True
+    return False
 
-if x in vocales:
-    print("true")
-print("false")
 
+
+assert (esVocal(input('Ingresar letra')) == True)
+
+assert (esVocal(input('Ingresar letra')) == False)
 

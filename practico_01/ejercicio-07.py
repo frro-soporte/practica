@@ -7,9 +7,9 @@ def palindromo(cadena):
         invertida += invertida.join(cadena[cant])
 
     if cadena == invertida:
-        print("Es palindromo")
+        return True
     else:
-        print("No es palindromo")
+        return False
 
-
-palindromo(input('ingresar cadena'))
+assert (palindromo(input('ingresar cadena')) == True)
+assert (palindromo(input('ingresar cadena')) == False)

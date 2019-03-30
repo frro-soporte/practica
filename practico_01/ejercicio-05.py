@@ -3,6 +3,8 @@ def multip():
     resultado = 1
     for numero in numeros:
         resultado = resultado*numero
-    print(resultado)
+    return resultado
 
-multip()
+#multip()
+
+assert (multip() == 24)
