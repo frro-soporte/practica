@@ -33,10 +33,10 @@ class Estudiante(Persona):
     def edad_ingreso(self):
         x = datetime.now()
         "x=date.today()"
-        return self.edad-(x.year-self.anio.year)
+        return self.edad-(x.year-self.anio)
 pass
 
-est=Estudiante("Jose",24,"Masculino",80,1.85,"Ingeniería en sistemas",date(2013,3,18),41,30)
+est=Estudiante("Jose", 24,"Masculino", 80, 1.85,"Ingeniería en sistemas", 2013, 41, 30)
 
 print("Avance de la carrera: ",est.avance())
 print("Edad actual: ",est.edad_ingreso())
