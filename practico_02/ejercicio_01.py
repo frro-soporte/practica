@@ -6,7 +6,7 @@ class Rectangulo:
     def __init__(self, base, altura):
 
         self.base=base
-        self.altura=base
+        self.altura=altura
 
         pass
 
@@ -15,6 +15,6 @@ class Rectangulo:
 
         pass
 
-re=Rectangulo(1.2,3)
+re=Rectangulo(4,2)
 
-print(re.area())
+print('El area del rectangulo es:',re.area())
