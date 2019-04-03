@@ -13,21 +13,21 @@ def organizar_estudiantes(estudiantes):
     return dic
 
 est = []
-e = Estudiante("isi",2015,10,5)
+e = Estudiante("Juan",22,"H",75,1.78,"isi",2015,10,5)
 est.append(e)
-e = Estudiante("iq",2015,10,5)
+e = Estudiante("Pedro",19,"H",72,1.79,"iq",2015,10,5)
 est.append(e)
-e = Estudiante("isi",2015,10,5)
+e = Estudiante("Gonzalo",25,"H",80,1.90,"isi",2015,10,5)
 est.append(e)
-e = Estudiante("im",2015,10,5)
+e = Estudiante("Federica",21,"M",60,1.78,"im",2015,10,5)
 est.append(e)
-e = Estudiante("isi",2015,10,5)
+e = Estudiante("Julia",22,"M",77,1.78,"isi",2015,10,5)
 est.append(e)
-e = Estudiante("iq",2015,10,5)
+e = Estudiante("Martin",22,"H",75,1.65,"iq",2015,10,5)
 est.append(e)
-e = Estudiante("ie",2015,10,5)
+e = Estudiante("Nicolas",23,"H",96,2.00,"ie",2015,10,5)
 est.append(e)
-e = Estudiante("ii",2015,10,5)
+e = Estudiante("Manuel",22,"H",75,1.78,"ii",2015,10,5)
 est.append(e)
 
 assert organizar_estudiantes(est) == {'isi': 3, 'iq': 2, 'im': 1, 'ie': 1, 'ii': 1}
