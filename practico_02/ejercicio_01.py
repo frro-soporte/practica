@@ -16,3 +16,4 @@ class Rectangulo:
 a=Rectangulo(2, 5)
 a.area()
 
+assert(a.area() == 10)

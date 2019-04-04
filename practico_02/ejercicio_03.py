@@ -48,5 +48,7 @@ class Persona:
 p = Persona('Juan', 23, 'Masculino', 66, 1.64)
 
 p.print_data()
-print('Es Mayor de esad: ', p.es_mayor_edad())
+print('Es Mayor de edad: ', p.es_mayor_edad())
+
+assert(p.es_mayor_edad()==True)
 
