@@ -4,13 +4,15 @@
 class Rectangulo:
 
     def __init__(self, base, altura):
-        self.b = base
-        self.alt = altura
+
+        self.base = base
+        self.altura = altura
 
     def area(self):
-        ar = self.b * self.alt
-        return ar
+        area = self.base*self.altura
+        print(area)
+        return area
 
-a = Rectangulo(3,5)
-print(a.area())
+a=Rectangulo(2, 5)
+a.area()
 

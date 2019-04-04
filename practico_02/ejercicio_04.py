@@ -32,3 +32,4 @@ class Estudiante(Persona):
 p = Estudiante('Juan', 23, 'Masculino', 66, 1.64, 'isi', 2013, 12, 9)
 print('El procentaje aprobado es de:', p.avance())
 print(p.edad_ingreso())
+
