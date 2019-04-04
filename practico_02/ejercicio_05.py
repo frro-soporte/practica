@@ -7,51 +7,9 @@ from practico_02.ejercicio_04 import Estudiante
 import random
 import datetime
 
-class Persona:
+from practico_02.ejercicio_03 import Persona
 
-    def __init__(self, nombre, edad, sexo, peso, altura):
-        self.nom = nombre
-        self.age = edad
-        self.sex = sexo
-        self.peso = peso
-        self.alt = altura
-        self.dni = self.generar_dni()
-
-    def es_mayor_edad(self):
-        if self.age >= 18:
-            return True
-        else:
-            return False
-
-
-    def generar_dni(self):
-        return random.randint(00000000, 99999999)
-
-    def print_data(self):
-        print(' Nombre:' ,self.nom, '\n',
-              'Edad>>', self.age, '\n',
-              'Sexo>>', self.sex, '\n',
-              'Peso>>', self.peso, '\n',
-              'Altura>>', self.alt, '\n'
-              ' DNI>>>', self.dni, '\n')
-
-class Estudiante(Persona):
-
-    def __init__(self, nombre, edad, sexo, peso, altura, carrera, anio, cantidad_materias, cantidad_aprobadas):
-        Persona.__init__(self, nombre, edad, sexo, peso, altura)
-        self.carrera = carrera
-        self.anio = anio
-        self.cm = cantidad_materias
-        self.ca = cantidad_aprobadas
-
-    def avance(self):
-        av = (self.ca * 100)/self.cm
-        return int(av)
-
-    # implementar usando modulo datetime
-    def edad_ingreso(self):
-        n = int(datetime.datetime.today().strftime('%Y'))
-        return self.age - (n-self.anio)
+from ejercicio_04 import Estudiante
 
 def organizar_estudiantes(estudiantes):
     dic = {}
@@ -62,7 +20,7 @@ def organizar_estudiantes(estudiantes):
             dic[e.carrera] = dic[e.carrera] + 1
 
 
-    print(dic)
+    return dic
 
 
 
@@ -74,4 +32,5 @@ e4 = Estudiante('Esteban', 18, 'Masculino', 66, 1.64, 'im', 2018, 17, 2)
 e5 = Estudiante('Esteban', 18, 'Masculino', 66, 1.64, 'im', 2018, 17, 2)
 
 li_e = [e1, e2, e3, e4, e5]
-organizar_estudiantes(li_e)
+
+assert organizar_estudiantes(li_e) == {'isi': 2, 'arqi': 1, 'im': 2}

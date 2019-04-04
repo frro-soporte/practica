@@ -25,4 +25,4 @@ class Persona:
 
 print(datetime.datetime.today())
 c = Persona(datetime.datetime(1995,12,1))
-print(c.edad())
+assert (c.edad() == 23)

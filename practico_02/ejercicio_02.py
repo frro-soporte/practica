@@ -16,5 +16,6 @@ class Circulo:
         return per
 
 a = Circulo(5)
-print(a.perimetro())
+assert (a.perimetro() == 7.853981633974483)
+
 
