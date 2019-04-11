@@ -54,11 +54,12 @@ def app():
     alumno1.altura = 1.75
     alumno1.dni = ''
 
-    alumno1.es_mayor_edad(alumno1)
+    print("¿Es mayor de edad?: ",alumno1.es_mayor_edad(alumno1))
+    print()
     alumno1.generar_dni(alumno1)
     alumno1.print_data(alumno1)
 
-
+    assert alumno1.es_mayor_edad(alumno1) == True
 
 
 if __name__ == '__main__':

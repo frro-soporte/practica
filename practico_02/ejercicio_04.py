@@ -13,42 +13,38 @@ from datetime import datetime
 
 class Estudiante(Persona):
 
-    def __init__(self, carrera, anio, cantidad_materias, cantidad_aprobadas):
+    def __init__(self, nombre, edad, sexo, peso, altura, dni, carrera='', anio=None, cantidad_materias=None, cantidad_aprobadas=None):
+        self.nombre=nombre
+        self.sexo = sexo
+        self.altura = altura
+        self.dni = dni
         self.carrera = carrera
         self.anio = anio
         self.cantidad_materias = cantidad_materias
         self.cantidad_aprobadas = cantidad_aprobadas
 
+
         Persona.__init__(self, nombre, edad, sexo, peso, altura, dni)
 
 
-
     def avance(self):
-       print("El avance de la carrera es un: ", (self.cantidad_aprobadas/self.cantidad_materias)*100,'%')
+       return self.cantidad_aprobadas/self.cantidad_materias*100
 
     # implementar usando modulo datetime
     def edad_ingreso(self):
         now = datetime.now()
         dif_anio = now.year - self.anio
 
-        print("Edad de ingreso a la carrera: ", self.edad - dif_anio)
+        return self.edad - dif_anio
 
 def app():
+    e1 = Estudiante('Nahuel',26,'H',90,174,'','ISI',2013,40,15)
 
-    estudiante1 = Estudiante
+    print("Edad de ingreso a la carrera: ", e1.edad_ingreso())
+    print( "El avance de la carrera es un: ", e1.avance(),"%")
 
-    estudiante1.carrera = 'Ingenieria en sistemas de informacion'
-    estudiante1.anio = 2013
-    estudiante1.cantidad_materias = 40
-    estudiante1.cantidad_aprobadas = 15
-    estudiante1.edad = 26
-
-    estudiante1.edad_ingreso(estudiante1)
-    estudiante1.avance(estudiante1)
-
-
-
-
+    assert e1.edad_ingreso() == 20
+    assert e1.avance() == 37.5
 
 if __name__ == '__main__':
 
