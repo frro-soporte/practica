@@ -1,4 +1,4 @@
-from ejercicio_04 import Estudiante
+from practico_02.ejercicio_04 import Estudiante
 
 
 def organizar_estudiantes(estudiantes):

@@ -13,14 +13,9 @@ import random
 
 class Persona:
 
-    def __init__(self, nombre, edad, sexo, peso, altura):
+    def __init__(self, nombre, edad):
         self.nombre = nombre
         self.edad = edad
-        self.sexo = sexo
-        self.peso = peso
-        self.altura = altura
-        self.dni = self.generar_dni()
-
 
     def es_mayor_edad(self):
         if(self.edad>=18):
@@ -42,11 +37,3 @@ class Persona:
                 'Peso:',self.peso, 'kg','\n',
                 'Altura:',self.altura, 'mts', '\n')
 
-
-persona = Persona('Nico', 24,'M',66,170)
-persona.print_data()
-assert persona.es_mayor_edad() == True;
-
-persona2 = Persona('Pablo', 15, 'M', 45, 210)
-persona2.print_data()
-assert persona2.es_mayor_edad() == False;
