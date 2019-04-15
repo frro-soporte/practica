@@ -3,8 +3,11 @@
 
 class Rectangulo:
 
-    def __init__(self, base, altura):
-        pass
+	def __init__(self, base, altura):
+		self.base = base
+		self.altura = altura
 
-    def area(self):
-        pass
+	def area(self):
+		return self.altura * self.base
+
+assert(Rectangulo(6,13).area() == 78)
