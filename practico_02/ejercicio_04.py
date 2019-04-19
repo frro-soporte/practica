@@ -44,12 +44,12 @@ class Persona:
 class Estudiante(Persona):
 
     def __init__(self, nombre, edad, sexo, peso, altura, carrera, año, cant_materias, cant_aprobadas):
-        self.nombre = nombre
-        self.edad = edad
-        self.sexo = peso
-        self.altura = altura
+        #self.nombre = nombre
+        #self.edad = edad
+        #self.sexo = peso
+        #self.altura = altura
 
-        #self.Persona.__init__(self,nombre,edad,sexo,peso,altura)
+        Persona.__init__(self,nombre,edad,sexo,peso,altura)
         self.carrera = carrera
         self.año = año
         self.cant_materias = cant_materias
@@ -63,7 +63,7 @@ class Estudiante(Persona):
 
     # implementar usando modulo datetime
     def edad_ingreso(self):
-        ing = self.edad - (datetime.datetime.now().year - self.año)
+        ing = self.edad - (datetime.now().year - self.año)
 #from ejercicio_03 import Persona
         return ing
 

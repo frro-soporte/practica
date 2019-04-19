@@ -38,15 +38,13 @@ class Persona:
         print(resultado)
 
 #try:
-#nombre = input('Ingresar nombre')
-#edad = int(input('Ingresar edad'))
-#sexo = input('Ingresar sexo M\F')
-#peso = float(input('Ingresar peso'))
-#altura = float(input('Ingresar altura'))
-p = Persona('marcos', 18, 'M', 76.5, 1.82)
+nombre = input('Ingresar nombre')
+edad = int(input('Ingresar edad'))
+sexo = input('Ingresar sexo M\F')
+peso = float(input('Ingresar peso'))
+altura = float(input('Ingresar altura'))
+p = Persona(nombre, edad, sexo, peso, altura)
 print(p.print_data())
 
 #except ValueError:
  #   print('Ingreso datos erroneos, intente nuevamente')
-
-
