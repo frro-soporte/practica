@@ -7,8 +7,11 @@ from practico_03.ejercicio_01 import reset_tabla
 
 
 def agregar_persona(nombre, nacimiento, dni, altura):
-    return 0
 
+    myquery = "INSERT INTO persona(Nombre , FechaNacimiento, DNI , Altura) VALUES (%s, %s, %s, %s)"
+    cursor.execute(myquery,(nombre, nacimiento, dni, altura))
+    db.commit()
+    return int(cursor.lastrowid)
 
 @reset_tabla
 def pruebas():
