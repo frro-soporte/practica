@@ -8,7 +8,12 @@ from practico_03.ejercicio_02 import agregar_persona
 
 
 def borrar_persona(id_persona):
-    return False
+    x=cursor.execute("DELETE FROM Persona WHERE IdPersona = %s",id_persona)
+    db.commit()
+    if x==0:
+        return False
+    else:
+        return True
 
 
 @reset_tabla
