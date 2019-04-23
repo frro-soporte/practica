@@ -2,6 +2,9 @@
 # Devuelve un booleano en base a si encontro el registro y lo actualizo o no.
 
 import datetime
+import pymysql
+db = pymysql.connect(host='localhost', user='root', password='852456', port=3306, db='Python')
+cursor = db.cursor()
 
 from practico_03.ejercicio_01 import reset_tabla
 from practico_03.ejercicio_02 import agregar_persona
@@ -9,7 +12,13 @@ from practico_03.ejercicio_04 import buscar_persona
 
 
 def actualizar_persona(id_persona, nombre, nacimiento, dni, altura):
-    return False
+    x=cursor.execute("UPDATE Persona SET Nombre=%s,FechaNacimiento=%s,DNI=%s,Altura=%s where IdPersona=%s",
+                     (nombre,nacimiento,dni,altura,id_persona))
+    db.commit()
+    if x==0:
+      return False
+    else:
+      return True
 
 
 @reset_tabla
