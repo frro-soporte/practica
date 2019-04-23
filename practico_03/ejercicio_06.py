@@ -11,9 +11,12 @@ from practico_03.ejercicio_01 import borrar_tabla, crear_tabla
 
 
 def crear_tabla_peso():
-    cursor.execute("CREATE TABLE PersonaPeso(IdPersona int key auto_increment,"
-               "Fecha date,"
-               " Peso int," )
+    cursor.execute("CREATE TABLE `personapeso` (`IdPersona` int(11) NOT NULL,"
+                   " `Fecha` date DEFAULT NULL,"
+                   "`Peso` int(11) DEFAULT NULL,"
+                   "KEY `IdPersona_idx` (`IdPersona`),"
+                   "CONSTRAINT `IdPersona` FOREIGN KEY (`IdPersona`) REFERENCES `persona` (`IdPersona`)"
+                   " ON DELETE NO ACTION ON UPDATE NO ACTION)")
     print("Tabla creada")
     db.close()
     pass
