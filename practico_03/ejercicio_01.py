@@ -11,7 +11,7 @@
 import pymysql
 
 # Open db
-db = pymysql.connect(host='localhost', user='root', password='852456ale', port=3306, db='Python')
+db = pymysql.connect(host='localhost', user='root', password='852456', port=3306, db='Python')
 # Crear cursor
 cursor = db.cursor()
 
