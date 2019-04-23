@@ -2,7 +2,8 @@
 # y devuelva los datos ingresados el id del nuevo registro.
 
 import datetime
-
+db = pymysql.connect(host='localhost', user='root', password='852456', port=3306, db='Python')
+cursor = db.cursor()
 from practico_03.ejercicio_01 import reset_tabla
 
 
