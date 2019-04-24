@@ -7,6 +7,7 @@
 # - ID del peso registrado.
 # - False en caso de no cumplir con alguna validacion.
 
+import sqlite3
 import datetime
 
 from practico_03.ejercicio_02 import agregar_persona
@@ -14,7 +15,10 @@ from practico_03.ejercicio_06 import reset_tabla
 
 
 def agregar_peso(id_persona, fecha, peso):
-    pass
+    db = sqlite3.connect('mibase')
+    cur = db.cursor()
+
+
 
 
 @reset_tabla
