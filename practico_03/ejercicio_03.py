@@ -1,10 +1,11 @@
 # Implementar la funcion borrar_persona, que elimina un registro en la tabla Persona.
 # Devuelve un booleano en base a si encontro el registro y lo borro o no.
 
+import sqlite3
 import datetime
-
-from practico_03.ejercicio_01 import reset_tabla
-from practico_03.ejercicio_02 import agregar_persona
+from ejercicio_02 import agregar_persona
+conn = sqlite3.connect('tabla.db')
+cur = conn.cursor()
 
 
 def borrar_persona(id_persona):
