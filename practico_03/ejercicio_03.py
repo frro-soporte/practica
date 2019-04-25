@@ -6,9 +6,14 @@ import datetime
 from practico_03.ejercicio_01 import reset_tabla
 from practico_03.ejercicio_02 import agregar_persona
 
+import sqlite3 
 
 def borrar_persona(id_persona):
-    return False
+    cursor = db.cursor()
+    cSQL = 'DELETE FROM persona WHERE id_persona = ?'
+    cursor.execute(cSQL, id_persona)
+    db.commit()
+    
 
 
 @reset_tabla
@@ -18,3 +23,5 @@ def pruebas():
 
 if __name__ == '__main__':
     pruebas()
+
+el connect con la base deberia ir en crear tabla y el db.close en borrar tabla

@@ -9,7 +9,17 @@ from practico_03.ejercicio_04 import buscar_persona
 
 
 def actualizar_persona(id_persona, nombre, nacimiento, dni, altura):
-    return False
+
+    cursor = db.cursor()
+    cSQL = 'UPDATE table_name SET nombre = ?, nacimiento = ?, dni = ?, altura = ? WHERE id_persona = ?'
+    cursor.execute(cSQL, nombre, nacimiento, dni, altura, id_persona)
+    db.commit()
+    
+    '''tendria que hacer un select con el id_persona
+    cSQL = 'SELECT * FROM persona WHERE id_persona = ?'
+    cursor.execute(cSQL, id_persona)
+    print(cursor)'''
+    # se deberia hacer el if q si esta vacio o no
 
 
 @reset_tabla

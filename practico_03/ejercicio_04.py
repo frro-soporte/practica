@@ -9,7 +9,17 @@ from practico_03.ejercicio_02 import agregar_persona
 
 
 def buscar_persona(id_persona):
-    return False
+    cursor = db.cursor()
+    cSQL = 'SELECT * FROM persona WHERE id_persona = ?'
+    cursor.execute(cSQL, id_persona)
+    db.commit()
+    ''' Probar esto
+    if cursor == None:
+        return False
+    else:
+        print(cursor)
+        return cursor'''
+    print(cursor)
 
 
 @reset_tabla
