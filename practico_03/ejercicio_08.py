@@ -15,14 +15,23 @@
 # - False en caso de no cumplir con alguna validacion.
 
 import datetime
-
+import pymysql
+db = pymysql.connect(host='localhost', user='root', password='852456', port=3306, db='Python')
+cursor = db.cursor()
 from practico_03.ejercicio_02 import agregar_persona
 from practico_03.ejercicio_06 import reset_tabla
 from practico_03.ejercicio_07 import agregar_peso
 
 
 def listar_pesos(id_persona):
-    return []
+    cSQL="SELECT Fecha,Peso FROM PersonaPeso WHERE IdPersona = %s"
+    cursor.execute(cSQL,id_persona)
+    tup=cursor.fetchall()
+    if not tup:
+        return False
+    else:
+        hist= list(tup)
+        return hist
 
 
 @reset_tabla
@@ -32,8 +41,8 @@ def pruebas():
     agregar_peso(id_juan, datetime.datetime(2018, 6, 1), 85)
     pesos_juan = listar_pesos(id_juan)
     pesos_esperados = [
-        ('2018-05-01', 80),
-        ('2018-06-01', 85),
+        (datetime.date(2018, 5, 1), 80),
+        (datetime.date(2018, 6, 1), 85),
     ]
     assert pesos_juan == pesos_esperados
     # id incorrecto
