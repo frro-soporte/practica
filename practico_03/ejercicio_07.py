@@ -9,11 +9,13 @@
 
 import datetime
 
-#from practico_03.ejercicio_02 import agregar_persona
-#from practico_03.ejercicio_06 import reset_tabla
-from ejercicio_02 import agregar_persona
-from ejercicio_06 import reset_tabla
-from ejercicio_04 import buscar_persona
+from practico_03.ejercicio_02 import agregar_persona
+from practico_03.ejercicio_06 import reset_tabla
+from practico_03.ejercicio_04 import buscar_persona
+
+# from ejercicio_02 import agregar_persona
+# from ejercicio_06 import reset_tabla
+# from ejercicio_04 import buscar_persona
 import sqlite3
 
 def agregar_peso(id_persona, fecha, peso):

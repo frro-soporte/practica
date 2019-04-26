@@ -3,8 +3,8 @@
 
 import datetime
 
-#from practico_03.ejercicio_01 import reset_tabla
-from ejercicio_01 import reset_tabla
+from practico_03.ejercicio_01 import reset_tabla
+#from ejercicio_01 import reset_tabla
 
 import sqlite3
 
