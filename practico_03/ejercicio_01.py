@@ -23,14 +23,13 @@ def crear_tabla():
                " Altura int)")
     print("Tabla creada")
     db.close()
-    pass
 
 
 def borrar_tabla():
     cursor.execute("DROP TABLE Persona")
     print("Tabla borrada")
     db.close()
-    pass
+
 
 def reset_tabla(func):
     def func_wrapper():
