@@ -8,13 +8,33 @@
 # - False en caso de no cumplir con alguna validacion.
 
 import datetime
+import sqlite3
+from ejercicio_02 import agregar_persona
+from ejercicio_04 import buscar_persona
+from ejercicio_06 import reset_tabla
 
-from practico_03.ejercicio_02 import agregar_persona
-from practico_03.ejercicio_06 import reset_tabla
+
+db = sqlite3.connect('D:\\prueba.db')
+cur = db.cursor()    
 
 
 def agregar_peso(id_persona, fecha, peso):
-    pass
+    res = buscar_persona(id_persona)
+    if (res is not False): #valida que exista ID
+        cSQL = 'select * from PersonaPeso where fecha>? and idPersona=?'
+        cur.execute(cSQL,(fecha,id_persona))
+        fechaPos = cur.fetchall()
+        if len(fechaPos) == 0: #no hay registros de fechas posteriores
+            cSQL = 'insert into PersonaPeso(idPersona,fecha,peso) values(?,?,?)'
+            datos = (id_persona,fecha,peso)
+            cur.execute(cSQL,datos)
+            db.commit()
+            return cur.lastrowid
+        else:
+            return False
+    else:
+        return False
+    
 
 
 @reset_tabla

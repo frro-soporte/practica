@@ -5,15 +5,24 @@
 
 # Implementar la funcion borrar_tabla, que borra la tabla creada anteriormente.
 
-from practico_03.ejercicio_01 import borrar_tabla, crear_tabla
+from ejercicio_01 import borrar_tabla, crear_tabla
+import sqlite3
+
+db = sqlite3.connect('D:\\prueba.db')
+cur = db.cursor()
 
 
 def crear_tabla_peso():
-    pass
+    cSQL = 'create table if not exists PersonaPeso(idPeso INTEGER PRIMARY KEY ASC,idPersona INTEGER, fecha DATE, peso INTEGER, FOREIGN KEY(idPersona) REFERENCES Persona(idPersona))'
+    cur.execute(cSQL)
+    db.commit()
+    return 0
 
 
 def borrar_tabla_peso():
-    pass
+    cSQL = 'drop table if exists PersonaPeso'
+    cur.execute(cSQL)
+    db.commit()
 
 
 # no modificar
