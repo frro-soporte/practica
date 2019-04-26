@@ -2,13 +2,13 @@
 # y devuelva los datos ingresados el id del nuevo registro.
 
 import datetime
+import pymysql
 db = pymysql.connect(host='localhost', user='root', password='852456', port=3306, db='Python')
 cursor = db.cursor()
 from practico_03.ejercicio_01 import reset_tabla
 
 
 def agregar_persona(nombre, nacimiento, dni, altura):
-
     myquery = "INSERT INTO persona(Nombre , FechaNacimiento, DNI , Altura) VALUES (%s, %s, %s, %s)"
     cursor.execute(myquery,(nombre, nacimiento, dni, altura))
     db.commit()
