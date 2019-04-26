@@ -10,14 +10,13 @@ from practico_03.ejercicio_01 import reset_tabla
 from practico_03.ejercicio_02 import agregar_persona
 
 
-
 def buscar_persona(id_persona):
     x=cursor.execute("SELECT IdPersona,Nombre,FechaNacimiento,DNI,Altura FROM Persona where IdPersona = %s",id_persona)
-    db.commit()
     if x==0:
-     return False
+        return False
     else:
-     return cursor.fetchone()
+        pers=cursor.fetchone()
+        return pers
 
 
 @reset_tabla
