@@ -16,17 +16,17 @@ def actualizar_persona(id_persona, nombre, nacimiento, dni, altura):
                      (nombre,nacimiento,dni,altura,id_persona))
     db.commit()
     if x==0:
-      return False
+        return False
     else:
-      return True
+        return True
 
 
 @reset_tabla
 def pruebas():
     id_juan = agregar_persona('juan perez', datetime.datetime(1988, 5, 15), 32165498, 180)
     actualizar_persona(id_juan, 'juan carlos perez', datetime.datetime(1988, 4, 16), 32165497, 181)
-    assert buscar_persona(id_juan) == (1, 'juan carlos perez', datetime.datetime(1988, 4, 16), 32165497, 181)
-    assert actualizar_persona(123, 'nadie', datetime.datetime(1988, 4, 16), 12312312, 181) is False
+    assert buscar_persona(id_juan) == (1, 'juan carlos perez', datetime.date(1988, 4, 16), 32165497, 181)
+    assert actualizar_persona(123, 'nadie', datetime.date(1988, 4, 16), 12312312, 181) is False
 
 if __name__ == '__main__':
     pruebas()
