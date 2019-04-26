@@ -19,15 +19,12 @@ def crear_tabla_peso():
                    " ON DELETE NO ACTION ON UPDATE NO ACTION)")
     print("Tabla creada")
     db.close()
-    pass
-
 
 
 def borrar_tabla_peso():
      cursor.execute("DROP TABLE PersonaPeso")
      print("Tabla borrada")
      db.close()
-     pass
 
 
 # no modificar
