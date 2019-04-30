@@ -3,7 +3,7 @@
 
 import datetime
 
-#from Practico_03.ejercicio_01 import reset_tabla
+import ejercicio_01
 
 import mysql.connector
 
@@ -16,6 +16,7 @@ def conexion():
     )
     return mydb
 
+
 def agregar_persona(nombre, nacimiento, dni, altura):
     conn = conexion()
     mycursor = conn.cursor()
@@ -27,14 +28,13 @@ def agregar_persona(nombre, nacimiento, dni, altura):
 
     mycursor.execute(sql)
     data= mycursor.fetchall()
-    for pers in data:
-        id = pers[0]
+    id = data[0][0]
 
     print("El id es {0}, el nombre {1}, la fecha de nacimiento {2}, el nro dni {3} y la altura es {4}".format(id, nombre, nacimiento, dni, altura))
     return id
 
 
-#@reset_tabla
+@ejercicio_01.reset_tabla
 def pruebas():
     id_juan = agregar_persona('juan perez', datetime.datetime(1988, 5, 15), 32165498, 180)
     id_marcela = agregar_persona('marcela gonzalez', datetime.datetime(1980, 1, 25), 12164492, 195)
