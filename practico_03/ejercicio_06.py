@@ -5,15 +5,30 @@
 
 # Implementar la funcion borrar_tabla, que borra la tabla creada anteriormente.
 
+import sqlite3
+
 from practico_03.ejercicio_01 import borrar_tabla, crear_tabla
 
 
 def crear_tabla_peso():
-    pass
+    db = sqlite3.connect('mibase')
+    cur = db.cursor()
+
+    cur.execute('CREATE TABLE IF NOT EXISTS PersonaPeso(id_persona INTEGER PRIMARY KEY , fecha DATETIME, peso INTEGER, FOREIGN KEY (id_persona) REFERENCES Persona(id_persona)')
+
+    cur.close()
+    db.commit()
+    db.close()
+
 
 
 def borrar_tabla_peso():
-    pass
+    db = sqlite3.connect('mibase')
+    cur = db.cursor()
+    cur.execute('DROP TABLE IF EXISTS PersonaPeso')
+    cur.close()
+    db.commit()
+    db.close()
 
 
 # no modificar
