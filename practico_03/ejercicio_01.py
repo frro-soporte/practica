@@ -10,17 +10,17 @@
 import sqlite3
 
 def conexion ():
-    db = sqlite3.connect('C:\\Users\\Nahuel\\Desktop\\python.db')
+    db = sqlite3.connect('C:\\Users\\Nahuel\\Desktop\\db_python.db')
     return db
 
 def crear_tabla():
     con = conexion()
     c = con.cursor()
 
-    c.execute("""CREATE TABLE IF NOT EXISTS Persona(
+    c.execute("""CREATE TABLE IF NOT EXISTS "Persona"(
                             idPersona INTEGER PRIMARY KEY AUTOINCREMENT ,
                             nombre char(30),
-                            fechaNacimiento date,
+                            fechaNacimiento DATETIME,
                             dni int,
                             altura int
                         );""")

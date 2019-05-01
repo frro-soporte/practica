@@ -17,11 +17,11 @@ def buscar_persona(id_persona):
     query = "SELECT * FROM Persona WHERE idPersona = ?"
     result = c.execute(query,(id_persona,))
 
-    rows = c.fetchall()
+    rows = c.fetchone()
     c.close()
     con.commit()
     con.close()
-    return False if not rows else rows[0]
+    return False if not rows else rows
 
 
 @reset_tabla

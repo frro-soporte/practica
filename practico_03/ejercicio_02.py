@@ -6,7 +6,7 @@ import datetime
 from practico_03.ejercicio_01 import reset_tabla
 
 def conexion ():
-    db = sqlite3.connect('C:\\Users\\Nahuel\\Desktop\\python.db')
+    db = sqlite3.connect('C:\\Users\\Nahuel\\Desktop\\db_python.db')
     return db
 
 def agregar_persona(nombre, nacimiento, dni, altura):
@@ -24,6 +24,7 @@ def agregar_persona(nombre, nacimiento, dni, altura):
     con.close()
 
     return c.lastrowid
+
 
 
 @reset_tabla

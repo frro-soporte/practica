@@ -19,11 +19,23 @@ import datetime
 from practico_03.ejercicio_02 import agregar_persona
 from practico_03.ejercicio_06 import reset_tabla
 from practico_03.ejercicio_07 import agregar_peso
+from practico_03.ejercicio_04 import buscar_persona
+from practico_03.ejercicio_01 import conexion
 
 
 def listar_pesos(id_persona):
-    return []
-
+    if buscar_persona(id_persona):
+        conn = conexion()
+        sql = "SELECT fecha, peso FROM peso WHERE idPersona=? ORDER BY fecha ASC"
+        cur = conn.cursor()
+        cur.execute(sql, (id_persona,))
+        rows = cur.fetchall()
+        cur.close()
+        conn.commit()
+        conn.close()
+        return False if not rows else rows
+    else:
+        return False
 
 @reset_tabla
 def pruebas():
