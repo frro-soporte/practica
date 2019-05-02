@@ -7,13 +7,28 @@
 
 from practico_03.ejercicio_01 import borrar_tabla, crear_tabla
 
+import sqlite3
+
 
 def crear_tabla_peso():
-    pass
+    conn = sqlite3.connect('tabla.db')
+    with conn:
+        cur = conn.cursor()
+        cur.execute('''
+         CREATE TABLE IF NOT EXISTS PersonaPeso(
+         idPer INTEGER,
+         fecha DATE,
+         peso INTEGER,
+         FOREIGN KEY(idPer) REFERENCES tablaPersona(idPer))
+        ''')
 
 
 def borrar_tabla_peso():
-    pass
+    conn = sqlite3.connect('tabla.db')
+    with conn:
+        cur = conn.cursor()
+        cur.execute('DROP TABLE IF EXISTS PersonaPeso')
+
 
 
 # no modificar

@@ -8,13 +8,45 @@
 # - False en caso de no cumplir con alguna validacion.
 
 import datetime
+import sqlite3
+
 
 from practico_03.ejercicio_02 import agregar_persona
 from practico_03.ejercicio_06 import reset_tabla
+from practico_03.ejercicio_04 import buscar_persona
 
 
-def agregar_peso(id_persona, fecha, peso):
-    pass
+
+def existe(id_persona, fecha):
+    conn = sqlite3.connect('tabla.db')
+    with conn:
+        cur = conn.cursor()
+        cur.execute("SELECT idPer "
+                    "FROM PersonaPeso "
+                    "WHERE idPer = ? and fecha > ? "
+                    ,(id_persona,fecha,))
+        a = cur.fetchone()
+        if (a  != None):
+            return True
+        else:
+            return False
+
+def agregar_peso(id_persona,fecha,peso):
+    conn = sqlite3.connect('tabla.db')
+    with conn:
+        cur = conn.cursor()
+        per=buscar_persona(id_persona)
+        if (per != False):
+            if existe(id_persona,fecha) is False:
+                cur.execute("INSERT INTO PersonaPeso(idPer,fecha,peso) "
+                            "VALUES(?,?,?)",(id_persona,fecha,peso,))
+                conn.commit()
+                return cur.lastrowid
+            else:
+                return False
+        else:
+            return False
+
 
 
 @reset_tabla

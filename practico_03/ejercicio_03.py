@@ -4,12 +4,29 @@
 import sqlite3
 import datetime
 from ejercicio_02 import agregar_persona
+from ejercicio_01 import reset_tabla
 conn = sqlite3.connect('tabla.db')
 cur = conn.cursor()
 
 
 def borrar_persona(id_persona):
-    return False
+    conn = sqlite3.connect('tabla.db')
+    with conn:
+        cur = conn.cursor()
+        cur.execute("SELECT idPer "
+                    "FROM tablaPersona "
+                    "WHERE idPer =?", (id_persona,))
+        conn.commit()
+        var = cur.fetchone()
+        if var is None:
+            return False
+        else:
+            cur.execute("DELETE "
+                        "FROM tablaPersona "
+                        "WHERE idPer =?", (id_persona,))
+            conn.commit()
+            return True
+        return False
 
 
 @reset_tabla
