@@ -15,13 +15,24 @@
 # - False en caso de no cumplir con alguna validacion.
 
 import datetime
-
-from practico_03.ejercicio_02 import agregar_persona
-from practico_03.ejercicio_06 import reset_tabla
-from practico_03.ejercicio_07 import agregar_peso
-
+from ejercicio_01 import conexion
+from ejercicio_02 import agregar_persona
+from ejercicio_06 import reset_tabla
+from ejercicio_07 import agregar_peso
+from ejercicio_04 import buscar_persona
 
 def listar_pesos(id_persona):
+    if(buscar_persona(id_persona) == True):
+        sqlconn = conexion()
+        cursor = sqlconn.cursor()
+        strselect = "SELECT * from PersonaxPeso where idpersona = %s ORDER BY fecha"
+        param = id_persona
+        cursor.execute(strselect,param)
+        result = cursor.fetchall()
+        sqlconn.close()
+        cursor.close()
+    else:
+        return False
     return []
 
 
