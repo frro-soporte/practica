@@ -25,15 +25,18 @@ from practico_03.ejercicio_01 import conexion
 
 def listar_pesos(id_persona):
     if buscar_persona(id_persona):
-        conn = conexion()
-        sql = "SELECT fecha, peso FROM peso WHERE idPersona=? ORDER BY fecha ASC"
-        cur = conn.cursor()
-        cur.execute(sql, (id_persona,))
-        rows = cur.fetchall()
-        cur.close()
-        conn.commit()
-        conn.close()
-        return False if not rows else rows
+        con = conexion()
+        query = "SELECT fecha, peso FROM PersonaPeso WHERE idPersona=? "
+        c = con.cursor()
+        c.execute(query, (id_persona,))
+        res = c.fetchall()
+        c.close()
+        con.commit()
+        con.close()
+        if not res:
+            return False
+        else:
+            return res
     else:
         return False
 
