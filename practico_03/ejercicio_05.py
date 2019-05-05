@@ -17,7 +17,7 @@ def actualizar_persona(id_persona, nombre, nacimiento, dni, altura):
             try:
                 sqlconn = conexion()
                 cursor = sqlconn.cursor()
-                update = "update persona set nombre = %s , dni = %s , fecha_nacimiento = %s , altura = %s where id persona= %s "
+                update = "update persona set Nombre = %s , DNI = %s , FechaNacimiento = %s , Altura = %s where IdPersona= %s "
                 param = (nombre,nacimiento,altura,id_persona)
                 cursor.execute(update,param)
                 sqlconn.commit()
