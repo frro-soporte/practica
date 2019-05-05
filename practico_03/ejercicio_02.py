@@ -2,19 +2,8 @@
 # y devuelva los datos ingresados el id del nuevo registro.
 
 import datetime
-
-import ejercicio_01
-
 import mysql.connector
-
-def conexion():
-    mydb = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    passwd="",
-    database="Pruebas-Python"
-    )
-    return mydb
+from ejercicio_01 import conexion, reset_tabla
 
 
 def agregar_persona(nombre, nacimiento, dni, altura):
@@ -34,7 +23,7 @@ def agregar_persona(nombre, nacimiento, dni, altura):
     return id
 
 
-@ejercicio_01.reset_tabla
+@reset_tabla
 def pruebas():
     id_juan = agregar_persona('juan perez', datetime.datetime(1988, 5, 15), 32165498, 180)
     id_marcela = agregar_persona('marcela gonzalez', datetime.datetime(1980, 1, 25), 12164492, 195)
