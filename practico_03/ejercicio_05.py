@@ -6,6 +6,9 @@ import datetime
 from practico_03.ejercicio_01 import reset_tabla
 from practico_03.ejercicio_02 import agregar_persona
 from practico_03.ejercicio_04 import buscar_persona
+# from ejercicio_01 import reset_tabla
+# from ejercicio_02 import agregar_persona
+# from ejercicio_04 import buscar_persona
 import sqlite3
 
 def actualizar_persona(id_persona, nombre, nacimiento, dni, altura):
@@ -13,7 +16,7 @@ def actualizar_persona(id_persona, nombre, nacimiento, dni, altura):
     #el problema del id venia de la mano con el datetime
     cursor = db.cursor()
 
-    cSQL = 'UPDATE persona SET nombre= ?, fecha_nacimiento = ?, dni= ?, altura = ? WHERE id = ?'
+    cSQL = 'UPDATE persona SET nombre= ?, fecha_nacimiento = ?, dni= ?, altura = ? WHERE id_persona = ?'
     tdatos = ( nombre, nacimiento, dni, altura, id_persona )
     cursor.execute(cSQL, tdatos)
     fila = cursor.fetchone()

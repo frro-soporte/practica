@@ -20,3 +20,4 @@ assert mayor(8,4,9)==9;
 assert mayor(2,5,3)==5;
 assert mayor(8,3,2)==8;
 assert mayor(5,6,7)==7;
+
