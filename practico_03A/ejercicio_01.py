@@ -6,35 +6,47 @@
 # - Altura: Int()
 
 # Implementar la funcion borrar_tabla, que borra la tabla creada anteriormente.
-import sqlite3
+import datetime
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, ForeignKey, Integer, String, Date, DateTime
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 
-db = sqlite3.connect('persona_db.sqlite')
+Base = declarative_base()  # Metadatos
 
-def crear_tabla():
-    cursor = db.cursor()
-    cSQL = 'CREATE TABLE IF NOT EXISTS persona(id INTEGER PRIMARY KEY ASC,' \
-           'nombre TEXT(30),' \
-           'fecha_nacimiento timestamp, ' \
-           'dni INT, ' \
-           'altura INT)'
-    cursor.execute(cSQL)
-    db.commit()
 
+class Persona(Base):
+ __tablename__ = 'persona' # ----nombre de la tabla
+ # Definimos las columnas de la tabla Persona
+ id_persona = Column(Integer, primary_key=True)
+ nombre = Column(String(30), nullable=False)
+ fecha_nac = Column(DateTime, nullable=False)
+ dni = Column(Integer, nullable=False)
+ altura = Column(Integer, nullable=False)
+
+def crear_tabla(engine):
+
+ Base.metadata.create_all(engine)
 
 def borrar_tabla():
-    cursor = db.cursor()
-    cSQL = 'DROP TABLE IF EXISTS persona'
-    cursor.execute(cSQL)
-    db.commit()
-    db.close()
+ # Crea todas las tablas definidas en los metadatos
+ Persona.__table__.drop()
 
 
-# no modificar
+
+
 def reset_tabla(func):
     def func_wrapper():
-        crear_tabla()
+        engine = create_engine('sqlite:///personadb_alquemy.db')
+        Base.metadata.bind = engine
+        # ---- creamos una sesión para admin datos
+        DBSession = sessionmaker()
+        DBSession.bind = engine
+        session = DBSession()
+        crear_tabla(engine)
+
         #Corre la funcion con la tabla que creamos
-        func()
+        func(session)
         #Luego de finalizar la funcion elimina la tabla
         borrar_tabla()
     return func_wrapper

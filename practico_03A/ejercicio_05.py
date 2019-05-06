@@ -1,41 +1,41 @@
 # Implementar la funcion actualizar_persona, que actualiza un registro de una persona basado en su id.
 # Devuelve un booleano en base a si encontro el registro y lo actualizo o no.
 
+from practico_03A.ejercicio_01 import reset_tabla, Persona
+from practico_03A.ejercicio_02 import agregar_persona
+from practico_03A.ejercicio_04 import buscar_persona
 import datetime
 
-from practico_03.ejercicio_01 import reset_tabla
-from practico_03.ejercicio_02 import agregar_persona
-from practico_03.ejercicio_04 import buscar_persona
-import sqlite3
 
-def actualizar_persona(id_persona, nombre, nacimiento, dni, altura):
+def actualizar_persona(id_persona, nombre, nacimiento, dni, altura,session):
     #Aca ya tengo id_persona, entonces solo tengo que hacer un update
     #el problema del id venia de la mano con el datetime
-    cursor = db.cursor()
 
-    cSQL = 'UPDATE persona SET nombre= ?, fecha_nacimiento = ?, dni= ?, altura = ? WHERE id = ?'
-    tdatos = ( nombre, nacimiento, dni, altura, id_persona )
-    cursor.execute(cSQL, tdatos)
-    fila = cursor.fetchone()
-    db.commit()
-    if fila == None:
+    lp = session.query(Persona).filter(Persona.id_persona == id_persona).first()
+    if lp == None:
         return False
     else:
+        lp.nombre = nombre
+        lp.fecha_nac = nacimiento
+        lp.dni = dni
+        lp.altura = altura
+        session.commit()
+        print(lp.nombre, lp.fecha_nac, lp.dni, lp.altura)
+        return True
 
-        return fila
+
 
 
 
 
 @reset_tabla
-def pruebas():
-    id_juan = agregar_persona('juan perez', datetime.datetime(1988, 5, 15), 32165498, 180)
-    actualizar_persona(id_juan, 'juan carlos perez', datetime.datetime(1988, 4, 16), 32165497, 181)
-    #assert buscar_persona(id_juan) == (1, 'juan carlos perez', datetime.datetime(1988, 4, 16), 32165497, 181)
-    assert buscar_persona(id_juan) == (1, 'juan carlos perez', '1988-04-16 00:00:00', 32165497, 181)
-    assert actualizar_persona(123, 'nadie', datetime.datetime(1988, 4, 16), 12312312, 181) is False
+def pruebas(session):
+    id_juan = agregar_persona('juan perez', datetime.datetime(1988, 5, 15), 32165498, 180,session)
+    actualizar_persona(id_juan, 'juan carlos perez', datetime.datetime(1988, 4, 16), 32165497, 181,session)
+    assert buscar_persona(id_juan,session) == (1, 'juan carlos perez', datetime.datetime(1988, 4, 16), 32165497, 181)
+    #assert buscar_persona(id_juan) == (1, 'juan carlos perez', '1988-04-16 00:00:00', 32165497, 181)
+    assert actualizar_persona(123, 'nadie', datetime.datetime(1988, 4, 16), 12312312, 181,session) is False
 
 if __name__ == '__main__':
-    db = sqlite3.connect('persona_db.sqlite')
 
     pruebas()
