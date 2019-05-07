@@ -16,6 +16,14 @@ from sqlalchemy.orm import sessionmaker
 
 Base = declarative_base()  # Metadatos
 
+class Persona(Base):
+ __tablename__ = 'persona' # ----nombre de la tabla
+ # Definimos las columnas de la tabla Persona
+ id_persona = Column(Integer, primary_key=True)
+ nombre = Column(String(30), nullable=False)
+ fecha_nac = Column(DateTime, nullable=False)
+ dni = Column(Integer, nullable=False)
+ altura = Column(Integer, nullable=False)
 
 class Peso(Base):
     __tablename__ = 'peso'  # ----nombre de la tabla
@@ -23,8 +31,8 @@ class Peso(Base):
     id_peso = Column(Integer, primary_key=True)
     fecha_peso = Column(DateTime, nullable=False)
     peso = Column(Integer, nullable=False)
-    persona_id = Column(Integer, ForeignKey('persona.id'))
-    persona = relationship(Persona)
+    persona_id = Column(Integer, ForeignKey('persona.id_persona'))
+    persona = relationship('Persona',lazy='subquery')
 
 def crear_tabla_peso(engine):
     Base.metadata.create_all(engine)
@@ -34,19 +42,19 @@ def borrar_tabla_peso():
     Peso.__table__.drop()
 
 
-engine = create_engine('sqlite:///personadb_alquemy.db')
-Base.metadata.bind = engine
-        # ---- creamos una sesión para admin datos
-DBSession = sessionmaker()
-DBSession.bind = engine
-session = DBSession()
+
 
 # no modificar
 def reset_tabla(func):
     def func_wrapper():
+        engine = create_engine('sqlite:///personadb_alquemy.db')
+        Base.metadata.bind = engine
+        # ---- creamos una sesión para admin datos
+        DBSession = sessionmaker(bind= engine)
+        session = DBSession()
         crear_tabla(engine)
         crear_tabla_peso(engine)
-        func()
+        func(session)
         borrar_tabla_peso()
-        borrar_tabla()
+        borrar_tabla(Persona)
     return func_wrapper

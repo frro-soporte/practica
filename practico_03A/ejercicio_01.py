@@ -15,6 +15,45 @@ from sqlalchemy.orm import sessionmaker
 Base = declarative_base()  # Metadatos
 
 
+class DbManager(object):
+    engine = create_engine('sqlite:///personadb_alquemy.db', echo=True)
+
+    def creardb(self):
+        Base.metadata.create_all(self.engine)
+
+    def guardar(self, objeto):
+        session = self.get_session()
+        session.add(objeto)
+        session.commit()
+
+    def getall(self, objeto):
+        session = self.get_session()
+        result = session.query(objeto).all()
+        return result
+
+    def getall_id(self, objeto):
+        session = self.get_session()
+        result = session.query(objeto).all()
+        ids = []
+        for item in result:
+            ids.append(item.id)
+        return ids
+
+    def delete_notin(self, objeto, ids):
+        session = self.get_session()
+        result = session.query(objeto).filter(objeto.id.notin_(ids)).delete()
+        session.commit()
+
+    def get_session(self):
+        DBSession = sessionmaker(bind=self.engine)
+        session = DBSession()
+        return session
+
+    def existe(self, objeto, id):
+        session = self.get_session()
+        registros = session.query(objeto).filter(objeto.id == id).count()
+        return registros
+
 class Persona(Base):
  __tablename__ = 'persona' # ----nombre de la tabla
  # Definimos las columnas de la tabla Persona
@@ -28,7 +67,7 @@ def crear_tabla(engine):
 
  Base.metadata.create_all(engine)
 
-def borrar_tabla():
+def borrar_tabla(Persona):
  # Crea todas las tablas definidas en los metadatos
  Persona.__table__.drop()
 
@@ -37,7 +76,7 @@ def borrar_tabla():
 
 def reset_tabla(func):
     def func_wrapper():
-        engine = create_engine('sqlite:///personadb_alquemy.db')
+        engine = create_engine('sqlite:///personadb_alquemy.db', echo=True)
         Base.metadata.bind = engine
         # ---- creamos una sesión para admin datos
         DBSession = sessionmaker()
@@ -48,7 +87,7 @@ def reset_tabla(func):
         #Corre la funcion con la tabla que creamos
         func(session)
         #Luego de finalizar la funcion elimina la tabla
-        borrar_tabla()
+        borrar_tabla(Persona)
     return func_wrapper
 
 
