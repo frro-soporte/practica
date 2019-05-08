@@ -13,7 +13,7 @@ import sqlite3
 def crear_tabla():
     db = sqlite3.connect('persona_db.sqlite')
     cursor = db.cursor()
-    cSQL = 'CREATE TABLE IF NOT EXISTS persona(id_persona INTEGER PRIMARY KEY ASC,' \
+    cSQL = 'CREATE TABLE IF NOT EXISTS persona(id_persona INTEGER PRIMARY KEY ASC AUTOINCREMENT,' \
            'nombre TEXT(30),' \
            'fecha_nacimiento timestamp, ' \
            'dni INT, ' \
