@@ -18,3 +18,4 @@ class Rectangulo:
 re=Rectangulo(4,2)
 
 print('El area del rectangulo es:',re.area())
+assert re.area()==8
