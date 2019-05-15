@@ -22,12 +22,12 @@ DBSession.bind = engine
 session = DBSession()
 
 class PersonaPeso:
-    __tablename__ = 'personapeso'
+     __tablename__ = 'personapeso'
     persona = relationship(Persona)
-    IdPersona = Column(Integer, ForeignKey(Persona.IdPersona))
-    FechaNacimiento = Column(Date, nullable=False)
+    idpeso=Column(Integer,primary_key=True,autoincrement=True)
+    IdPersona = Column(Integer,ForeignKey(Persona.IdPersona))
+    Fecha = Column(Date, nullable=False)
     Peso= Column(Integer, nullable=False)
-
 
 
     def __init__(self,nacimiento, peso):
