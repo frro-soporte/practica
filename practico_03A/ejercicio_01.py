@@ -22,6 +22,12 @@ class Persona(Base):
     FechaNacimiento = Column(Date, nullable=False)
     DNI = Column(Integer, nullable=False)
     Altura = Column(Integer, nullable=False)
+    
+    def __init__(self,nombre, nacimiento, dni, altura):
+        self.Nombre = nombre
+        self.FechaNacimiento=nacimiento
+        self.DNI=dni
+        self.Altura= altura
 
 
 def crear_tabla():
