@@ -24,7 +24,8 @@ def buscar_persona(id_persona):
     if obj is None:
      return False
     else:
-     return (obj.IdPersona,obj.Nombre,obj.FechaNacimiento,obj.DNI,obj.Altura)
+     return obj 
+#Para que el assert de return (obj.IdPersona,obj.Nombre,obj.FechaNacimiento,obj.DNI,obj.Altura)
 
 
 @reset_tabla
