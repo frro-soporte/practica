@@ -5,7 +5,7 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from Practica01Alchemy import Persona
+from ejercicio_01 import Persona
 import datetime
 
 Base = declarative_base()
