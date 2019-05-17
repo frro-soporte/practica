@@ -7,39 +7,38 @@
 
 # Implementar la funcion borrar_tabla, que borra la tabla creada anteriormente.
 
-import mysql.connector
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Table, Column, String, Date, Integer, ForeignKey, create_engine
+from sqlalchemy.orm import relationship, sessionmaker
+
+base = declarative_base()
 
 def conexion():
-    mydb = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    passwd="",
-    database="Pruebas-Python"
-    )
-    return mydb
+    engine = create_engine('sqlite:///database.db', echo = True)
+    return engine
 
+def sessionUsuario():
+    base.metadata.bind = conexion()
+    DBSession = sessionmaker()
+    DBSession.bind = conexion()
+    session = DBSession()
+    return  session
+
+class Persona(base):
+    __tablename__='Persona'
+    idPersona = Column(Integer, primary_key=True)
+    nombre = Column(String(30))
+    fechaNacimiento = Column(Date)
+    dni = Column(Integer)
+    altura = Column(Integer)
 
 def crear_tabla():
-    conn = conexion()
-    mycursor = conn.cursor()
-    sql = (
-        """
-        CREATE TABLE Persona (IdPersona int(11) NOT NULL auto_increment primary key,
-        Nombre char(30),
-        FechaNacimiemto date,
-        DNI int(8),
-        Altura int(3))"""
-    )
-    mycursor.execute(sql)
+    base.metadata.create_all(conexion())
     print('creacion de tabla con exito')
 
 def borrar_tabla():
-    conn = conexion()
-    mycursor = conn.cursor()
-    sql = ("drop table Persona")
-    mycursor.execute(sql)
+    Persona.__table__.drop(conexion())
     print('eliminacion de tabla con exito')
-
 
 # no modificar
 def reset_tabla(func):

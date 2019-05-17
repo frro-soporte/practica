@@ -3,23 +3,23 @@
 
 import datetime
 from ejercicio_02 import agregar_persona
-import mysql.connector
-from ejercicio_01 import reset_tabla, conexion
-
+from ejercicio_01 import conexion, reset_tabla, Persona, sessionUsuario
+from sqlalchemy import exc
 
 def borrar_persona(id_persona):
     try:
         conn = conexion()
-        mycursor = conn.cursor()
-        sql = "delete from persona where IdPersona = {0}".format(id_persona)
-        mycursor.execute(sql)
-        conn.commit()
-        if mycursor.rowcount > 0:
+        sessionUser = sessionUsuario()
+        per = sessionUser.query(Persona).get(id_persona)
+        id = sessionUser.delete(per)
+        if id > 0:
+            print('persona eliminada')
             return True
         else:
+            print('persona no eliminada')
             return False
-
-    except mysql.connector.Error:
+    except exc.SQLAlchemyError:
+        print(exc.SQLAlchemyError.args)
         return False
 
 @reset_tabla

@@ -2,26 +2,34 @@
 # y devuelva los datos ingresados el id del nuevo registro.
 
 import datetime
-import mysql.connector
-from ejercicio_01 import conexion, reset_tabla
+#import mysql.connector
 
+from ejercicio_01 import conexion, reset_tabla, Persona, sessionUsuario
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import exc
+
+Base = declarative_base()
 
 def agregar_persona(nombre, nacimiento, dni, altura):
-    conn = conexion()
-    mycursor = conn.cursor()
-    sql = "insert into Persona (Nombre, FechaNacimiemto, DNI, Altura) values (%s, %s, %s, %s);"
-    datos =(str(nombre), nacimiento, dni, altura)
-    mycursor.execute(sql, datos)
-    conn.commit()
-    sql = "SELECT LAST_INSERT_ID();"
+    try:
+        per = Persona()
+        per.nombre = nombre
+        per.fechaNacimiento = nacimiento
+        per.dni = dni
+        per.altura = altura
+        sessionUser = sessionUsuario()
+        sessionUser.add(per)
+        sessionUser.commit()
+        id = (sessionUser.query(Persona).filter(Persona.dni == dni).first()).idPersona
+        print('persona insertada con exito')
+        return id
 
-    mycursor.execute(sql)
-    data= mycursor.fetchall()
-    id = data[0][0]
+    except exc.SQLAlchemyError:
+        print(exc.SQLAlchemyError.args)
+        return -1
 
-    print("El id es {0}, el nombre {1}, la fecha de nacimiento {2}, el nro dni {3} y la altura es {4}".format(id, nombre, nacimiento, dni, altura))
-    return id
-
+    #print("El id es {0}, el nombre {1}, la fecha de nacimiento {2}, el nro dni {3} y la altura es {4}".format(id, nombre, nacimiento, dni, altura))
+    #return id
 
 @reset_tabla
 def pruebas():
@@ -29,6 +37,3 @@ def pruebas():
     id_marcela = agregar_persona('marcela gonzalez', datetime.datetime(1980, 1, 25), 12164492, 195)
     assert id_juan > 0
     assert id_marcela > id_juan
-
-if __name__ == '__main__':
-    pruebas()
