@@ -13,8 +13,14 @@ ventana = tk.Tk()
 ventana.title('Ciudades')
 
 DATA = [('ROSARIO', '2000'),
-        ('CORDOBA', '5000')]
+        ('CORDOBA', '5000'),
+        ('BUENOS AIRES', '1675'),
+        ('SALTA', '4400'),
+        ('PARANA', '3100'),
+        ]
 def invoice_selected(event):
+        valor_1_txt.delete(0,END)            
+        valor_2_txt.delete(0,END)
         global row_selected
         row_selected = event.widget.focus()
         values = event.widget.item(row_selected)['values']
@@ -34,10 +40,11 @@ def borrar_ciudad():
         tree.delete(row_selected)
         valor_1_txt.delete(0,END)            
         valor_2_txt.delete(0,END)
+        
 
 header = ('Ciudad', 'Codigo Postal')
 label1 =Label(ventana,  text ="Ciudad")
-valor_1_txt =Entry(ventana, width=10)
+valor_1_txt =Entry(ventana, width=20)
 label1.grid(row = 1, column = 0)
 valor_1_txt.grid(row = 1, column = 1)
 label2 =Label(ventana, text ="Codigo Postal")
