@@ -2,7 +2,7 @@
 # Devuelve un booleano en base a si encontro el registro y lo actualizo o no.
 
 import datetime
-import sqlite3
+import sqlalchemy
 
 from practico_03.ejercicio_01 import reset_tabla
 from practico_03.ejercicio_02 import agregar_persona
