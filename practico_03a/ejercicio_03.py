@@ -6,13 +6,16 @@ from ejercicio_02 import agregar_persona
 from ejercicio_01 import conexion, reset_tabla, Persona, sessionUsuario
 from sqlalchemy import exc
 
-def borrar_persona(id_persona):
+def borrar_persona(id_per):
     try:
         conn = conexion()
         sessionUser = sessionUsuario()
-        per = sessionUser.query(Persona).get(id_persona)
-        id = sessionUser.delete(per)
-        if id > 0:
+        #per = sessionUser.query(Persona).get(id_per)
+        per = sessionUser.query(Persona).filter_by(idPersona = id_per).first()
+        sessionUser.delete(per)
+        sessionUser.commit()
+        id = sessionUser.query(Persona).filter_by(idPersona = id_per).first()
+        if id == None:
             print('persona eliminada')
             return True
         else:

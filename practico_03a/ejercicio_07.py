@@ -8,26 +8,24 @@
 # - False en caso de no cumplir con alguna validacion.
 
 import datetime
-import mysql.connector
-from ejercicio_01 import conexion
+from sqlalchemy import exc
+from ejercicio_01 import conexion, reset_tabla, Persona, sessionUsuario
 from ejercicio_02 import agregar_persona
 from ejercicio_04 import buscar_persona
-from ejercicio_06 import reset_tabla
+from ejercicio_06 import reset_tabla, PersonaPeso
 
 
 def agregar_peso(id_persona, fecha, peso):
     sqlconn = conexion()
-    cursor = sqlconn.cursor()
-    #en ningun momento buscar_persona deuvuelve solo true o false
+    user = sessionUsuario()
     per = buscar_persona(id_persona)
     if per != False:
         if not exist_persona(id_persona,fecha):
-            sql = "INSERT INTO PersonaPeso(IdPersona, Fecha, Peso) values ({0},'{1}',{2})".format(id_persona, fecha, peso)
-            cursor.execute(sql)
-            sqlconn.commit()
-            result = cursor.rowcount
-            cursor.close()
-            if result > 0:
+            per = PersonaPeso(id_persona, fecha, peso)
+            user.add(per)
+            user.commit()
+            result = user.query(PersonaPeso).filter_by(id_persona).first()
+            if result != None:
                 return True
             else:
                 return False
@@ -39,13 +37,10 @@ def agregar_peso(id_persona, fecha, peso):
 
 def exist_persona(id_persona,fecha):
     sqlconn = conexion()
-    cursor = sqlconn.cursor()
-    strselect = "select * from PersonaPeso where IdPersona = {0} and Fecha > '{1}'".format(id_persona, fecha)
-    cursor.execute(strselect)
-    resultado= cursor.fetchall()
-    cursor.close()
-    sqlconn.close()
-    if resultado != []:
+    user = sessionUsuario()
+    per = Persona()
+    per = user.query(Persona).filter_by(idPersona=id_persona).first()
+    if per.fechaNacimiento < fecha:
         return True
     else:
         return False
