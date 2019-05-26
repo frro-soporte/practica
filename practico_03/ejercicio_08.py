@@ -19,11 +19,26 @@ import datetime
 from practico_03.ejercicio_02 import agregar_persona
 from practico_03.ejercicio_06 import reset_tabla
 from practico_03.ejercicio_07 import agregar_peso
+from practico_03.ejercicio_04 import buscar_persona
+from practico_03.ejercicio_01 import conexion
 
 
 def listar_pesos(id_persona):
-    return []
-
+    if buscar_persona(id_persona):
+        con = conexion()
+        query = "SELECT fecha, peso FROM PersonaPeso WHERE idPersona=? "
+        c = con.cursor()
+        c.execute(query, (id_persona,))
+        res = c.fetchall()
+        c.close()
+        con.commit()
+        con.close()
+        if not res:
+            return False
+        else:
+            return res
+    else:
+        return False
 
 @reset_tabla
 def pruebas():

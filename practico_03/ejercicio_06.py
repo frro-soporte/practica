@@ -6,14 +6,34 @@
 # Implementar la funcion borrar_tabla, que borra la tabla creada anteriormente.
 
 from practico_03.ejercicio_01 import borrar_tabla, crear_tabla
+from practico_03.ejercicio_01 import conexion
 
 
 def crear_tabla_peso():
-    pass
+    con = conexion()
+    c = con.cursor()
+    c.execute(
+    """
+    CREATE TABLE IF NOT EXISTS "PersonaPeso"(
+        idPersona INTEGER,
+        fecha DATETIME NULL,
+        peso INTEGER NULL,
+        FOREIGN KEY(idPersona) REFERENCES Persona(idPersona)
+        
+    );
+    """)
+    c.close()
+    con.commit()
+    con.close()
 
 
 def borrar_tabla_peso():
-    pass
+    con = conexion()
+    c = con.cursor()
+    c.execute("DROP TABLE PersonaPeso ")
+    c.close()
+    con.commit()
+    con.close()
 
 
 # no modificar
