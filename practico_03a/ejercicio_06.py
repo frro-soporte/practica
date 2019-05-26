@@ -5,24 +5,24 @@
 
 # Implementar la funcion borrar_tabla, que borra la tabla creada anteriormente.
 
-from sqlalchemy import exc ,Table, Column, String, Date, Integer, ForeignKey
-from ejercicio_01 import borrar_tabla, crear_tabla, conexion, reset_tabla, Persona, sessionUsuario
-base = exc.declarative.declarative_base
+from sqlalchemy import Table, Column, String, Integer, ForeignKey, Date
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship
+from ejercicio_01 import borrar_tabla, crear_tabla, conexion, reset_tabla, Persona, sessionUsuario, base
+#base = declarative_base()
 
 class PersonaPeso(base):
     __tablename__='PersonaPeso'
-    idPersona = Column(Integer, ForeignKey("Persona.idPersona"), nullable=False)
+    idPersonaPeso = Column(Integer, primary_key=True, nullable=False)
     Fecha = Column(Date)
     Peso = Column(Integer)
 
 def crear_tabla_peso():
-    conn = conexion()
-    base.metadata.create_all(conn)
+    base.metadata.create_all(conexion())
     print('creacion de tabla con exito')
 
 def borrar_tabla_peso():
-    conn = conexion()
-    Persona.__table__.drop(conn)
+    PersonaPeso.__table__.drop(conexion())
     print('eliminacion de tabla con exito')
 
 # no modificar

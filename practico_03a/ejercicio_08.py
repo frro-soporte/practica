@@ -13,27 +13,28 @@
 #       ('2018-05-01', 82),
 #   ]
 # - False en caso de no cumplir con alguna validacion.
-
+from _ast import Tuple
 import datetime
 import mysql.connector
-from ejercicio_01 import conexion
+from sqlalchemy import exc
+from ejercicio_01 import conexion, reset_tabla, Persona, sessionUsuario
 from ejercicio_02 import agregar_persona
-from ejercicio_06 import reset_tabla
-from ejercicio_07 import agregar_peso
 from ejercicio_04 import buscar_persona
+from ejercicio_06 import reset_tabla, PersonaPeso
+from ejercicio_07 import agregar_peso
 
 def listar_pesos(id_persona):
     perso = buscar_persona(id_persona)
-    if(perso != []):
+    if(perso != False):
         sqlconn = conexion()
-        cursor = sqlconn.cursor()
-        strselect = "SELECT Fecha, Peso from PersonaPeso where idpersona = {0} ORDER BY fecha".format(id_persona)
-        cursor.execute(strselect)
-        result = cursor.fetchall()
-        sqlconn.close()
-        cursor.close()
-        if result != []:
-            return result
+        user = sessionUsuario()
+        #persPeso = user.query(PersonaPeso).filter_by(idPersonaPeso=id_persona).all()
+        persPeso = user.query(PersonaPeso.Fecha, PersonaPeso.Peso).all()
+        if persPeso != None:
+            #for item in persPeso:
+             #   pesos = [item.Fecha, item.Peso]
+            pesos = [persPeso[0], persPeso[1]]
+            return pesos
         else:
             return False
     else:

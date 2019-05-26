@@ -8,11 +8,11 @@ from ejercicio_01 import conexion, reset_tabla, Persona, sessionUsuario
 from ejercicio_02 import agregar_persona
 from sqlalchemy import exc
 
-def buscar_persona(id_persona):
+def buscar_persona(id):
     try:
         conn = conexion()
-        sessionUser = sessionUsuario()
-        per = sessionUser.query(Persona).get(id_persona)
+        user = sessionUsuario()
+        per = user.query(Persona).filter_by(idPersona = id).first()
         if per != None:
             perso = Persona()
             perso.idPersona = per.idPersona
