@@ -38,7 +38,7 @@ def listar_pesos(id_persona):
         else:
             return False
     else:
-        return []
+        return False
 
 @reset_tabla
 def pruebas():
