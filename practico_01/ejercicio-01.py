@@ -7,7 +7,9 @@ def max(a, b):
 assert max (5,8) == 8
 assert max (4,7) == 7
 
+
 n1 = input('Ingrese 1er numero: ')
 n2 = input('Ingrese 2do numero: ')
 
 print ("el numero mayor es: " + max(n1,n2))
+
