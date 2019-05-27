@@ -8,7 +8,7 @@
 # Implementar la funcion borrar_tabla, que borra la tabla creada anteriormente.
 
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, ForeignKey, Integer, String
+from sqlalchemy import Column, ForeignKey, Integer, String, DATE
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
@@ -19,23 +19,25 @@ class Persona(Base):
 
  idPersona = Column(Integer, primary_key=True)
  nombre = Column(String(30), nullable=False)
- fechaNacimiento = Column(datetime())
+ fechaNacimiento = Column(DATE)
  dni = Column(Integer)
  altura = Column(Integer)
 
+def create_conexion ():
+    engine = create_engine('sqlite:///c://Users//Nahuel//Desktop//sqlalchemy_db.db')
+    Base.metadata.bind = engine
+    DBSession = sessionmaker()
+    DBSession.bind = engine
+    session = DBSession()
 
-engine = create_engine('sqlite:///c://Users//Nahuel//Desktop//sqlalchemy_db.db')
-Base.metadata.bind = engine
-
-DBSession = sessionmaker()
-DBSession.bind = engine
-session = DBSession()
 
 def crear_tabla():
+    Base.metadata.create_all()
     pass
 
 
 def borrar_tabla():
+    Base.metadata.drop_all()
     pass
 
 
@@ -46,3 +48,6 @@ def reset_tabla(func):
         func()
         borrar_tabla()
     return func_wrapper
+create_conexion()
+crear_tabla()
+borrar_tabla()

@@ -3,11 +3,33 @@
 
 import datetime
 
-from practico_03.ejercicio_01 import reset_tabla
 
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+
+from practico_03_alchemy.ejercicio_01 import reset_tabla
+from practico_03_alchemy.ejercicio_01 import create_conexion
+from practico_03_alchemy.ejercicio_01 import Persona
+
+Base = declarative_base()
+engine = create_engine('sqlite:///c://Users//Nahuel//Desktop//sqlalchemy_db.db')
+Base.metadata.bind = engine
+DBSession = sessionmaker()
+DBSession.bind = engine
+session = DBSession()
 
 def agregar_persona(nombre, nacimiento, dni, altura):
-    return 0
+    op = Persona()
+    op.nombre = nombre
+    op.fechaNacimiento = nacimiento
+    op.dni = dni
+    op.altura = altura
+
+    session.add(op)
+
+    session.commit()
+    return op.idPersona
 
 
 @reset_tabla
