@@ -7,30 +7,45 @@
 
 # Implementar la funcion borrar_tabla, que borra la tabla creada anteriormente.
 
-import sqlite3
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, Integer, String, Date
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 
-db = sqlite3.connect("D:\\prueba.db")
-cur = db.cursor()
+Base = declarative_base()
 
+class Persona(Base):
+    __tablename__ = 'Persona'
+    id = Column(Integer, primary_key=True)
+    nombre = Column(String(30), nullable=False)
+    fechaNacimiento = Column(Date, nullable=False)
+    dni = Column(Integer, nullable=False)
+    altura = Column(Integer, nullable=False)
+
+
+engine = create_engine('sqlite:///sqlalchemy_TP3A.db') #lo crea donde se encuentra el archivo .py
+Base.metadata.bind = engine
+
+DBSession = sessionmaker()
+DBSession.bind = engine
+session = DBSession()
 
 def crear_tabla():
-    cSQL = 'CREATE TABLE IF NOT EXISTS Persona(idPersona INTEGER PRIMARY KEY ASC, nombre TEXT(30) , fechaNacimiento DATE, dni INTEGER, altura FLOAT)'
-    cur.execute(cSQL)
-    db.commit()
-    return 0
+    Base.metadata.create_all(engine)
 
 
 def borrar_tabla():
-    cSQL = 'DROP TABLE IF EXISTS Persona'
-    cur.execute(cSQL)
-    db.commit()
+    Persona.__table__.drop(engine)
 
+crear_tabla()
+borrar_tabla()
 
 # no modificar
-def reset_tabla(func):
+"""
+ def reset_tabla(func):
     def func_wrapper():
         crear_tabla()
         func()
         borrar_tabla()
-
-    return func_wrapper
+    return func_wrapper""" 
+        #dijo Fran que no va en este TP
