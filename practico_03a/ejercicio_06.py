@@ -11,6 +11,14 @@ from sqlalchemy.orm import relationship
 from ejercicio_01 import borrar_tabla, crear_tabla, conexion, reset_tabla, Persona, sessionUsuario, base
 #base = declarative_base()
 
+#class PersonaPeso(Base):
+    #__tablename__ = 'personaPeso'
+    #idPeso = Column(Integer, primary_key=True)
+    #fecha = Column(DateTime)
+    #peso = Column(Integer)
+    #idPersona = Column(Integer,ForeignKey('persona.idPersona'))
+    #persona = relationship(Persona,back_populates="pesos")
+
 class PersonaPeso(base):
     __tablename__='PersonaPeso'
     idPersonaPeso = Column(Integer, primary_key=True, nullable=False)
