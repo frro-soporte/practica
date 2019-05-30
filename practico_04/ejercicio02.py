@@ -14,13 +14,15 @@ color_boton=("gray77")
 def btnClik(num):
     global operador
     operador=operador+str(num)
-    input_text.set(operador)
+    entrada_txt.set(operador)
     
 
 def clear():
     global operador
-    txt = input_text.get()[:-1]
-    input_text.set(txt)
+    txt = entrada_txt.get()[:-1]
+    if entrada_txt.get() == 'ERROR':
+        txt = ''
+    entrada_txt.set(txt)
     operador=txt
 
 def operacion():
@@ -30,14 +32,14 @@ def operacion():
     except:
         clear()
         resultado=("ERROR")
-    input_text.set(resultado)
+    entrada_txt.set(resultado)
     operador = resultado
 
 
     
 ancho=1
 alto=1
-input_text=StringVar()
+entrada_txt=StringVar()
 operador=""
 clear() #MUESTRA "0" AL INICIAR LA CALCULADORA
 BotonBorrar=Button(ventana,text="<",bg=color_boton,width=ancho,height=alto,command=clear).place(x=165,y=110)
@@ -55,9 +57,9 @@ Boton3=Button(ventana,text="3",bg=color_boton,width=ancho,height=alto,command=la
 BotonDiv=Button(ventana,text="/",bg=color_boton,width=ancho,height=alto,command=lambda:btnClik("/")).place(x=165,y=250)
 Boton0=Button(ventana,text="0",bg=color_boton,width=ancho,height=alto,command=lambda:btnClik(0)).place(x=15,y=300)
 BotonResul=Button(ventana,text="=",bg=color_boton,width=8,height=alto,command=operacion).place(x=65,y=300)
-BotonMulti=Button(ventana,text="*",bg=color_boton,width=ancho,height=alto,command=lambda:btnClik("x")).place(x=165,y=300)
+BotonMulti=Button(ventana,text="*",bg=color_boton,width=ancho,height=alto,command=lambda:btnClik("*")).place(x=165,y=300)
 
-Salida=Entry(ventana,font=('arial',20,'bold'),width=13,textvariable=input_text,justify="left").place(x=10,y=60)
+Salida=Entry(ventana,font=('arial',20,'bold'),width=13,textvariable=entrada_txt,justify="left").place(x=10,y=60)
 
 
 ventana.mainloop()

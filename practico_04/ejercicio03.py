@@ -11,6 +11,10 @@ class Application(ttk.Frame):
         super().__init__(main_window)
         main_window.title("Ciudades Argentinas")
         
+        def fila_seleccionada(event):
+            fila = event.widget.focus()
+            
+
         self.treeview = ttk.Treeview(self, columns=("codigo_postal"))
 
         self.treeview.heading("#0", text="Ciudad")
@@ -28,7 +32,7 @@ class Application(ttk.Frame):
                              values=("3100"))
         self.treeview.pack()
         self.pack()
-        self.treeview.bind('<<TreeviewSelect>>', invoice_selected)
+        self.treeview.bind('<<TreeviewSelect>>', fila_seleccionada)
 
         
 
