@@ -1,32 +1,36 @@
 # Implementar la funcion borrar_persona, que elimina un registro en la tabla Persona.
 # Devuelve un booleano en base a si encontro el registro y lo borro o no.
 
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, ForeignKey, Integer, String, Date
+from sqlalchemy import create_engine, delete
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy import *
 import datetime
-import sqlite3
-from ejercicio_01 import reset_tabla
-from ejercicio_02 import agregar_persona
 
-db = sqlite3.connect('D:\\prueba.db')
-cur = db.cursor()
+from ejercicio_01 import Persona, engine, session, Base, crear_tabla, borrar_tabla
+from ejercicio_02 import agregar_persona
 
 
 def borrar_persona(id_persona):
-    cSQL = 'select idPersona from Persona where idPersona=?'
-    id =(id_persona,)
-    cur.execute(cSQL,id)
-    res = cur.fetchone()
-    if res is not None:  
-        cSQL = 'delete from Persona where idPersona=?'
-        cur.execute(cSQL,(id_persona,))
-        db.commit()
-        return True
-    else:
+    per = session.query(Persona).get(id_persona)
+    if per is None:
+        print("Persona no encontrada")
         return False
+    else:
+        session.delete(per) 
+        session.commit()
+        print("Persona encontrada")
+        return True
 
-@reset_tabla
+
+
+#@reset_tabla
 def pruebas():
-    assert borrar_persona(agregar_persona('juan perez', datetime.datetime(1988, 5, 15), 32165498, 180))
+    crear_tabla()
+    assert borrar_persona(agregar_persona('juan perez', datetime.date(1988, 5, 15), 32165498, 180))
     assert borrar_persona(12345) is False
+    borrar_tabla()
 
 if __name__ == '__main__':
     pruebas()
