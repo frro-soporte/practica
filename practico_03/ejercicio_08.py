@@ -19,23 +19,10 @@ import datetime
 from practico_03.ejercicio_02 import agregar_persona
 from practico_03.ejercicio_06 import reset_tabla
 from practico_03.ejercicio_07 import agregar_peso
-from practico_03.ejercicio_04 import buscar_persona
-
-import sqlite3
 
 
 def listar_pesos(id_persona):
-    db = sqlite3.connect('persona_db.sqlite')
-    cursor = db.cursor()
-    persona = buscar_persona(id_persona)
-
-    if persona == False:
-        return False
-    else:
-        cSQL = 'SELECT fecha_pesaje, peso FROM persona_peso WHERE id_persona = ?'
-        cursor.execute(cSQL, (id_persona,))
-        pesajes = cursor.fetchall()
-        return pesajes
+    return []
 
 
 @reset_tabla
@@ -45,8 +32,8 @@ def pruebas():
     agregar_peso(id_juan, datetime.datetime(2018, 6, 1), 85)
     pesos_juan = listar_pesos(id_juan)
     pesos_esperados = [
-        ('2018-05-01 00:00:00', 80),
-        ('2018-06-01 00:00:00', 85),
+        ('2018-05-01', 80),
+        ('2018-06-01', 85),
     ]
     assert pesos_juan == pesos_esperados
     # id incorrecto
