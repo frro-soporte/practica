@@ -5,26 +5,10 @@ import datetime
 
 from practico_03.ejercicio_01 import reset_tabla
 from practico_03.ejercicio_02 import agregar_persona
-# from ejercicio_01 import reset_tabla
-# from ejercicio_02 import agregar_persona
 
-import sqlite3 
 
 def borrar_persona(id_persona):
-    cursor = db.cursor()
-
-    cSQL = 'SELECT * FROM persona WHERE id_persona = ?'
-    cursor.execute(cSQL, (id_persona,))
-    fila = cursor.fetchone()
-    cSQL = 'DELETE FROM persona WHERE id_persona = ?'
-    cursor.execute(cSQL, (id_persona,))
-
-    db.commit()
-    if fila == None:
-        return False
-    else:
-        return True
-
+    return False
 
 
 @reset_tabla
@@ -33,7 +17,4 @@ def pruebas():
     assert borrar_persona(12345) is False
 
 if __name__ == '__main__':
-    db = sqlite3.connect('persona_db.sqlite')
-
     pruebas()
-

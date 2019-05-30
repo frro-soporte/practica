@@ -4,23 +4,10 @@
 import datetime
 
 from practico_03.ejercicio_01 import reset_tabla
-#from ejercicio_01 import reset_tabla
-
-import sqlite3
-
 
 
 def agregar_persona(nombre, nacimiento, dni, altura):
-    db = sqlite3.connect('persona_db.sqlite')
-
-    cursor = db.cursor()
-    cSQL = 'INSERT INTO persona (nombre, fecha_nacimiento, dni, altura)' \
-           'VALUES (?,?,?,?)'
-    tdatos = (nombre, nacimiento, dni, altura)
-    cursor.execute(cSQL, tdatos)
-    id = cursor.lastrowid
-    db.commit()
-    return id
+    return 0
 
 
 @reset_tabla
@@ -31,6 +18,4 @@ def pruebas():
     assert id_marcela > id_juan
 
 if __name__ == '__main__':
-    db = sqlite3.connect('persona_db.sqlite')
-
     pruebas()

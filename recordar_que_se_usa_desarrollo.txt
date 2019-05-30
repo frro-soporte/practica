@@ -1,1 +1,0 @@
-recordar que se usa la rama desarrollo hasta que sea aprobada entonces habria que hacer merge con master 

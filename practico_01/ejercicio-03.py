@@ -5,19 +5,4 @@
 
 
 def operacion(a, b, multiplicar):
-    if (multiplicar == True):
-        return a*b
-
-    else:
-        if(b==0):
-            print('Operacion no valida')
-            return 'Operacion no valida'
-
-        else:
-            return a/b
-
-
-
-assert operacion(12,3,True) == 36;
-assert operacion(12,3,False) == 4;
-assert operacion(12,0,False) == 'Operacion no valida';
+    pass
