@@ -23,11 +23,13 @@ def actualizar_persona(id_persona, nombre, nacimiento, dni, altura):
     res = buscar_persona(id_persona)
 
     if res != False:
-        sq = session.query(Persona).filter(Persona.idPersona == id_persona).first()
-        sq.nombre = nombre
-        sq.fechaNacimiento = nacimiento
-        sq.dni = dni
-        sq.altura = altura
+        query = session.query(Persona).filter(Persona.idPersona == id_persona).first()
+
+        query.nombre = nombre
+        query.fechaNacimiento = nacimiento
+        query.dni = dni
+        query.altura = altura
+
         session.commit()
         return True
     else:

@@ -33,8 +33,13 @@ def agregar_peso(idPersona, fecha, peso):
     if res != False:
         result = session.query(PersonaPeso).filter(PersonaPeso.idPersona== idPersona, PersonaPeso.fecha > fecha).all()
         if result == []:
-               oper = PersonaPeso(idPersona =idPersona, fecha = fecha, peso = peso)
-               session.add(oper)
+
+               op = PersonaPeso()
+               op.idPersona = idPersona
+               op.fecha = fecha
+               op.peso = peso
+
+               session.add(op)
                session.commit()
                resultado = session.query(PersonaPeso).order_by(PersonaPeso.id.desc()).first()
                return resultado.id
