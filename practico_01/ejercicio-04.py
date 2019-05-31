@@ -1,6 +1,9 @@
-# Implementar la función conversor, que ingrese desde la consola grados Celsius
-# y los devuelva transformados a Fahrenheit.
+"""Practica1 Ejercicio 3 Alumno: Pablo Uriel Alvarez Grupo 29"""
 
-
+#defino la funcion conversor
 def conversor(grados):
-    pass
+    grados= ((grados*9) / 5)+32
+    return grados
+
+#Verifico la funcion con el assert
+assert conversor(100)==212
