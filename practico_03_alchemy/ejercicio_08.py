@@ -16,13 +16,35 @@
 
 import datetime
 
-from practico_03.ejercicio_02 import agregar_persona
-from practico_03.ejercicio_06 import reset_tabla
-from practico_03.ejercicio_07 import agregar_peso
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 
+Base = declarative_base()
+engine = create_engine('sqlite:///c://Users//Nahuel//Desktop//sqlalchemy_db.db')
+Base.metadata.bind = engine
+DBSession = sessionmaker()
+DBSession.bind = engine
+session = DBSession()
+
+from practico_03_alchemy.ejercicio_02 import agregar_persona
+from practico_03_alchemy.ejercicio_06 import reset_tabla, PersonaPeso
+from practico_03_alchemy.ejercicio_07 import agregar_peso
+from practico_03_alchemy.ejercicio_04 import buscar_persona
 
 def listar_pesos(id_persona):
-    return []
+    res = buscar_persona(id_persona)
+    lista = []
+    if res != False:
+
+        result = session.query(PersonaPeso).filter(PersonaPeso.idPersona == id_persona).all()
+
+        for i in result:
+            aux = i.fecha
+            lista.append(tuple([str(aux), i.peso]))
+        return lista
+    else:
+        return False
 
 
 @reset_tabla
@@ -35,6 +57,9 @@ def pruebas():
         ('2018-05-01', 80),
         ('2018-06-01', 85),
     ]
+
+    prueba = listar_pesos(id_juan)
+    print(prueba)
     assert pesos_juan == pesos_esperados
     # id incorrecto
     assert listar_pesos(200) == False

@@ -9,7 +9,6 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from practico_03_alchemy.ejercicio_01 import reset_tabla
-from practico_03_alchemy.ejercicio_01 import create_conexion
 from practico_03_alchemy.ejercicio_01 import Persona
 
 Base = declarative_base()

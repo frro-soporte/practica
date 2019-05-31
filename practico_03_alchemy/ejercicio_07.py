@@ -9,11 +9,39 @@
 
 import datetime
 
-from practico_03.ejercicio_02 import agregar_persona
-from practico_03.ejercicio_06 import reset_tabla
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+
+Base = declarative_base()
+engine = create_engine('sqlite:///c://Users//Nahuel//Desktop//sqlalchemy_db.db')
+Base.metadata.bind = engine
+DBSession = sessionmaker()
+DBSession.bind = engine
+session = DBSession()
+
+from practico_03_alchemy.ejercicio_02 import agregar_persona
+from practico_03_alchemy.ejercicio_06 import reset_tabla, PersonaPeso
+from practico_03_alchemy.ejercicio_04 import buscar_persona
 
 
-def agregar_peso(id_persona, fecha, peso):
+
+def agregar_peso(idPersona, fecha, peso):
+
+    res = buscar_persona(idPersona)
+
+    if res != False:
+        result = session.query(PersonaPeso).filter(PersonaPeso.idPersona== idPersona, PersonaPeso.fecha > fecha).all()
+        if result == []:
+               oper = PersonaPeso(idPersona =idPersona, fecha = fecha, peso = peso)
+               session.add(oper)
+               session.commit()
+               resultado = session.query(PersonaPeso).order_by(PersonaPeso.id.desc()).first()
+               return resultado.id
+        else:
+              return False
+    else:
+        return False
     pass
 
 
