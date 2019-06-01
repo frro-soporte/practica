@@ -29,7 +29,7 @@ def listar_pesos(id_persona):
         sqlconn = conexion()
         user = sessionUsuario()
         #persPeso = user.query(PersonaPeso).filter_by(idPersonaPeso=id_persona).all()
-        persPeso = user.query(PersonaPeso.Fecha, PersonaPeso.Peso).all()
+        persPeso = user.query(PersonaPeso.fecha, PersonaPeso.peso).all()
         if persPeso != None:
             #for item in persPeso:
              #   pesos = [item.Fecha, item.Peso]

@@ -22,8 +22,8 @@ def agregar_peso(id_persona, fecha, peso):
         if exist_personapeso(id_persona, fecha):
             pp = PersonaPeso()
             pp.idPersona = id_persona
-            pp.Fecha = fecha
-            pp.Peso = peso
+            pp.fecha = fecha
+            pp.peso = peso
             user.add(pp)
             user.commit()
             id = (user.query(PersonaPeso).filter_by(idPersona = id_persona).order_by(PersonaPeso.fecha.desc()).first()).idPeso
@@ -45,7 +45,7 @@ def exist_personapeso(id_persona,fecha):
     if per != None:
         if per.fecha == None:
             return True
-        elif datetime.datetime.strftime(per.Fecha, '%d%m%y') < datetime.datetime.strftime(fecha, '%d%m%y'):
+        elif datetime.datetime.strftime(per.fecha, '%d%m%y') < datetime.datetime.strftime(fecha, '%d%m%y'):
             return True
         else:
             return False

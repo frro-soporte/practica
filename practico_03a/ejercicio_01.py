@@ -29,7 +29,7 @@ def sessionUsuario():
 
 class Persona(base):
     __tablename__='Persona'
-    idPersona = Column(Integer, primary_key=True, onupdate=25)
+    idPersona = Column(Integer, primary_key=True)
     nombre = Column(String(30))
     fechaNacimiento = Column(Date)
     dni = Column(Integer)

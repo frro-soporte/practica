@@ -18,6 +18,7 @@ def actualizar_persona(id_persona, nombre, nacimiento, dni, altura):
                 user = sessionUsuario()
                 per = Persona
                 per = user.query(Persona).filter_by(idPersona = id_persona).first()
+                per.idPersona = id_persona
                 per.nombre = nombre
                 per.fechaNacimiento = nacimiento
                 per.dni = dni
