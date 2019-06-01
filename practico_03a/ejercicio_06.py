@@ -8,22 +8,17 @@
 from sqlalchemy import Table, Column, String, Integer, ForeignKey, Date
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
-from ejercicio_01 import borrar_tabla, crear_tabla, conexion, reset_tabla, Persona, sessionUsuario, base
-#base = declarative_base()
-
-#class PersonaPeso(Base):
-    #__tablename__ = 'personaPeso'
-    #idPeso = Column(Integer, primary_key=True)
-    #fecha = Column(DateTime)
-    #peso = Column(Integer)
-    #idPersona = Column(Integer,ForeignKey('persona.idPersona'))
-    #persona = relationship(Persona,back_populates="pesos")
+from ejercicio_01 import borrar_tabla, crear_tabla, conexion, Persona, sessionUsuario, base
 
 class PersonaPeso(base):
-    __tablename__='PersonaPeso'
-    idPersonaPeso = Column(Integer, primary_key=True, nullable=False)
-    Fecha = Column(Date)
-    Peso = Column(Integer)
+    __tablename__ = 'personaPeso'
+    idPeso = Column(Integer, primary_key=True)
+    fecha = Column(Date)
+    peso = Column(Integer)
+    idPersona = Column(Integer,ForeignKey('Persona.idPersona'))
+    persona = relationship(Persona)
+
+
 
 def crear_tabla_peso():
     base.metadata.create_all(conexion())

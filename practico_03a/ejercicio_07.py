@@ -9,27 +9,26 @@
 
 import datetime
 from sqlalchemy import exc
-from ejercicio_01 import conexion, reset_tabla, Persona, sessionUsuario
+from ejercicio_01 import conexion, Persona, sessionUsuario
 from ejercicio_02 import agregar_persona
 from ejercicio_04 import buscar_persona
 from ejercicio_06 import reset_tabla, PersonaPeso
 
 
 def agregar_peso(id_persona, fecha, peso):
-    sqlconn = conexion()
-    per = buscar_persona(id_persona)
+    conexion()
     user = sessionUsuario()
-    if per != False:
-        if exist_persona(id_persona, fecha):
-            perPeso = PersonaPeso()
-            perPeso.idPersona = id_persona
-            perPeso.Fecha = fecha
-            perPeso.Peso = peso
-            user.add(perPeso)
+    if buscar_persona(id_persona) != False :
+        if exist_personapeso(id_persona, fecha):
+            pp = PersonaPeso()
+            pp.idPersona = id_persona
+            pp.Fecha = fecha
+            pp.Peso = peso
+            user.add(pp)
             user.commit()
-            result = user.query(PersonaPeso).filter_by(idPersonaPeso = id_persona).first()
-            if result != None:
-                return True
+            id = (user.query(PersonaPeso).filter_by(idPersona = id_persona).order_by(PersonaPeso.fecha.desc()).first()).idPeso
+            if id != None:
+                return id
             else:
                 return False
         else:
@@ -38,13 +37,15 @@ def agregar_peso(id_persona, fecha, peso):
         return False
 
 
-def exist_persona(id_persona,fecha):
-    sqlconn = conexion()
+def exist_personapeso(id_persona,fecha):
+    conexion()
     user = sessionUsuario()
-    per = Persona()
-    per = user.query(PersonaPeso).filter_by(idPersonaPeso=id_persona).first()
+    per = PersonaPeso()
+    per = user.query(PersonaPeso).filter_by(idPersona=id_persona).first()
     if per != None:
-        if datetime.datetime.strftime(per.Fecha, '%d%m%y') < datetime.datetime.strftime(fecha, '%d%m%y'):
+        if per.fecha == None:
+            return True
+        elif datetime.datetime.strftime(per.Fecha, '%d%m%y') < datetime.datetime.strftime(fecha, '%d%m%y'):
             return True
         else:
             return False
@@ -53,12 +54,12 @@ def exist_persona(id_persona,fecha):
 
 @reset_tabla
 def pruebas():
-    id_juan = agregar_persona('juan perez', datetime(1988, 5, 15), 32165498, 180)
-    assert agregar_peso(id_juan, datetime(2018, 5, 26), 80) > 0
+    id_juan = agregar_persona('juan perez', datetime.datetime(1988, 5, 15), 32165498, 180)
+    assert agregar_peso(id_juan, datetime.datetime(2018, 5, 26), 80) > 0
     # id incorrecto
-    assert agregar_peso(200, datetime(1988, 5, 15), 80) == False
+    assert agregar_peso(200, datetime.datetime(1988, 5, 15), 80) == False
     # registro previo al 2018-05-26
-    assert agregar_peso(id_juan, datetime(2018, 5, 16), 80) == False
+    assert agregar_peso(id_juan, datetime.datetime(2018, 5, 16), 80) == False
 
 if __name__ == '__main__':
     pruebas()

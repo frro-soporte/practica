@@ -10,21 +10,13 @@ from sqlalchemy import exc
 
 def buscar_persona(id):
     try:
-        conn = conexion()
+        conexion()
         user = sessionUsuario()
-        per = user.query(Persona).filter_by(idPersona = id).first()
-        if per != None:
-            perso = Persona()
-            perso.idPersona = per.idPersona
-            perso.nombre = per.nombre
-            perso.fechaNacimiento = per.fechaNacimiento
-            perso.dni = per.dni
-            perso.altura = per.altura
-            #creo tupla
-            p = tuple()
-            p = (perso.idPersona, perso.nombre, per.fechaNacimiento, perso.dni, perso.altura)
+        select = user.query(Persona).filter(Persona.idPersona == id).all()
 
-            return p
+        if select:
+            p = select[0]
+            return(p.idPersona,p.nombre,p.fechaNacimiento,p.dni,p.altura)
         else:
             return False
 

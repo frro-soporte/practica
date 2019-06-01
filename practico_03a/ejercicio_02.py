@@ -12,6 +12,7 @@ Base = declarative_base()
 
 def agregar_persona(nombre, nacimiento, dni, altura):
     try:
+        conexion()
         per = Persona()
         per.nombre = nombre
         per.fechaNacimiento = nacimiento
