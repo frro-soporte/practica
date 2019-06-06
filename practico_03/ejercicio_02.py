@@ -1,13 +1,28 @@
 # Implementar la funcion agregar_persona, que inserte un registro en la tabla Persona
 # y devuelva los datos ingresados el id del nuevo registro.
 
+import sqlite3
 import datetime
 
-from practico_03.ejercicio_01 import reset_tabla
+
+from ejercicio_01 import borrar_tabla
+from ejercicio_01 import reset_tabla
 
 
+
+borrar_tabla()
 def agregar_persona(nombre, nacimiento, dni, altura):
-    return 0
+    conn = sqlite3.connect('tabla.db')
+    with conn:
+        cur = conn.cursor()
+        sql = '''INSERT INTO tablaPersona (nom, nac, dni, alt) 
+        VALUES (?, ?, ?, ?)
+        '''
+        dat = (nombre, nacimiento, dni, altura)
+        cur.execute(sql, dat)
+        c=cur.lastrowid
+        conn.commit()
+        return c
 
 
 @reset_tabla

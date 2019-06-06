@@ -4,11 +4,22 @@
 # Para obtener la fecha actual, usar el método de clase "now" de la clase datetime (ya importada).
 
 
+from datetime import datetime, date, timedelta
+
+
 class Persona:
 
     # nacimiento es un objeto datetime.datetime
     def __init__(self, nacimiento):
-        pass
+        self.nac = datetime.strptime(nacimiento,"%d %B- %Y")
 
     def edad(self):
-        pass
+        hoy = datetime.now()
+        #print(hoy)
+        #print(self.nac)
+        diferencia = hoy - self.nac
+        print("Edad:", int(float(diferencia.days)/365.2))
+
+j = Persona('11 April- 1996')
+j.edad()
+
