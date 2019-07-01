@@ -21,6 +21,6 @@ class Socio(Base):
     nombre = Column(String(250), nullable=False)
     apellido = Column(String(250), nullable=False)
 
-    # def borrar_tabla(Socio):
-    #  # Crea todas las tablas definidas en los metadatos
-    #  Socio.__table__.drop()
+    def borrar_tabla(Socio):
+     # Crea todas las tablas definidas en los metadatos
+     Socio.__table__.drop()
