@@ -17,7 +17,7 @@ Base = declarative_base()  # Metadatos
 class Persona(Base):
  __tablename__ = 'persona' # ----nombre de la tabla
  # Definimos las columnas de la tabla Persona
- id_persona = Column(Integer, primary_key=True)
+ id_persona = Column(Integer, primary_key=True, autoincrement=True)
  nombre = Column(String(30), nullable=False)
  fecha_nac = Column(DateTime, nullable=False)
  dni = Column(Integer, nullable=False)
