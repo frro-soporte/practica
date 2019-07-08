@@ -1,0 +1,18 @@
+## 1 Ejercicio Hacer un formulario tkinter que es una calculadora, tiene 2 entry para ingresar los valores V1 y V2.
+## Y 4 botones de operaciones para las operaciones respectivas + , - , * , / ,
+## al cliquearlos muestre el resultado de aplicar el operador respectivo en los V1 y V2. 
+
+
+## 2 Ejercicio Hacer un formulario en Tkinter una calculadora que tenga 1 entry y 12 botones para los dígitos 0 al 9
+## y las operaciones + - / * = , que al apretar cada botón vaya agregando al valor que muestra en el entry el carácter 
+## que le corresponde (como se ve imagen) y cuando se aprieta en = pone el resultado de evaluar la cadena entrada. 
+
+
+## 3 Ejercicio Crear un Formulario que usando el control Treeview muestre la una lista con los nombre de
+## Ciudades Argentinas y su código postal (por lo menos 5 ciudades). 
+
+
+## 4. Ejercicio al Formulario del Ejercicio 3 ,  agrege  los siguientes botones 1- un  botón  Alta 
+## que inicia otra venta donde puedo ingresar una ciudad y su código postal.
+## 2 – un botón Baja que borra del listad de ciudades la ciudad que esta selecionada en Treeview.
+## 3 – un botón Modificar . Todos los cambios se deben ver reflejados en la lista que se muestra.
