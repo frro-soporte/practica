@@ -1,9 +1,8 @@
 # Implementar los casos de prueba descriptos.
 
 import unittest
-
 from practico_05.ejercicio_01 import Socio
-from practico_06.capa_negocio import NegocioSocio, LongitudInvalida
+from practico_06.capa_negocio import NegocioSocio, LongitudInvalida, DniRepetido
 
 
 class TestsNegocio(unittest.TestCase):
@@ -29,7 +28,12 @@ class TestsNegocio(unittest.TestCase):
         self.assertEqual(len(self.ns.todos()), 1)
 
     def test_regla_1(self):
-        pass
+        try:
+            socio = Socio(dni=12345678, nombre='Juan', apellido='Perez')
+            exito = self.ns.alta(socio)
+        except:
+            self.assertRaises(DniRepetido, self.ns.regla_1, exito)
+
 
     def test_regla_2_nombre_menor_3(self):
         # valida regla
@@ -41,13 +45,17 @@ class TestsNegocio(unittest.TestCase):
         self.assertRaises(LongitudInvalida, self.ns.regla_2, invalido)
 
     def test_regla_2_nombre_mayor_15(self):
-        pass
+        invalido = Socio(dni=12345678, nombre='Joaquín Ignacio', apellido='Perez')
+        self.assertRaises(LongitudInvalida, self.ns.regla_2, invalido)
 
     def test_regla_2_apellido_menor_3(self):
-        pass
+        invalido = Socio(dni=12345678, nombre='Juan', apellido='Pe')
+        self.assertRaises(LongitudInvalida, self.ns.regla_2, invalido)
 
     def test_regla_2_apellido_mayor_15(self):
-        pass
+        invalido = Socio(dni=12345678, nombre='Juan', apellido='Gonzalez Gonzalez')
+        self.assertRaises(LongitudInvalida, self.ns.regla_2, invalido)
+
 
     def test_regla_3(self):
         pass

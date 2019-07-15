@@ -3,9 +3,8 @@
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-# from practico_05.ejercicio_01 import Base, Socio
-from ejercicio_01 import Base, Socio
-
+from practico_05.ejercicio_01 import Base, Socio
+#from ejercicio_01 import Base, Socio
 
 class DatosSocio(object):
 
@@ -45,8 +44,8 @@ class DatosSocio(object):
             lista = self.session.query(Socio).all()
             for s in lista:
                 list.append((s.dni,s.nombre,s.apellido))
-            if list != []:
-                return list
+
+            return list
         except:
             return list
     
@@ -96,7 +95,6 @@ def pruebas():
     datos = DatosSocio()
     socio = datos.alta(Socio(dni=12345678, nombre='Juan', apellido='Perez'))
     assert socio.id > 0
-
     # # baja
     assert datos.baja(socio.id) == True
     
