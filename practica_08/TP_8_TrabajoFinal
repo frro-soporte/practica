@@ -1,0 +1,24 @@
+Trabajo final para aprobación - Soporte a la Gestión de Datos con  Programación Visual - 2019
+
+Condiciones del trabajo. Hacer un  sistema que cumpla las siguientes condiciones:
+	Que esté programado en Python.
+	Que cumpla la arquitectura de capas.  
+	 
+Para la Capa de Datos se tienen las siguientes condiciones:
+	Que haga uso de una Base de Datos (MySQL, Mongo, SQLite), mediante acceso directo o por medio de un ORM (Alchemy, Django) 
+	Documentación del Modelo del Dominio  
+
+Para la Capa de Negocios se tienen las Siguientes Condiciones
+	Que evalúe por lo menos  una regla de negocio.
+	Test que evalúe que se cumplan las reglas de negocio en los Métodos de la Clase de Negocio 
+
+Interfaz de usuario:
+-	Puede ser de escritorio, con Tkinter, Qt, etc, o
+-	Web, mediante Flask o Django, por ej.
+
+Puntos de Control de Avance del Proyecto: 
+	Agosto 		Narrativa y Abstract. Casos de uso a implementar. 
+	Septiembre 	Modelo de Dominio y Regla Negocio / Prototipo de Acceso a Servicios 
+	Octubre 	Prototipo de Capa Datos / Capa Negocio 
+	Noviembre 	Sistema cumple Requisitos 
+
