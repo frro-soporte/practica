@@ -16,7 +16,6 @@ frro-soporte-2018-07
 
 En las settings del proyecto, se deben agregar los siguientes perfiles como colaboradores:
 
-- Franr (Francisco Rivera)
 - mac3333 (Mario Castagnino)
 - ealuque (Ernesto Luque)
 
