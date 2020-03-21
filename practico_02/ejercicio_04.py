@@ -13,7 +13,8 @@ from datetime import datetime
 
 class Estudiante(Persona):
 
-    def __init__(self, nombre, edad, sexo, peso, altura, carrera, anio, cantidad_materias, cantidad_aprobadas):
+    def __init__(self, nombre: str, edad: int, sexo: str, peso: float, altura: float,
+                 carrera: str, anio: str, cantidad_materias: int, cantidad_aprobadas: int):
         self.carrera = carrera
         self.anio = anio
         self.cantidad_materias = cantidad_materias

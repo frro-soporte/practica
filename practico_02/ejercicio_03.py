@@ -14,7 +14,7 @@ from random import randint
 
 class Persona:
 
-    def __init__(self, nombre, edad, sexo, peso, altura):
+    def __init__(self, nombre: str, edad: int, sexo: str, peso: float, altura: float):
         self.nombre = nombre
         self.edad = edad
         self.sexo = sexo if sexo == "H" or sexo == "M" else ""
