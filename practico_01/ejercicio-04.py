@@ -3,5 +3,9 @@
 
 
 def conversor(grados):
-    a = int(grados) + 32
-    return a
+    celsius = float(grados) * 9/5 + 32
+    return celsius
+
+
+def main():
+    print(conversor(float(input("Ingrese grados celsius: "))))
