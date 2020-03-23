@@ -10,7 +10,6 @@ def mitad(palabra):
         a = a // 2
         pal = palabra[:a]
         return pal
-    else:
-        a = a // 2 + 1
-        pal = palabra[:a]
-        return pal
+    a = a // 2 + 1
+    pal = palabra[:a]
+    return pal
