@@ -4,4 +4,7 @@
 
 # Resolver utilizando listas y el operador in.
 def es_vocal(letra):
-    pass
+    if letra == 'a' or letra == 'e' or letra == 'i' or letra == 'o' or letra == 'u':
+        return True
+    else:
+        return False

@@ -5,4 +5,12 @@
 # hola -> ho
 # verde -> ver
 def mitad(palabra):
-    pass
+    a = int(len(palabra))
+    if a % 2 == 0:
+        a = a // 2
+        pal = palabra[:a]
+        return pal
+    else:
+        a = a // 2 + 1
+        pal = palabra[:a]
+        return pal

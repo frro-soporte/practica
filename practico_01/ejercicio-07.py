@@ -4,4 +4,13 @@
 
 # Resolver sin utilizar lista auxiliar
 def numeros_al_final(lista):
-    pass
+    lista1 = []
+    for i in lista:
+        if type(i) != int:
+            lista1.append(i)
+
+    for i in lista:
+        if type(i) == int:
+            lista1.append(i)
+
+    return lista1

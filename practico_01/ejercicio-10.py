@@ -4,9 +4,19 @@
 
 # se debe implementar utilizando bucles anidados.
 def superposicion_loop(lista_1, lista_2):
-    pass
+    for i in lista_1:
+        for x in lista_2:
+            if i == x:
+                return True
+                break
+    return False
 
 
 # se debe implementar utilizando conjuntos (sets).
 def superposicion_set(lista_1, lista_2):
-    pass
+    set1 = set(lista_1)
+    set2 = set(lista_2)
+    if set1 & set2 == None:
+        return False
+    else:
+        return True

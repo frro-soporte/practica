@@ -3,4 +3,5 @@
 
 
 def conversor(grados):
-    pass
+    a = int(grados) + 32
+    return a
