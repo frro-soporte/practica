@@ -8,7 +8,6 @@ def superposicion_loop(lista_1, lista_2):
         for x in lista_2:
             if i == x:
                 return True
-                break
     return False
 
 
@@ -16,7 +15,11 @@ def superposicion_loop(lista_1, lista_2):
 def superposicion_set(lista_1, lista_2):
     set1 = set(lista_1)
     set2 = set(lista_2)
-    if set1 & set2 == None:
-        return False
-    else:
-        return True
+
+    return set1.intersection(set2) != set()
+
+
+assert (superposicion_loop([1, 2, 3, 4, 5, 6], [6, 7, 8, 9]))
+assert (superposicion_set([1, 2, 3, 4, 5, 6], [6, 7, 8, 9]))
+assert not (superposicion_loop([1, 2, 3, 4, 5], [6, 7, 8, 9]))
+assert not (superposicion_set([1, 2, 3, 4, 5], [6, 7, 8, 9]))
