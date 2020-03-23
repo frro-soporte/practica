@@ -5,4 +5,10 @@
 # Ejemplos: arenera, radar, ojo, oso, salas.
 # Resolver sin utilizar loops (for/while), sino con slicing.
 def es_palindromo(palabra):
-    pass
+    return palabra == palabra[slice(-1, len(palabra) * (-1) - 1, -1)]
+
+
+assert es_palindromo("arenera")
+assert es_palindromo("radar")
+assert es_palindromo("salas")
+assert not es_palindromo("palindromo")
