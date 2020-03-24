@@ -1,7 +1,11 @@
-# 1. Implementar una función max() que tome como argumento dos números y devuelva el mayor de ellos. 
 
+# 1. Implementar una función max() que tome como argumento dos números y devuelva el mayor de ellos.
 
-def maximo(a, b):
+def maximo(a,b):
+    if a > b:
+        return a
+    else:
+         return b
     pass
 
 # si no falla es porque esta bien
