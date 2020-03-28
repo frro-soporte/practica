@@ -15,5 +15,7 @@ class Circulo:
        return math.pi * self.radio * 2
 
 
+a = Circulo(4)
+
 assert a.area() == 50.26548245743669
 assert a.perimetro() == 25.132741228718345

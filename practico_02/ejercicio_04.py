@@ -10,25 +10,29 @@
 from datetime import datetime
 from practico_02.ejercicio_03 import Persona
 
-
+#La funcion main esta comentada para que no interfiera en las herencias
 class Estudiante(Persona):
 
-    def __init__(self,  nombre, edad, sexo, peso, altura, carrera, anio, cantidad_materias, cantidad_aprobadas):
+    def __init__(self, nombre, edad, sexo, peso, altura, carrera, anio, cantidad_materias, cantidad_aprobadas):
         Persona.__init__(self, nombre, edad, sexo, peso, altura)
         self.carrera = carrera
         self.anio = anio
         self.cantidad_materias = cantidad_materias
         self.cantidad_aprobadas = cantidad_aprobadas
 
-
     def avance(self):
-        print("Promedio de la Materia Aprobada: ", round(self.cantidad_aprobadas * 100 / self.cantidad_materias,2))
+        print("Promedio de la Materia Aprobada: ", round(self.cantidad_aprobadas * 100 / self.cantidad_materias, 2))
 
     # implementar usando modulo datetime
     def edad_ingreso(self):
         print("Edad al ingresar a la facu: ", self.edad - (datetime.now().year - self.anio))
 
 
-e = Estudiante("Damian",21,"H",75,1.78,'ISI', 2016, 36, 22)
-e.avance()
-e.edad_ingreso()
+def main():
+    e = Estudiante("Damian", 21, "H", 75, 1.78, 'ISI', 2016, 36, 22)
+    e.print_data()
+    e.avance()
+    e.edad_ingreso()
+
+
+#main()

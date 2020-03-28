@@ -27,4 +27,4 @@ class Persona:
 
 p = Persona('04/01/1999')
 assert p.edad() == 21
-print(p.edad())
+print("La persona tiene", p.edad(), "anios")

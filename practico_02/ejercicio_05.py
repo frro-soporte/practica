@@ -10,6 +10,7 @@ est.append(Estudiante("Roman",21,"H",75,1.50,'IC', 2016, 36, 10))
 est.append(Estudiante("Juan",21,"H",75,1.90,'IC', 2016, 36, 15))
 est.append(Estudiante("Leo",21,"H",75,1.75,'IC', 2016, 36, 25))
 
+
 def organizar_estudiantes(est):
     lista = {}
 

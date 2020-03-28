@@ -7,6 +7,7 @@ def es_primo(numero):
     for i in range (2,numero):
         if numero % i == 0:
             b = False
+            break
     return b
 
 def main():
@@ -15,7 +16,7 @@ def main():
     else:
         print("No es primo")
 
-    if es_primo(10):
+    if es_primo(15):
         print("Es primo")
     else:
         print("No es primo")
