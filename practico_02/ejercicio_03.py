@@ -9,19 +9,29 @@
 # - es_mayor_edad(): indica si es mayor de edad, devuelve un booleano.
 # - print_data(): imprime por pantalla toda la información del objeto.
 # - generar_dni(): genera un número aleatorio de 8 cifras y lo guarda dentro del atributo dni.
-
+from random import randint
 
 class Persona:
 
     def __init__(self, nombre, edad, sexo, peso, altura):
-        pass
-
+        self.nombre = nombre
+        self.edad = edad
+        self.sexo = sexo
+        self.peso = peso
+        self.altura = altura
+        self.dni = self.generar_dni()
     def es_mayor_edad(self):
-        pass
+        if self.edad >= 18:
+            return True
+        else:
+            return False
 
     # llamarlo desde __init__
     def generar_dni(self):
-        pass
+        return (randint(10000000,99999999))
 
     def print_data(self):
-        pass
+        print(self.nombre, self.edad, self.sexo, self.peso, self.altura, self.dni)
+
+#p=Persona('Jorge', 25, 'M', 90, 1.70)
+#p.print_data()
