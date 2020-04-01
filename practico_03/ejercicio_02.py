@@ -9,8 +9,8 @@ from practico_03.ejercicio_01 import reset_tabla
 def agregar_persona(nombre, nacimiento, dni, altura):
     connection = mysql.connector.connect(user="root", password="root", host="localhost", database="soportebd")
     cursor = connection.cursor()
-    cSQL = "INSERT INTO persona (Nombre, FechaNacimiento, DNI, Altura, IdPersona) VALUES (%s, %s, %s, %s, %s)"
-    persona = (nombre, nacimiento, dni, altura, 0)
+    cSQL = "INSERT INTO persona (Nombre, FechaNacimiento, DNI, Altura) VALUES (%s, %s, %s, %s)"
+    persona = (nombre, nacimiento, dni, altura)
     cursor.execute(cSQL, persona)
     connection.commit()
     cselectSQL = "SELECT IdPersona FROM persona WHERE DNI = %s"

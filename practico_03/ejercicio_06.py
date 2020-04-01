@@ -5,6 +5,7 @@
 
 # Implementar la funcion borrar_tabla, que borra la tabla creada anteriormente.
 
+import mysql
 from practico_03.ejercicio_01 import borrar_tabla, crear_tabla
 
 

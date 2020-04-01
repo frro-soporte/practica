@@ -3,12 +3,23 @@
 
 import datetime
 
+import mysql.connector
+
 from practico_03.ejercicio_01 import reset_tabla
 from practico_03.ejercicio_02 import agregar_persona
 
 
 def borrar_persona(id_persona):
-    return False
+    connection = mysql.connector.connect(user="root", password="root", host="localhost", database="soportebd")
+    cursor = connection.cursor()
+    cSQL = "DELETE FROM Persona WHERE IdPersona = %s"
+    cursor.execute(cSQL, (id_persona, ))
+    connection.commit()
+    if cursor.rowcount > 0:
+        return True
+    else:
+        return False
+
 
 
 @reset_tabla
