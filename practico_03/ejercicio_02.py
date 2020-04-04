@@ -2,12 +2,25 @@
 # y devuelva los datos ingresados el id del nuevo registro.
 
 import datetime
+import pymysql
 
-from practico_03.ejercicio_01 import reset_tabla
+from ejercicio_01 import reset_tabla
 
 
 def agregar_persona(nombre, nacimiento, dni, altura):
-    return 0
+    connection=pymysql.connect(
+            host='localhost',
+            user='root',
+            password='lalo123',
+            db='Soportetp3')
+    cursor = connection.cursor()
+    consulta="INSERT INTO persona (Nombre, FechaNacimiento, DNI, Altura) VALUES (%s, %s, %s, %s)"
+    persona=(nombre,nacimiento,dni,altura)
+    cursor.execute(consulta,persona)
+    busca="SELECT IdPersona FROM persona WHERE DNI = %s"
+    cursor.execute(busca,dni)
+    result = cursor.fetchone()
+    return result[0]
 
 
 @reset_tabla
