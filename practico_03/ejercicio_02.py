@@ -17,8 +17,9 @@ def agregar_persona(nombre, nacimiento, dni, altura):
     consulta="INSERT INTO persona (Nombre, FechaNacimiento, DNI, Altura) VALUES (%s, %s, %s, %s)"
     persona=(nombre,nacimiento,dni,altura)
     cursor.execute(consulta,persona)
-    busca="SELECT IdPersona FROM persona WHERE DNI = %s"
-    cursor.execute(busca,dni)
+    connection.commit()
+    sql="SELECT IdPersona FROM persona WHERE DNI = %s"
+    cursor.execute(sql,dni)
     result = cursor.fetchone()
     return result[0]
 
