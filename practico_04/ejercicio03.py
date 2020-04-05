@@ -10,10 +10,10 @@ class Application:
     def __init__(self):
         self.app = Tk()
         self.app.title("Ciudades argentinas")
-        frame = Frame(self.app)
-        frame.grid(column=0, row=0)
+        self.frame = Frame(self.app)
+        self.frame.grid(column=0, row=0)
 
-        self.treeview = ttk.Treeview(frame)
+        self.treeview = ttk.Treeview(self.frame)
         self.treeview["columns"] = "one"
         self.treeview.heading("#0", text="Ciudad")
         self.treeview.heading("one", text="Codigo postal")
