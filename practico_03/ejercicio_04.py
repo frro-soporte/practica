@@ -3,13 +3,28 @@
 # Si no encuentra ningun registro, devuelve False.
 
 import datetime
+import pymysql
 
-from practico_03.ejercicio_01 import reset_tabla
-from practico_03.ejercicio_02 import agregar_persona
+from ejercicio_01 import reset_tabla
+from ejercicio_02 import agregar_persona
 
 
 def buscar_persona(id_persona):
-    return False
+    connection=pymysql.connect(
+            host='localhost',
+            user='root',
+            password='lalo123',
+            db='Soportetp3')
+    cursor = connection.cursor()
+    sql="SELECT * FROM persona WHERE IdPersona = %s"
+    cursor.execute(sql,id_persona)
+    result = cursor.fetchall()
+    if result:
+        return result[0]
+    else:
+        return False
+
+
 
 
 @reset_tabla

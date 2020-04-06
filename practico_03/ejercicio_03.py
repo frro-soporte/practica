@@ -18,7 +18,7 @@ def borrar_persona(id_persona):
     sql="DELETE FROM Persona WHERE IdPersona = %s"
     cursor.execute(sql,id_persona)
     connection.commit()
-    if cursor.rowcount > 0:
+    if cursor.rowcount:
         return True
     else:
         return False

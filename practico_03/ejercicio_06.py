@@ -4,16 +4,30 @@
 # - Peso: Int()
 
 # Implementar la funcion borrar_tabla, que borra la tabla creada anteriormente.
+import pymysql
 
-from practico_03.ejercicio_01 import borrar_tabla, crear_tabla
+from ejercicio_01 import borrar_tabla, crear_tabla
 
 
 def crear_tabla_peso():
-    pass
+    connection=pymysql.connect(
+            host='localhost',
+            user='root',
+            password='lalo123',
+            db='Soportetp3')
+    cursor = connection.cursor()
+    cursor.execute("CREATE TABLE IF NOT EXISTS PersonaPeso (IdPersona INT AUTO_INCREMENT PRIMARY KEY,  Fecha DATE, Peso INT)")
 
 
 def borrar_tabla_peso():
-    pass
+    connection=pymysql.connect(
+            host='localhost',
+            user='root',
+            password='lalo123',
+            db='Soportetp3')
+    cursor = connection.cursor()
+    cursor.execute("DROP TABLE IF EXISTS PersonaPeso")
+
 
 
 # no modificar

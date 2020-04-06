@@ -8,13 +8,34 @@
 # - False en caso de no cumplir con alguna validacion.
 
 import datetime
+import pymysql
 
-from practico_03.ejercicio_02 import agregar_persona
-from practico_03.ejercicio_06 import reset_tabla
+from ejercicio_02 import agregar_persona
+from ejercicio_06 import reset_tabla
+from ejercicio_04 import buscar_persona
 
 
 def agregar_peso(id_persona, fecha, peso):
-    pass
+    connection=pymysql.connect(
+            host='localhost',
+            user='root',
+            password='lalo123',
+            db='Soportetp3')
+    cursor = connection.cursor()
+    results=buscar_persona(id_persona)
+    if results:
+        csql="SELECT * FROM PersonaPeso WHERE  IdPersona = %s AND Fecha > %s"
+        cursor.execute(csql, (id_persona, fecha))
+        result=cursor.fetchone()
+        if result:
+            sql="INSERT INTO PersonaPeso (Fecha,Peso) values (%s,%s)"
+            cursor.execute(sql,fecha,peso)
+            connection.commit()
+            csql1="SELECT * FROM PersonaPeso WHERE IdPersona = %s AND Fecha = %s"
+            cursor.execute(csql1,(id_persona,fecha))
+            peso = cur.fetchone()
+            return peso
+    else: False
 
 
 @reset_tabla
