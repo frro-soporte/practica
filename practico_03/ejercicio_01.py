@@ -10,18 +10,19 @@ import pymysql
 
 
 def crear_tabla():
-    connection=pymysql.connect(
+    connection = pymysql.connect(
             host='localhost',
             user='root',
             password='lalo123',
             db='Soportetp3')
     cursor = connection.cursor()
-    cursor.execute("CREATE TABLE IF NOT EXISTS persona (IdPersona INT AUTO_INCREMENT PRIMARY KEY, Nombre VARCHAR(30), FechaNacimiento DATETIME, DNI INT, Altura DECIMAL)")
+    cursor.execute("CREATE TABLE IF NOT EXISTS persona (IdPersona INT AUTO_INCREMENT PRIMARY KEY, Nombre VARCHAR(30), "
+                   "FechaNacimiento DATE, DNI INT, Altura INT)")
 
 
 
 def borrar_tabla():
-    connection=pymysql.connect(
+    connection = pymysql.connect(
             host='localhost',
             user='root',
             password='lalo123',
