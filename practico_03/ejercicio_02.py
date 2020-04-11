@@ -4,22 +4,22 @@
 import datetime
 import pymysql
 
-from ejercicio_01 import reset_tabla
+from practico_03.ejercicio_01 import reset_tabla
 
 
 def agregar_persona(nombre, nacimiento, dni, altura):
-    connection=pymysql.connect(
-            host='localhost',
-            user='root',
-            password='lalo123',
-            db='Soportetp3')
+    connection = pymysql.connect(
+        host='localhost',
+        user='root',
+        password='lalo123',
+        db='Soportetp3')
     cursor = connection.cursor()
-    consulta="INSERT INTO persona (Nombre, FechaNacimiento, DNI, Altura) VALUES (%s, %s, %s, %s)"
-    persona=(nombre,nacimiento,dni,altura)
-    cursor.execute(consulta,persona)
+    consulta = "INSERT INTO persona (Nombre, FechaNacimiento, DNI, Altura) VALUES (%s, %s, %s, %s)"
+    persona = (nombre, nacimiento, dni, altura)
+    cursor.execute(consulta, persona)
     connection.commit()
-    sql="SELECT IdPersona FROM persona WHERE DNI = %s"
-    cursor.execute(sql,dni)
+    sql = "SELECT IdPersona FROM persona WHERE DNI = %s"
+    cursor.execute(sql, dni)
     result = cursor.fetchone()
     return result[0]
 
@@ -31,5 +31,5 @@ def pruebas():
     assert id_juan > 0
     assert id_marcela > id_juan
 
-if __name__ == '__main__':
-    pruebas()
+
+pruebas()
