@@ -15,14 +15,34 @@
 # - False en caso de no cumplir con alguna validacion.
 
 import datetime
+import pymysql
 
-from practico_03.ejercicio_02 import agregar_persona
-from practico_03.ejercicio_06 import reset_tabla
-from practico_03.ejercicio_07 import agregar_peso
+from ejercicio_02 import agregar_persona
+from ejercicio_06 import reset_tabla
+from ejercicio_07 import agregar_peso
+from ejercicio_04 import buscar_persona
 
 
 def listar_pesos(id_persona):
-    return []
+    if buscar_persona(id_persona):
+        connection=pymysql.connect(
+            host='localhost',
+            user='root',
+            password='lalo123',
+            db='Soportetp3')
+        cursor = connection.cursor()
+        cSQL = "SELECT Fecha, Peso from PersonaPeso WHERE IdPersona = %s"
+        cursor.execute(cSQL, (id_persona, ))
+        results = cursor.fetchall()
+        if results:
+            for result in results:
+                print(result)
+            return results
+
+        return False
+
+    return False
+
 
 
 @reset_tabla

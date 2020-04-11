@@ -16,26 +16,32 @@ from ejercicio_04 import buscar_persona
 
 
 def agregar_peso(id_persona, fecha, peso):
-    connection=pymysql.connect(
+  if buscar_persona(id_persona):
+        connection=pymysql.connect(
             host='localhost',
             user='root',
             password='lalo123',
             db='Soportetp3')
-    cursor = connection.cursor()
-    results=buscar_persona(id_persona)
-    if results:
-        csql="SELECT * FROM PersonaPeso WHERE  IdPersona = %s AND Fecha > %s"
-        cursor.execute(csql, (id_persona, fecha))
-        result=cursor.fetchone()
-        if result:
-            sql="INSERT INTO PersonaPeso (Fecha,Peso) values (%s,%s)"
-            cursor.execute(sql,fecha,peso)
-            connection.commit()
-            csql1="SELECT * FROM PersonaPeso WHERE IdPersona = %s AND Fecha = %s"
-            cursor.execute(csql1,(id_persona,fecha))
-            peso = cur.fetchone()
-            return peso
-    else: False
+        cursor = connection.cursor()
+        cSQL = "SELECT FECHA FROM PersonaPeso WHERE IdPersona = %s"
+        cursor.execute(cSQL, id_persona )
+        results = cursor.fetchall()
+        if results:
+            max_date = results[0][0]
+            for date_array in results:
+                if date_array[0] > max_date:
+                    max_date = date_array[0]
+            if str(fecha) < str(max_date):
+                return False
+
+        cSQL = "INSERT INTO PersonaPeso (IdPersona, Fecha, Peso) VALUES (%s, %s, %s)"
+        cursor.execute(cSQL, (id_persona, fecha, peso))
+        connection.commit()
+        return id_persona
+  else:
+      return False
+
+
 
 
 @reset_tabla
