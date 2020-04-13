@@ -11,10 +11,15 @@ from ejercicio_02 import agregar_persona
 def borrar_persona(id_persona):
     db = sqlite3.connect('mibase')
     cursor = db.cursor()
-    cursor.execute('Select from Persona where IdPersona = ?', id_persona)
-    if cursor.description
-    cursor.execute('Delte from Persona where IdPersona = ?', id_persona)
-
+    id = [id_persona]
+    cursor.execute('Select idPersona from Persona where IdPersona = ?', id)
+    if cursor.fetchall() == []:
+        db.close()
+        return False
+    cursor.execute('Delete from Persona where IdPersona = ?', id)
+    db.commit()
+    db.close()
+    return True
 
 
 @reset_tabla
