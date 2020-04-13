@@ -2,21 +2,18 @@
 # El return es una tupla que contiene sus campos: id, nombre, nacimiento, dni y altura.
 # Si no encuentra ningun registro, devuelve False.
 
-import datetime
+import datetime, sqlite3
 
-from practico_03.ejercicio_01 import reset_tabla
-from practico_03.ejercicio_02 import agregar_persona
-
+db = sqlite3.connect('../db/tp_03.s3db')
 
 def buscar_persona(id_persona):
-    return False
+    cursor = db.cursor()
+    cursor.execute('''select * from personas where idPersona=?''', (id_persona,))
+    returnObject = cursor.fetchone()
+    if not returnObject:
+        return False
+    else:
+        return returnObject
 
-
-@reset_tabla
-def pruebas():
-    juan = buscar_persona(agregar_persona('juan perez', datetime.datetime(1988, 5, 15), 32165498, 180))
-    assert juan == (1, 'juan perez', datetime.datetime(1988, 5, 15), 32165498, 180)
-    assert buscar_persona(12345) is False
-
-if __name__ == '__main__':
-    pruebas()
+assert buscar_persona(5) == False
+assert buscar_persona(1) == (1, 'Ana Domingo', '1991-07-23', 36370135, 175)
