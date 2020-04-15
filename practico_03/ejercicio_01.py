@@ -5,37 +5,20 @@
 # - DNI: Int()
 # - Altura: Int()
 
-import datetime
-import pandas as pd
+import mysql.connector
 
-# Implementar la funcion borrar_tabla, que borra la tabla creada anteriormente.
+mydb = mysql.connector.connect(
+  host="localhost",
+  user="root",
+  passwd="",
+  database="soporte"
+)
+mycursor = mydb.cursor()
 
-index = ["IdPersona", "Nombre", "FechaNacimiento", "DNI", "Altura"]
-columns = {}
-df = pd.DataFrame(index=index, columns=columns)
 def crear_tabla():
-    df = pd.DataFrame(index=index, columns=columns)
-    pass
+  try:
+    mycursor.execute("CREATE TABLE `Persona` ( `IdPersona` INT NOT NULL AUTO_INCREMENT , `Nombre` CHAR(30) NOT NULL , `FechaNacimiento` DATE NOT NULL , `DNI` INT NOT NULL , `Altura` INT NOT NULL , PRIMARY KEY (`IdPersona`))")
+  except mysql.connector.Error as error:
+        print("Error al crear tabla Persona: {}".format(error))
 
-
-def borrar_tabla():
-    df.drop(df.index, inplace=True)
-    pass
-
-def fulfill(): #Completa columna e imprime
-    df = pd.DataFrame(
-        {"Persona": [1, 'Martin', datetime.date(1992, 10, 13), 39120610, 185]},
-        index = index
-    )
-    print(df)
-    pass
-
-# no modificar
-def reset_tabla(func):
-    def func_wrapper():
-        crear_tabla() #Inicializa tabla
-        func() #Ejecuta función
-        borrar_tabla() #Borra la tabla
-    return func_wrapper
-
-reset_tabla(fulfill())
+crear_tabla()
