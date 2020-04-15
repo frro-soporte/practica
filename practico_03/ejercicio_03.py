@@ -11,7 +11,7 @@ from ejercicio_02 import agregar_persona
 def borrar_persona(id_persona):
     db = sqlite3.connect('mibase')
     cursor = db.cursor()
-    id = [id_persona]
+    id = (id_persona,)
     cursor.execute('Select idPersona from Persona where IdPersona = ?', id)
     if cursor.fetchall() == []:
         db.close()
