@@ -6,13 +6,3 @@
 # verde -> ver
 def mitad(palabra):
     pass
-
-    return palabra[0:len(palabra) // 2 if len(palabra) % 2 == 0 else ((len(palabra)//2)+1)]
-    
-
-
-palabraImpar = "hola"
-palabraPar = "verde"
-
-print(mitad(palabraImpar))
-print(mitad(palabraPar))
