@@ -34,6 +34,8 @@ def listar_pesos(id_persona):
         cSQL = "SELECT Fecha, Peso from PersonaPeso WHERE IdPersona = %s"
         cursor.execute(cSQL, (id_persona,))
         results = cursor.fetchall()
+        cursor.close()
+        connection.close()
         if results:
             for result in results:
                 print(result)

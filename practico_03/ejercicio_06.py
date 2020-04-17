@@ -21,6 +21,9 @@ def crear_tabla_peso():
                    "CONSTRAINT `Peso_Persona`"
                    "FOREIGN KEY (`IdPersona`)"
                    "REFERENCES `soportetp3`.`persona` (`idPersona`)ON DELETE NO ACTION ON UPDATE NO ACTION);")
+    connection.commit()
+    cursor.close()
+    connection.close()
 
 
 def borrar_tabla_peso():
@@ -31,6 +34,9 @@ def borrar_tabla_peso():
         db='Soportetp3')
     cursor = connection.cursor()
     cursor.execute("DROP TABLE IF EXISTS PersonaPeso")
+    connection.commit()
+    cursor.close()
+    connection.close()
 
 
 # no modificar

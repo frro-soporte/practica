@@ -37,6 +37,8 @@ def agregar_peso(id_persona, fecha, peso):
         cSQL = "INSERT INTO PersonaPeso (IdPersona, Fecha, Peso) VALUES (%s, %s, %s)"
         cursor.execute(cSQL, (id_persona, fecha, peso))
         connection.commit()
+        cursor.close()
+        connection.close()
         return id_persona
     return False
 

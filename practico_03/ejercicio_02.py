@@ -21,6 +21,8 @@ def agregar_persona(nombre, nacimiento, dni, altura):
     sql = "SELECT IdPersona FROM persona WHERE DNI = %s"
     cursor.execute(sql, dni)
     result = cursor.fetchone()
+    cursor.close()
+    connection.close()
     return result[0]
 
 

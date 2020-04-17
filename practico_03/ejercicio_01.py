@@ -29,6 +29,9 @@ def borrar_tabla():
             db='Soportetp3')
     cursor = connection.cursor()
     cursor.execute("DROP TABLE IF EXISTS persona")
+    connection.commit()
+    cursor.close()
+    connection.close()
 
 
 # no modificar

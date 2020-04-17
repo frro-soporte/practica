@@ -24,6 +24,8 @@ def actualizar_persona(id_persona, nombre, nacimiento, dni, altura):
         persona = (nombre, nacimiento, dni, altura, id_persona)
         cursor.execute(sql1, persona)
         connection.commit()
+        cursor.close()
+        connection.close()
         return True
     return False
 

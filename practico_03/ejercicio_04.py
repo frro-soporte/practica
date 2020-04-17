@@ -19,6 +19,8 @@ def buscar_persona(id_persona):
     sql = "SELECT * FROM persona WHERE IdPersona = %s"
     cursor.execute(sql, id_persona)
     result = cursor.fetchall()
+    cursor.close()
+    connection.close()
     if result:
         return result[0]
     return False
