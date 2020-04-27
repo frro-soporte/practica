@@ -3,12 +3,26 @@
 
 import datetime
 
-from practico_03.ejercicio_01 import reset_tabla
-from practico_03.ejercicio_02 import agregar_persona
+from ejercicio_01 import reset_tabla, mysql, mydb, mycursor
+from ejercicio_02 import agregar_persona
 
 
 def borrar_persona(id_persona):
-    return False
+    try:
+        mycursor = mydb.cursor()
+        mycursor.execute(f"DELETE FROM `persona` WHERE `persona`.`IdPersona` = {id_persona}")
+        mydb.commit()
+        query_result = mycursor.fetchone()
+        if(mycursor.rowcount > 0):
+            return True
+        return False
+    except mysql.connector.Error as error:
+        print(f"Error al eliminar a la persona con id {id_persona}: {error}")
+        return False
+    finally:
+        if (mydb.is_connected()):
+            mycursor.close()
+        pass
 
 
 @reset_tabla

@@ -16,12 +16,28 @@
 
 import datetime
 
-from practico_03.ejercicio_02 import agregar_persona
-from practico_03.ejercicio_06 import reset_tabla
-from practico_03.ejercicio_07 import agregar_peso
+from ejercicio_01 import *
+from ejercicio_02 import agregar_persona
+from ejercicio_04 import buscar_persona
+from ejercicio_06 import reset_tabla
+from ejercicio_07 import agregar_peso
 
 
 def listar_pesos(id_persona):
+    try:
+        mycursor = mydb.cursor()
+        if(buscar_persona(id_persona) == False):
+            return False
+        mycursor.execute(f"SELECT `Fecha`, `Peso` FROM `personapeso` WHERE `personapeso`.`IdPersona` = {id_persona}")
+        myresult = mycursor.fetchall()
+        return myresult
+    except mysql.connector.Error as error:
+        print(f"Error al listar pesos de persona {id_persona}: {format(error)}")
+        return False
+    finally:
+        if (mydb.is_connected()):
+            mycursor.close()
+        pass
     return []
 
 
@@ -31,6 +47,7 @@ def pruebas():
     agregar_peso(id_juan, datetime.datetime(2018, 5, 1), 80)
     agregar_peso(id_juan, datetime.datetime(2018, 6, 1), 85)
     pesos_juan = listar_pesos(id_juan)
+    print(pesos_juan)
     pesos_esperados = [
         ('2018-05-01', 80),
         ('2018-06-01', 85),

@@ -4,12 +4,25 @@
 
 import datetime
 
-from practico_03.ejercicio_01 import reset_tabla
-from practico_03.ejercicio_02 import agregar_persona
+from ejercicio_01 import *
+from ejercicio_02 import agregar_persona
 
 
 def buscar_persona(id_persona):
-    return False
+    try:
+        mycursor = mydb.cursor()
+        mycursor.execute(f"SELECT * FROM `persona` WHERE `persona`.`IdPersona` = {id_persona}")
+        myresult = mycursor.fetchall()
+        for x in myresult:
+            return x
+        return False
+    except mysql.connector.Error as error:
+        print(f"Error al buscar a la persona con id {id_persona}: {error}")
+        return False
+    finally:
+        if (mydb.is_connected()):
+            mycursor.close()
+        pass
 
 
 @reset_tabla

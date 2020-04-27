@@ -9,12 +9,30 @@
 
 import datetime
 
-from practico_03.ejercicio_02 import agregar_persona
-from practico_03.ejercicio_06 import reset_tabla
-
+from ejercicio_01 import *
+from ejercicio_02 import agregar_persona
+from ejercicio_04 import buscar_persona
+from ejercicio_06 import reset_tabla
 
 def agregar_peso(id_persona, fecha, peso):
-    pass
+    try:
+        mycursor = mydb.cursor()
+        if(buscar_persona(id_persona) == False):
+            return False
+        mycursor.execute(f"INSERT INTO `PersonaPeso` (`IdPersona`, `Fecha`, `Peso`) SELECT '{id_persona}', '{fecha}', {peso} WHERE '{fecha}' > IFNULL((SELECT MAX(Fecha) from `PersonaPeso` WHERE `PersonaPeso`.`IdPersona` = {id_persona}), '1900-01-01 00:00:00')")
+        mydb.commit()
+        query_result = mycursor.fetchone()
+    except mysql.connector.Error as error:
+        print("Error al registrar peso de persona: {}".format(error))
+        return False
+    else:
+        if mycursor.rowcount == 0:
+            return False
+        return mycursor.lastrowid
+    finally:
+        if (mydb.is_connected()):
+            mycursor.close()
+        pass
 
 
 @reset_tabla
