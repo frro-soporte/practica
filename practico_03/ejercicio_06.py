@@ -6,7 +6,7 @@
 # Implementar la funcion borrar_tabla, que borra la tabla creada anteriormente.
 
 import sqlite3
-from ejercicio_01 import borrar_tabla, crear_tabla
+from practico_03.ejercicio_01 import borrar_tabla, crear_tabla
 
 def crear_tabla_peso():
    conn = sqlite3.connect('DB_TP3.db')
