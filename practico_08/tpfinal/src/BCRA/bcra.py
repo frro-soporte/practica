@@ -2,26 +2,20 @@ import requests
 import pandas as pd
 import matplotlib.pyplot as plt
 
-#Pedir el token propio en la web: https://estadisticasbcra.com/api/registracion
+# Request Parameters
 token = "BEARER eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MDkyMzA1NDUsInR5cGUiOiJleHRlcm5hbCIsInVzZXIiOiI3dTh6cmlwQGZ4bWFpbC53cyJ9.NHbKjrofmRwy5-8aLScTETzQO81BOUOy8SDl389OHGCUaGoUjcvzbiM-HYIldAr1ffISmmO5_lx0Ugp56yhIUw"
-
-#endopint al que se llama (Ver listado de endpoins)
 endpoint = "base_usd"
-
-#datos para el llamado
-url = "https://api.estadisticasbcra.com/"+endpoint
+baseUrl = "https://api.estadisticasbcra.com/"+endpoint
 headers = {"Authorization": token}
 
-#Llamado
-data_json = requests.get(url, headers=headers).json()
+# Request
+data_json = requests.get(baseUrl + endpoint, headers=headers).json()
 
-#Armamos una tabla con los datos
+# Making a data frame with request data
 data = pd.DataFrame(data_json)
-
-#Le asignamos la fecha como indice
 data.set_index('d', inplace=True, drop=True)
 
-
+# Make a graphic with a data frame
 plt.style.use('dark_background')
 plt.rcParams['figure.figsize'] = [15, 6]
 data.plot()
