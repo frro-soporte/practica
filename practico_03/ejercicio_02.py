@@ -3,7 +3,7 @@
  
 import datetime
 import sqlite3
-from ejercicio_01 import reset_tabla
+from practico_03.ejercicio_01 import reset_tabla
  
  
 def agregar_persona(nombre, nacimiento, dni, altura):
