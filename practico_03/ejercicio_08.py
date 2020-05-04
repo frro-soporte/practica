@@ -28,7 +28,7 @@ def listar_pesos(id_persona):
         mycursor = mydb.cursor()
         if(buscar_persona(id_persona) == False):
             return False
-        mycursor.execute(f"SELECT `Fecha`, `Peso` FROM `personapeso` WHERE `personapeso`.`IdPersona` = {id_persona}")
+        mycursor.execute(f"SELECT DATE_FORMAT(`Fecha`,'%Y-%m-%d'), `Peso` FROM `personapeso` WHERE `personapeso`.`IdPersona` = {id_persona}")
         myresult = mycursor.fetchall()
         return myresult
     except mysql.connector.Error as error:
