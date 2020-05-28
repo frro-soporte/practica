@@ -20,7 +20,7 @@
             position: relative;
             margin: 10% auto;
             width: 1000px;
-            height: 800px;
+            height: 1000px;
             background: #ffffff;
             display: flex;
             flex-direction: column;
@@ -38,7 +38,7 @@
             flex-direction: column;
         }
 
-        #formularioLogin {
+        #formularioSignUp {
             margin-top: 200px;
             align-self: center;
         }
@@ -57,7 +57,7 @@
             font-family: "New York Medium";
         }
 
-        .logInButton {
+        .signUpButton {
             margin-top: 75px;
             width: 320px;
             height: 60px;
@@ -73,23 +73,13 @@
             color: #FFFFFF;
         }
 
-        .signUp {
+        .signIn {
             margin-top: 15px;
             font-style: normal;
             font-weight: normal;
             font-size: 25px;
             color: black;
             margin-left: -75px;
-            text-decoration: none;
-        }
-
-        .lostYourPassword {
-            margin-top: 15px;
-            font-style: normal;
-            font-weight: normal;
-            font-size: 25px;
-            margin-left: 100px;
-            color: black;
             text-decoration: none;
         }
 
@@ -100,14 +90,14 @@
 <div id="background">
     <div id="whiteBox">
         <div id="userIcon"/>
-        <form id="formularioLogin" action="PONER LA PAGINA ACA" method="post">
+        <form id="formularioSignUp" action="PONER LA PAGINA ACA" method="post">
             <input class="inputForm" type="text" name="userName" required="required" placeholder="Username">
             <input class="inputForm" type="password" name="paswword" required="required" placeholder="Password">
-            <input class="logInButton" type="submit" value="LOGIN">
+            <input class="inputForm" type="dni" name="dni" required="required" placeholder="DNI">
+            <input class="signUpButton" type="submit" value="SIGN UP">
         </form>
         <div style="width: 700px; margin-top:30px; display: inline-block; text-align: left">
-            <a class="signUp" href="PONER LA PAGINA ACA">Sign Up</a>
-            <a class="lostYourPassword" href="PONER LA PAGINA ACA">Lost your password?</a>
+            <a class="signIn" href="PONER LA PAGINA ACA">Are you already registered? Sign In</a>
         </div>
     </div>
 </div>
