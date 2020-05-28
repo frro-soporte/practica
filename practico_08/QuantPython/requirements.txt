@@ -1,0 +1,5 @@
+prafastapi
+uvicorn
+jinja2
+yfinance
+sqlalchemy

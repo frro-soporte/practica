@@ -3,8 +3,8 @@ import matplotlib.pyplot as plt
 from pandas_datareader import data
 
 # Set the start and end date
-start_date = '1990-01-01'
-end_date = '2019-02-01'
+start_date = '2020-01-01'
+end_date = '2020-05-04'
 
 # Set the ticker
 ticker = 'AMZN'
