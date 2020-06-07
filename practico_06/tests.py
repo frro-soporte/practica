@@ -29,15 +29,14 @@ class TestsNegocio(unittest.TestCase):
         self.assertEqual(len(self.ns.todos()), 1)
 
     def test_regla_1(self):
-        #valido que socio este registrado
+        # valido que socio este registrado
         valido = Socio(dni=12345678, nombre='Juan', apellido='Perez')
         self.assertTrue(self.ns.regla_1(valido))
 
-        ''' #Nose porque no levanta la excepcion
-        # pruebo dni repetido con mismo socio
+        self.ns.alta(valido)
+
         incorrecto = Socio(dni=12345678, nombre='Juan', apellido='Perez')
         self.assertRaises(DniRepetido, self.ns.regla_1, incorrecto)
-        '''
 
     def test_regla_2_nombre_menor_3(self):
         # valida regla
@@ -81,15 +80,13 @@ class TestsNegocio(unittest.TestCase):
         self.ns.alta(valido)
         self.assertTrue(self.ns.regla_3())
 
-        '''#Levanta la excepcion antes que haga el test yo creo capaz con un while
         # Se añaden mas de 200 socios
-        dni=12345678
+        dni = 12345678
         for y in range(0, 200):
-            dni+=1
-            invalido = Socio(dni=dni ,nombre='Juan', apellido='Perez')
+            dni += 1
+            invalido = Socio(dni=dni, nombre='Juan', apellido='Perez')
             self.ns.alta(invalido)
-        self.assertRaises(MaximoAlcanzado, self.ns.regla_3())
-        '''
+        self.assertRaises(MaximoAlcanzado, self.ns.regla_3)
 
     def test_baja(self):
         # valida baja
@@ -97,14 +94,10 @@ class TestsNegocio(unittest.TestCase):
         self.ns.alta(valido)
         self.assertTrue(self.ns.baja(valido.id))
 
-        '''#le falta hacer el buscar antes de la baja
         # borra un socio que no se ha cargado
-        invalido = Socio(dni = 87654321, nombre='Juan', apellido='Perez')
-        self.ns.baja(invalido)
+        invalido = Socio(dni=87654321, nombre='Juan', apellido='Perez')
         self.assertFalse(self.ns.baja(invalido.id))
-        '''
 
-    '''#Error session nose porque esta similar al buscar_Dni
     def test_buscar(self):
         # valida busqueda
         valido = Socio(dni=12345678, nombre='Juan', apellido='Perez')
@@ -112,9 +105,8 @@ class TestsNegocio(unittest.TestCase):
         self.assertTrue(self.ns.buscar(valido.id))
 
         # Se busca un socio que no se ha cargado
-        invalido = Socio(dni = 87654321, nombre='Giovanni', apellido='Martin')
+        invalido = Socio(dni=87654321, nombre='Giovanni', apellido='Martin')
         self.assertFalse(self.ns.buscar(invalido.id))
-        '''
 
     def test_buscar_dni(self):
         # valida busqueda por dni
@@ -123,24 +115,24 @@ class TestsNegocio(unittest.TestCase):
         self.assertTrue(self.ns.buscar_dni(valido.dni))
 
         # Se busca por dni un socio que no se ha cargado
-        invalido = Socio(dni = 87654321, nombre='Giovanni', apellido='Martin')
+        invalido = Socio(dni=87654321, nombre='Giovanni', apellido='Martin')
         self.assertFalse(self.ns.buscar_dni(invalido.dni))
 
     def test_todos(self):
         # valida devoucion de un arreglo de socios no vacio, cargando uno para asegurar la no nulidad de socios
         valido = Socio(dni=12345678, nombre='Juan', apellido='Perez')
         self.ns.alta(valido)
-        assert self.ns.todos() != None
+        assert self.ns.todos() is not None
 
-    '''#Mismo error de session 
     def test_modificacion(self):
-         # valida modificacion de socio existente
+        # valida modificacion de socio existente
         valido = Socio(dni=12345678, nombre='Juan', apellido='Perez')
         self.ns.alta(valido)
-        valido_mod = Socio(dni=12345679, nombre='Juan', apellido='Perez')
-        self.assertTrue(self.ns.modificacion(valido_mod))
+        valido.dni = 12345679
+        valido.nombre = 'Juan'
+        valido.apellido = 'Perez'
+        self.assertTrue(self.ns.modificacion(valido))
 
         # Se modifica socio inexistente
-        invalido = Socio(dni = 87654321, nombre='Giovani', apellido='Martin')
+        invalido = Socio(dni=17654321, nombre='Giovani', apellido='Martin')
         self.assertFalse(self.ns.modificacion(invalido))
-    '''

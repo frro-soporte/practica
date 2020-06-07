@@ -90,7 +90,9 @@ class DatosSocio(object):
         :type socio: Socio
         :rtype: Socio
         """
-        a_user = self.session.query(Socio).filter(Socio.id == socio.id).one()
+        a_user = self.session.query(Socio).filter(Socio.id == socio.id).one_or_none()
+        if a_user is None:
+            return None
         a_user.dni = socio.dni
         a_user.nombre = socio.nombre
         a_user.apellido = socio.apellido

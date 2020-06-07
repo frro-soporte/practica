@@ -31,7 +31,7 @@ class NegocioSocio(object):
         Devuelve None si no encuentra nada.
         :rtype: Socio
         """
-        return self.session.query(Socio).get(id_socio)
+        return self.datos.buscar(id_socio)
 
     def buscar_dni(self, dni_socio):
         """
@@ -69,14 +69,10 @@ class NegocioSocio(object):
         Devuelve True si el borrado fue exitoso.
         :rtype: bool
         """
-        try:
-            socio_deleted = self.session.query(Socio).get(id_socio)
-            self.session.delete(socio_deleted)
-            self.session.commit()
-        except:
+        socio_deleted = self.buscar(id_socio)
+        if socio_deleted is None:
             return False
-        finally:
-            return True
+        return self.datos.baja(id_socio)
 
     def modificacion(self, socio):
         """
@@ -87,12 +83,9 @@ class NegocioSocio(object):
         :type socio: Socio
         :rtype: bool
         """
-        a_user = self.session.query(Socio).filter(Socio.id == socio.id).one()
-        a_user.dni = socio.dni
-        a_user.nombre = socio.nombre
-        a_user.apellido = socio.apellido
-        self.session.commit()
-        return self.session.query(Socio).get(socio.id)
+        if self.regla_2(socio) and (self.datos.modificacion(socio) is not None):
+            return True
+        return False
 
     def resetTabla(self):
         self.base.drop_all(self.engine)
@@ -135,7 +128,7 @@ class NegocioSocio(object):
         :raise: MaximoAlcanzado
         :return: bool
         """
-        if len(self.datos.todos()) > self.MAX_CARACTERES:
+        if len(self.datos.todos()) > self.MAX_SOCIOS:
             #Excepción de maximo socios
             raise MaximoAlcanzado('ERROR: Se excedio la cantidad maxima de socios')
         else:
