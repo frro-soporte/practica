@@ -3,4 +3,7 @@
 
 # [1,2,3,4] -> 24
 def multiplicar(lista):
-    pass
+    total = 1
+    for i in lista:
+        total = total * i
+    return total

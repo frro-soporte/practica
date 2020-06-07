@@ -6,14 +6,32 @@
 # - Altura: Int()
 
 # Implementar la funcion borrar_tabla, que borra la tabla creada anteriormente.
+import pymysql
 
 
 def crear_tabla():
-    pass
+    connection = pymysql.connect(
+            host='localhost',
+            user='root',
+            password='lalo123',
+            db='Soportetp3')
+    cursor = connection.cursor()
+    cursor.execute("CREATE TABLE IF NOT EXISTS persona (IdPersona INT AUTO_INCREMENT PRIMARY KEY, Nombre VARCHAR(30), "
+                   "FechaNacimiento DATE, DNI INT, Altura INT)")
+
 
 
 def borrar_tabla():
-    pass
+    connection = pymysql.connect(
+            host='localhost',
+            user='root',
+            password='lalo123',
+            db='Soportetp3')
+    cursor = connection.cursor()
+    cursor.execute("DROP TABLE IF EXISTS persona")
+    connection.commit()
+    cursor.close()
+    connection.close()
 
 
 # no modificar
