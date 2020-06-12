@@ -11,9 +11,10 @@ Incluye 2 botones Aceptar y Cancelar .
 
 from tkinter import *
 from practico_06 import capa_negocio
-from tkinter import ttk
+from tkinter import ttk, messagebox
 import tkinter as tk
 from practico_05.ejercicio_01 import Socio
+import easygui as eg
 #import easygui as eg
 
 
@@ -33,6 +34,10 @@ def alta():
     apellido = StringVar()
     Entry(e, textvariable=apellido).grid(column=1, row=2)
 
+    Button(e, text="Cancelar", command=lambda: cancelar()).grid(column=1, row=4)
+    def cancelar():
+        e.destroy()
+
     Button(e, text="Guardar", command=lambda: guardar(dni,nombre,apellido)).grid(column=0, row=4)
 
     def guardar(dni,nombre,apellido):
@@ -44,7 +49,8 @@ def alta():
             tree.insert("", tk.END, text=socio.id, values=(socio.dni, socio.nombre, socio.apellido))
             e.destroy()
         else:
-            eg.msgbox(msg="Completa los datos para continuar",title="Datos faltantes", ok_button="continuar")
+            messagebox.showinfo(message="Datos Invalidos", title="Error")
+            #eg.msgbox(msg="Completa los datos para continuar",title="Datos faltantes", ok_button="continuar")
 
 def baja():
     try:
@@ -54,8 +60,7 @@ def baja():
         socioNegocio.baja(idSocio)
         tree.delete(item)
     except:
-        eg.msgbox(msg="Selecciona un socio para continuar" ,title="Datos faltantes", ok_button="continuar")
-
+        messagebox.showinfo(message="Selecciona un socio para continuar", title="Error")
 
 def modificacion():
     try:
@@ -81,6 +86,10 @@ def modificacion():
         apellido = StringVar()
         apellido.set(socio.apellido)
         Entry(e, textvariable=apellido).grid(column=1, row=2)
+        
+        Button(e, text="Cancelar", command=lambda: cancelar()).grid(column=1, row=4)
+        def cancelar():
+            e.destroy()
 
         Button(e, text="Guardar", command=lambda: guardar(dni, nombre, apellido)).grid(column=0, row=4)
 
@@ -93,13 +102,14 @@ def modificacion():
                 tree.item(item,text=socio.id, values=(socio.dni,socio.nombre,socio.apellido))
                 e.destroy()
             else:
-                eg.msgbox(msg="Completa los datos para continuar", title="Datos faltantes", ok_button="continuar")
-
+                messagebox.showinfo(message="Completa los datos para continuar", title="Error")
 
     except IndexError:
-        eg.msgbox(msg="Selecciona un socio para continuar", title="Datos faltantes", ok_button="continuar")
+        messagebox.showinfo(message="Selecciona un socio para continuar", title="Error")
+        #eg.msgbox(msg="Selecciona un socio para continuar", title="Datos faltantes", ok_button="continuar")
     except:
-        eg.msgbox(msg="Completa los datos para continuar", title="Datos faltantes", ok_button="continuar")
+        messagebox.showinfo(message="Completa los datos para continuar", title="Error")
+        #eg.msgbox(msg="Completa los datos para continuar", title="Datos faltantes", ok_button="continuar")
 
 
 def cargarTabla(tree):
