@@ -83,7 +83,7 @@ class NegocioSocio(object):
         :type socio: Socio
         :rtype: bool
         """
-        if self.regla_2(socio) and (self.datos.modificacion(socio) is not None):
+        if self.regla_1(socio) and self.regla_2(socio) and (self.datos.modificacion(socio) is not None):
             return True
         return False
 
@@ -105,7 +105,7 @@ class NegocioSocio(object):
             return True
         else:
                 #levanto excepcion
-            raise DniRepetido('Dni ya registrado')
+            raise DniRepetido('Error. Dni ya registrado')
 
 
 
