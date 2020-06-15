@@ -14,8 +14,7 @@ from practico_06 import capa_negocio
 from tkinter import ttk, messagebox
 import tkinter as tk
 from practico_05.ejercicio_01 import Socio
-import easygui as eg
-#import easygui as eg
+from practico_06.capa_negocio import *
 
 
 def alta():
@@ -35,6 +34,7 @@ def alta():
     Entry(e, textvariable=apellido).grid(column=1, row=2)
 
     Button(e, text="Cancelar", command=lambda: cancelar()).grid(column=1, row=4)
+
     def cancelar():
         e.destroy()
 
@@ -44,13 +44,24 @@ def alta():
         if (dni.get()>0 and len(nombre.get())>0 and len(apellido.get())>0):
             socio = Socio(dni=dni.get(), nombre=nombre.get(), apellido=apellido.get())
             socioNegocio = capa_negocio.DatosSocio()
-            socioNegocio.alta(socio)
-            socio = socioNegocio.buscar_dni(dni.get())
-            tree.insert("", tk.END, text=socio.id, values=(socio.dni, socio.nombre, socio.apellido))
+            habilitado = True
+            if not capa_negocio.NegocioSocio().regla_1(socio):
+                messagebox.showinfo(message="El dni ya se encuentra en uso", title="regla 1")
+                habilitado = False
+            if not capa_negocio.NegocioSocio().regla_2(socio):
+                messagebox.showinfo(message="Los campos nombre y apellido deben tener entre 3 y 15 caracteres", title="regla 2")
+                habilitado = False
+            if not capa_negocio.NegocioSocio().regla_3():
+                messagebox.showinfo(message="Limite de socios superado", title="regla 3")
+                habilitado = False
+
+            if habilitado:
+                socioNegocio.alta(socio)
+                socio = socioNegocio.buscar_dni(dni.get())
+                tree.insert("", tk.END, text=socio.id, values=(socio.dni, socio.nombre, socio.apellido))
             e.destroy()
         else:
             messagebox.showinfo(message="Datos Invalidos", title="Error")
-            #eg.msgbox(msg="Completa los datos para continuar",title="Datos faltantes", ok_button="continuar")
 
 def baja():
     try:
@@ -70,7 +81,7 @@ def modificacion():
         socio = socioNegocio.buscar(idSocio)
 
         e = Toplevel(root)
-        e.title("Ingresar nuevo Socio")
+        e.title("Modificar Socio")
         e.geometry('250x120')
         Label(e, text="Ingrese el Dni").grid(column=0, row=0)
         dni = IntVar()
@@ -86,7 +97,7 @@ def modificacion():
         apellido = StringVar()
         apellido.set(socio.apellido)
         Entry(e, textvariable=apellido).grid(column=1, row=2)
-        
+
         Button(e, text="Cancelar", command=lambda: cancelar()).grid(column=1, row=4)
         def cancelar():
             e.destroy()
@@ -98,8 +109,20 @@ def modificacion():
                 socio.dni = dni.get()
                 socio.nombre = nombre.get()
                 socio.apellido = apellido.get()
-                socioNegocio.modificacion(socio)
-                tree.item(item,text=socio.id, values=(socio.dni,socio.nombre,socio.apellido))
+                habilitado = True
+                #if not capa_negocio.NegocioSocio().regla_1(socio) and not capa_negocio.NegocioSocio().es_la_misma_persona(socio):
+                    #messagebox.showinfo(message="El dni ya se encuentra en uso", title="regla 1")
+                    #habilitado = False
+                if not capa_negocio.NegocioSocio().regla_2(socio):
+                    messagebox.showinfo(message="Los campos nombre y apellido deben tener entre 3 y 15 caracteres", title="regla 2")
+                    habilitado = False
+                if not capa_negocio.NegocioSocio().regla_3():
+                    messagebox.showinfo(message="Limite de socios superado", title="regla 3")
+                    habilitado = False
+
+                if habilitado:
+                    socioNegocio.modificacion(socio)
+                    tree.item(item,text=socio.id, values=(socio.dni,socio.nombre,socio.apellido))
                 e.destroy()
             else:
                 messagebox.showinfo(message="Completa los datos para continuar", title="Error")
@@ -134,7 +157,7 @@ root = Tk()
 root.resizable(False,False)
 root.geometry('600x200')
 root.configure(bg = 'beige')
-root.title('-- ABM SOCIOS --')
+root.title('ABM SOCIOS')
 ttk.Button(root, text='Salir',command=root.destroy).pack(side=BOTTOM)
 tree = ttk.Treeview()
 cargarTabla(tree)
