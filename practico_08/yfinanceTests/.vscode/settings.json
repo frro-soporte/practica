@@ -1,5 +1,0 @@
-{
-    "python.linting.pylintEnabled": true,
-    "python.linting.enabled": false,
-    "python.pythonPath": "/home/lucas/Desktop/yfinanceTests/venv/bin/python3"
-}
