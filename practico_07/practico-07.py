@@ -111,7 +111,7 @@ class Application:
             else:
                 try:
                     socio = Socio(id=idSocio, dni=dni, apellido=apellido, nombre=nombre)
-                    if self.ns.modificacion(socio):
+                    if self.ns.modificacion(socio, idSocio):
                         self.treeview.insert("", self.treeview.index(idPersona)+1, text=idSocio, values=(nombre, apellido, dni))
                         self.treeview.delete(idPersona)
                         self.limpiarGrilla()
