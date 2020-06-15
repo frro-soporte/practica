@@ -21,7 +21,7 @@ class TestsNegocio(unittest.TestCase):
         self.assertEqual(len(self.ns.todos()), 0)
 
         # ejecuto la logica
-        socio = Socio(dni=12345678, nombre='Juan', apellido='Perez')
+        socio = Socio(dni=12345678, nombre='Juan', apellido='Bonino')
         exito = self.ns.alta(socio)
 
         # post-condiciones: 1 socio registrado
@@ -33,11 +33,11 @@ class TestsNegocio(unittest.TestCase):
 
     def test_regla_2_nombre_menor_3(self):
         # valida regla
-        valido = Socio(dni=12345678, nombre='Juan', apellido='Perez')
+        valido = Socio(dni=12345678, nombre='joaquin', apellido='Suarez')
         self.assertTrue(self.ns.regla_2(valido))
 
         # nombre menor a 3 caracteres
-        invalido = Socio(dni=12345678, nombre='J', apellido='Perez')
+        invalido = Socio(dni=12345678, nombre='J', apellido='Bonino')
         self.assertRaises(LongitudInvalida, self.ns.regla_2, invalido)
 
     def test_regla_2_nombre_mayor_15(self):
