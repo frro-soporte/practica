@@ -126,12 +126,10 @@ class TestsNegocio(unittest.TestCase):
 
     def test_modificacion(self):
         # valida modificacion de socio existente
-        valido = Socio(dni=12345678, nombre='Juan', apellido='Perez')
+        valido = Socio(dni=453545896875, nombre='Juan', apellido='Perez')
         self.ns.alta(valido)
-        valido.dni = 12345679
-        valido.nombre = 'Juan'
-        valido.apellido = 'Perez'
-        self.assertTrue(self.ns.modificacion(valido))
+        nuevo = Socio(id=valido.id, dni=545453598798696, nombre='Juan', apellido='Perez')
+        self.assertTrue(self.ns.modificacion(nuevo))
 
         # Se modifica socio inexistente
         invalido = Socio(dni=17654321, nombre='Giovani', apellido='Martin')

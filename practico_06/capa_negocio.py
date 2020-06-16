@@ -74,7 +74,7 @@ class NegocioSocio(object):
             return False
         return self.datos.baja(id_socio)
 
-    def modificacion(self, socio):
+    def modificacion(self, socio, id=-1):
         """
         Modifica un socio.
         Se debe validar la regla 2 primero.
@@ -83,7 +83,7 @@ class NegocioSocio(object):
         :type socio: Socio
         :rtype: bool
         """
-        if self.regla_2(socio) and (self.datos.modificacion(socio) is not None):
+        if self.regla_1(socio, id) and self.regla_2(socio) and (self.datos.modificacion(socio) is not None):
             return True
         return False
 
@@ -92,7 +92,7 @@ class NegocioSocio(object):
 
 
 
-    def regla_1(self, socio):
+    def regla_1(self, socio, id=-1):
         """
         Validar que el DNI del socio es unico (que ya no este usado).
         :type socio: Socio
@@ -103,9 +103,11 @@ class NegocioSocio(object):
         socio_repe = self.buscar_dni(socio.dni)
         if socio_repe == None:
             return True
-        else:
+        if socio_repe.id != id:
                 #levanto excepcion
-            raise DniRepetido('Dni ya registrado')
+            raise DniRepetido('Error. Dni ya registrado')
+        else:
+            return True
 
 
 
