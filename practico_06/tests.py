@@ -3,7 +3,8 @@
 import unittest
 
 from practico_05.ejercicio_01 import Socio
-from practico_06.capa_negocio import NegocioSocio, LongitudInvalida
+from practico_06.capa_negocio import NegocioSocio, LongitudInvalida, DniRepetido, MaximoAlcanzado
+
 
 
 class TestsNegocio(unittest.TestCase):
@@ -29,7 +30,12 @@ class TestsNegocio(unittest.TestCase):
         self.assertEqual(len(self.ns.todos()), 1)
 
     def test_regla_1(self):
-        pass
+        #valida regla
+        valido = Socio(dni=12345678, nombre='Juan', apellido='Perez')
+        self.assertTrue(self.ns.regla_1(valido))
+        #repite dni
+        invalido = Socio(dni=12345678, nombre='Juan', apellido='Perez')
+        self.assertRaises(DniRepetido, self.ns.regla_1, invalido)
 
     def test_regla_2_nombre_menor_3(self):
         # valida regla
@@ -41,28 +47,91 @@ class TestsNegocio(unittest.TestCase):
         self.assertRaises(LongitudInvalida, self.ns.regla_2, invalido)
 
     def test_regla_2_nombre_mayor_15(self):
-        pass
+         # valida regla
+        valido = Socio(dni=12345678, nombre='Juan', apellido='Perez')
+        self.assertTrue(self.ns.regla_2(valido))
+
+        # nombremayor a 15 caracteres
+        invalido = Socio(dni=12345678, nombre='Juaaaaaaaaaaaaaaaaaaaaaaaaaan', apellido='Perez')
+        self.assertRaises(LongitudInvalida, self.ns.regla_2, invalido)
 
     def test_regla_2_apellido_menor_3(self):
-        pass
+        # valida regla
+        valido = Socio(dni=12345678, nombre='Juan', apellido='Perez')
+        self.assertTrue(self.ns.regla_2(valido))
+
+        # apellido menor a 3 caracteres
+        invalido = Socio(dni=12345678, nombre='Juan', apellido='P')
+        self.assertRaises(LongitudInvalida, self.ns.regla_2, invalido)
 
     def test_regla_2_apellido_mayor_15(self):
-        pass
+        # valida regla
+        valido = Socio(dni=12345678, nombre='Juan', apellido='Perez')
+        self.assertTrue(self.ns.regla_2(valido))
+
+        # apellido mayor a 15 caracteres
+        invalido = Socio(dni=12345678, nombre='Juan', apellido='Peeeeeeeeeeeeeeeeeeeeeeeeeeeerez')
+        self.assertRaises(LongitudInvalida, self.ns.regla_2, invalido)
+
 
     def test_regla_3(self):
-        pass
+        # valida regla
+        valido = Socio(dni=12345678, nombre='Juan', apellido='Perez')
+        self.ns.alta(valido)
+        self.assertTrue(self.ns.regla_3())
+
+        # Se añaden mas de 200 socios
+        for y in range(0, 200):
+            invalido = Socio(nombre='Juan', apellido='Perez')
+            self.ns.alta(invalido)
+        self.assertRaises(MaximoAlcanzado, self.ns.regla_3())
 
     def test_baja(self):
-        pass
+        # valida baja
+        valido = Socio(dni=12345678, nombre='Juan', apellido='Perez')
+        self.ns.alta(valido)
+        self.assertTrue(self.ns.baja(valido.id_socio))
+
+        #borra un socio que no se ha cargado
+        invalido = Socio(dni = 12345789, nombre='Juan', apellido='Perez')
+        self.ns.baja(invalido)
+        self.assertFalse(self.ns.baja(invalido.id_socio))
 
     def test_buscar(self):
-        pass
+        # valida busqueda
+        valido = Socio(dni=12345678, nombre='Juan', apellido='Perez')
+        self.ns.alta(valido)
+        self.assertTrue(self.ns.buscar(valido.id_socio))
+
+        #busca un socio que no se ha cargado
+        invalido = Socio(dni = 41028971, nombre='Bruno', apellido='Caracini')
+        self.assertFalse(self.ns.buscar(invalido.id_socio))
 
     def test_buscar_dni(self):
-        pass
+        # valida busqueda por dni
+        valido = Socio(dni=12345678, nombre='Juan', apellido='Perez')
+        self.ns.alta(valido)
+        self.assertTrue(self.ns.buscar_dni(valido.dni))
+
+        # busca por dni un socio que no se ha cargado
+        invalido = Socio(dni = 41028971, nombre='Bruno', apellido='Caracini')
+        self.assertFalse(self.ns.buscar_dni(invalido.dni))
+
 
     def test_todos(self):
-        pass
+        # valida devolucion de un arreglo de socios no vacio
+        valido = Socio(dni=12345678, nombre='Juan', apellido='Perez')
+        self.ns.alta(valido)
+        assert self.ns.todos() != None
+
 
     def test_modificacion(self):
-        pass
+        # valida modificacion
+        valido = valido = Socio(dni=12345678, nombre='Juan', apellido='Perez')
+        self.ns.alta(valido)
+        valido_mod = Socio(dni=12345679, nombre='Juan', apellido='Perez')
+        self.assertTrue(self.ns.modificacion(valido_mod))
+
+        # modifica socio inexistente
+        invalido = Socio(dni = 41028971, nombre='Bruno Tomas', apellido='Caracini')
+        self.assertFalse(self.ns.modificacion(invalido))
