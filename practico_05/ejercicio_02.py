@@ -3,7 +3,7 @@
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from practico_05.ejercicio_01 import Base, Socio
+from ejercicio_01 import Base, Socio
 
 
 class DatosSocio(object):
@@ -14,39 +14,56 @@ class DatosSocio(object):
         db_session = sessionmaker()
         db_session.bind = engine
         self.session = db_session()
+        Base.metadata.create_all(engine)
 
     def buscar(self, id_socio):
+        soc = self.session.query(Socio).filter(Socio.id == id_socio).first()
+        return soc
         """
         Devuelve la instancia del socio, dado su id.
         Devuelve None si no encuentra nada.
         :rtype: Socio
         """
-        return
 
     def buscar_dni(self, dni_socio):
+        soc = self.session.query(Socio).filter(Socio.dni == dni_socio).first()
+        return soc
+
         """
         Devuelve la instancia del socio, dado su dni.
         Devuelve None si no encuentra nada.
         :rtype: Socio
         """
-        return
 
     def todos(self):
+        soc = self.session.query(Socio).all()
+        return soc
         """
         Devuelve listado de todos los socios en la base de datos.
         :rtype: list
         """
-        return []
+
 
     def borrar_todos(self):
+        try:
+            a = True
+            c = self.session.query(Socio).all()
+            for i in c:
+                self.session.delete(i)
+            self.session.commit()
+        except:
+            a = False
+        return a
         """
         Borra todos los socios de la base de datos.
         Devuelve True si el borrado fue exitoso.
         :rtype: bool
         """
-        return False
+
 
     def alta(self, socio):
+        self.session.add(socio)
+        self.session.commit()
         """
         Devuelve el Socio luego de darlo de alta.
         :type socio: Socio
@@ -55,14 +72,24 @@ class DatosSocio(object):
         return socio
 
     def baja(self, id_socio):
+        try:
+            a = True
+            s = self.session.query(Socio).filter(Socio.id == id_socio).first()
+            self.session.delete(s)
+            self.session.commit
+        except:
+            a = False
+        return a
         """
         Borra el socio especificado por el id.
         Devuelve True si el borrado fue exitoso.
         :rtype: bool
         """
-        return False
 
     def modificacion(self, socio):
+        a = self.session.query(Socio).filter(Socio.id == socio.id).first()
+        self.session.delete(a)
+        self.session.add(socio)
         """
         Guarda un socio con sus datos modificados.
         Devuelve el Socio modificado.
@@ -75,6 +102,12 @@ class DatosSocio(object):
 def pruebas():
     # alta
     datos = DatosSocio()
+
+    # borrar todos
+    datos.borrar_todos()
+    assert len(datos.todos()) == 0
+    assert datos.borrar_todos() == True
+
     socio = datos.alta(Socio(dni=12345678, nombre='Juan', apellido='Perez'))
     assert socio.id > 0
 
@@ -86,7 +119,7 @@ def pruebas():
     assert datos.buscar(socio_2.id) == socio_2
 
     # buscar dni
-    socio_2 = datos.alta(Socio(dni=12345679, nombre='Carlos', apellido='Perez'))
+    # socio_2 = datos.alta(Socio(dni=12345679, nombre='Carlos', apellido='Perez'))
     assert datos.buscar_dni(socio_2.dni) == socio_2
 
     # modificacion
