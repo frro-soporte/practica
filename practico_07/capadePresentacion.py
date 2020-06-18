@@ -2,10 +2,14 @@ import sys
 sys.path.append('c:/Users/ppaez/Documents/Repositorios/frro-soporte-2020-23 - Copy/practico_06')
 sys.path.append('c:/Users/ppaez/Documents/Repositorios/frro-soporte-2020-23 - Copy/practico_05')
 
+from capa_negocio import DniRepetido
+from capa_negocio import LongitudInvalida
+from capa_negocio import MaximoAlcanzado
 from capa_negocio import NegocioSocio
 from ejercicio_01 import Socio
 import tkinter as tk
 from tkinter import ttk
+from tkinter import messagebox
 from tkinter import *
 
 class PresentacionSocio:
@@ -90,9 +94,15 @@ class PresentacionSocio:
         self.socioActual.apellido = self.strvSurname.get()
         self.socioActual.nombre = self.strvName.get()
         self.socioActual.dni = int(self.strvDni.get())
-
-        self.negocio.alta(self.socioActual)
-        self.listarSocios()
+        try:
+            self.negocio.alta(self.socioActual)
+            self.listarSocios()
+        except DniRepetido as dr:
+            messagebox.showinfo("Imposible Crear Usuario", str(dr.args)[2:-3])
+        except LongitudInvalida as li:
+            messagebox.showinfo("Imposible Crear Usuario", str(li.args)[2:-3])
+        except MaximoAlcanzado as ma:
+            messagebox.showinfo("Imposible Crear Usuario", str(ma.args)[2:-3])
 
     def deleteSocio(self):
         curItem = self.trv.item(self.trv.selection())
@@ -146,9 +156,13 @@ class PresentacionSocio:
         self.socioActual.apellido = self.strvSurname.get()
         self.socioActual.nombre = self.strvName.get()
         self.socioActual.dni = int(self.strvDni.get())
-
-        self.negocio.modificacion(self.socioActual)
-        self.listarSocios()
+        try:
+            self.negocio.modificacion(self.socioActual)
+            self.listarSocios()
+        except LongitudInvalida as li:
+            messagebox.showinfo("Imposible Actualizar Usuario", str(li.args)[2:-3])
+  
+        
 
 if __name__ == '__main__':
     SociosWindow = Tk()
