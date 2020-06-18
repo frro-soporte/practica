@@ -13,16 +13,32 @@
 #       ('2018-05-01', 82),
 #   ]
 # - False en caso de no cumplir con alguna validacion.
-
+# (user="root", password="root", host="localhost", database="soportebd"
 import datetime
+import mysql
 
 from practico_03.ejercicio_02 import agregar_persona
 from practico_03.ejercicio_06 import reset_tabla
 from practico_03.ejercicio_07 import agregar_peso
+from practico_03.ejercicio_04 import buscar_persona
 
 
 def listar_pesos(id_persona):
-    return []
+    if buscar_persona(id_persona):
+        connection = mysql.connector.connect(user="root", password="root", host="localhost", database="soportebd")
+        cursor = connection.cursor()
+        cSQL = "SELECT Fecha, Peso from persona_peso WHERE IdPersona = %s"
+        cursor.execute(cSQL, (id_persona, ))
+        results = cursor.fetchall()
+        if results !=None:
+            return results
+        else:
+            return False
+    else:
+        return False
+
+
+
 
 
 @reset_tabla
