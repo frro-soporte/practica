@@ -1,11 +1,14 @@
 # Implementar los metodos de la capa de negocio de socios.
 
-from practico_05.ejercicio_01 import Socio
-from practico_05.ejercicio_02 import DatosSocio
+from ..practico_05.ejercicio_01 import Socio
+from ..practico_05.ejercicio_02 import DatosSocio
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, Integer, String
 
 
 class DniRepetido(Exception):
-    pass
+    print("".format(Exception+"  - El DNI ya se encuentra ingresado para otro cliente, verifique."))
+    return None
 
 
 class LongitudInvalida(Exception):
@@ -26,29 +29,39 @@ class NegocioSocio(object):
         self.datos = DatosSocio()
 
     def buscar(self, id_socio):
+        socio = datos.buscar(id_socio)
         """
         Devuelve la instancia del socio, dado su id.
         Devuelve None si no encuentra nada.
         :rtype: Socio
         """
-        return
+        return socio
 
     def buscar_dni(self, dni_socio):
+        socio = datos.buscar_dni(dni_socio)
         """
         Devuelve la instancia del socio, dado su dni.
         Devuelve None si no encuentra nada.
         :rtype: Socio
         """
-        return
+        return socio
 
     def todos(self):
+        socios_lista = datos.todos()
         """
         Devuelve listado de todos los socios.
         :rtype: list
         """
-        return []
+        return socios_lista
 
     def alta(self, socio):
+        if not regla_1(socio):
+            return False
+        if not regla_2(socio):
+            return False
+        if not regla_3(socio):
+            return False
+
         """
         Da de alta un socio.
         Se deben validar las 3 reglas de negocio primero.
@@ -57,7 +70,7 @@ class NegocioSocio(object):
         :type socio: Socio
         :rtype: bool
         """
-        return False
+        return True
 
     def baja(self, id_socio):
         """
@@ -79,13 +92,20 @@ class NegocioSocio(object):
         return False
 
     def regla_1(self, socio):
+        dni = socio.dni
+        try:
+            socio = datos.buscar_dni(dni)
+            if socio is not None:
+                raise DniRepetido(e)
+                return False
+
         """
         Validar que el DNI del socio es unico (que ya no este usado).
         :type socio: Socio
         :raise: DniRepetido
         :return: bool
         """
-        return False
+        return True
 
     def regla_2(self, socio):
         """
