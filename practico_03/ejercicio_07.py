@@ -21,12 +21,16 @@ def agregar_peso(id_persona, fecha, peso):
     if buscar_persona(id_persona):
         connection = mysql.connector.connect(user="root", password="root", host="localhost", database="soportebd")
         cursor = connection.cursor()
-        cSQL = "SELECT * FROM PERSONA WHERE IdPersona = %s"
+        cSQL: str = "SELECT * FROM PERSONA WHERE IdPersona = %s"
         cursor.execute(cSQL, (id_persona, ))
         results = cursor.fetchall()
         if results != None:
-
-
+            max_date = results[0][0]
+            for date_array in results:
+                if date_array[0] > max_date:
+                    max_date = date_array[0]
+                if fecha < max_date:
+                    return False
         cSQL = "INSERT INTO persona_peso (IdPersona, Peso, Fecha) VALUES (%s, %s, %s)"
         cursor.execute(cSQL, (id_persona, peso, fecha))
         connection.commit()
