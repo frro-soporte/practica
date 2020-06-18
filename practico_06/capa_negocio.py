@@ -69,7 +69,11 @@ class NegocioSocio(object):
         Devuelve True si el borrado fue exitoso.
         :rtype: bool
         """
-        return self.datos.baja(id_socio)
+        if  self.buscar(id_socio) is not None:
+            return True
+        else:
+            return False
+
 
     def modificacion(self, socio):
         """
@@ -80,11 +84,11 @@ class NegocioSocio(object):
         :type socio: Socio
         :rtype: bool
         """
-        if (self.regla_2(socio) == True):
-            self.datos.modificacion(socio)
+
+        if (self.regla_2(socio) == True and self.datos.modificacion(socio) is not None):
             return True
         else:
-            return None
+            return False
 
     def regla_1(self, socio):
         """
@@ -97,7 +101,7 @@ class NegocioSocio(object):
         if socio_repetido == None:
             return True
         else:
-            raise DniRepetido('El dni ya se encuentra registrado')
+            raise DniRepetido('DNI Repetido')
 
     def regla_2(self, socio):
         """
@@ -106,11 +110,9 @@ class NegocioSocio(object):
         :raise: LongitudInvalida
         :return: bool
         """
-        if (len(socio.nombre) < self.MIN_CARACTERES or len(socio.nombre)> 15):
-            #Excepcion de min caracteres nombre
+        if (len(socio.nombre) < 3 or len(socio.nombre)> 15):
             raise LongitudInvalida('Error en la longitud del nombre, debe tener entre 3 y 15 caracteres.')
-        elif (len(socio.apellido) < self.MIN_CARACTERES or len(socio.apellido)> 15):
-            #Excepcion de min caracteres apellido
+        elif (len(socio.apellido) < 3 or len(socio.apellido)> 15):
             raise LongitudInvalida('Error en la longitud del apellido, debe tener entre 3 y 15 caracteres.')
         else:
             return True
@@ -121,9 +123,8 @@ class NegocioSocio(object):
         :raise: MaximoAlcanzado
         :return: bool
         """
-        if len(self.datos.todos()) > self.MAX_SOCIOS:
-            #Excepción de maximo socios
-            raise MaximoAlcanzado('Error: Se ha alcanzado el maximo de socios')
+        if len(self.datos.todos()) > 200:
+            raise MaximoAlcanzado('Se ha alcanzado el maximo de socios')
         else:
             return True
 
