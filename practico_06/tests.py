@@ -2,8 +2,8 @@
 
 import unittest
 
-from practico_05.ejercicio_01 import Socio
-from practico_06.capa_negocio import NegocioSocio, LongitudInvalida
+from ejercicio_01 import Socio
+from capa_negocio import NegocioSocio, LongitudInvalida, DniRepetido
 
 
 class TestsNegocio(unittest.TestCase):
@@ -29,7 +29,15 @@ class TestsNegocio(unittest.TestCase):
         self.assertEqual(len(self.ns.todos()), 1)
 
     def test_regla_1(self):
-        pass
+        socio = Socio(dni=12345678, nombre='Juan', apellido='Perez')
+        self.ns.alta(socio)
+
+        invalido = Socio(dni=12345678, nombre='Juan', apellido='Perez')
+
+        self.assertRaises(DniRepetido, self.ns.regla_1, invalido)
+        valido = Socio(dni=20402685, nombre='Juan', apellido='Perez')
+
+        self.assertTrue(self.ns.regla_1(valido))
 
     def test_regla_2_nombre_menor_3(self):
         # valida regla
@@ -66,3 +74,5 @@ class TestsNegocio(unittest.TestCase):
 
     def test_modificacion(self):
         pass
+
+unittest.main()
