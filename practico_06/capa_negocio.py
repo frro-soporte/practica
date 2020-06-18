@@ -7,16 +7,18 @@ from sqlalchemy import Column, Integer, String
 
 
 class DniRepetido(Exception):
-    print("".format(Exception+"  - El DNI ya se encuentra ingresado para otro cliente, verifique."))
+    print("".format(Exception +"  - El DNI ya se encuentra ingresado para otro socio, verifique."))
     return None
 
 
 class LongitudInvalida(Exception):
-    pass
+    print("".format(Exception +"  - El nombre y/o el apellido del socio tienen una longitud inválida, la misma debe estar comprendida entre" +  MIN_CARACTERES + " y " + MAX_CARACTERES))
+    return None
 
 
 class MaximoAlcanzado(Exception):
-    pass
+    print("".format(Exception +"  - Se ha alcanzado el máximo de socios que pueden darse de alta."))
+    return None
 
 
 class NegocioSocio(object):
@@ -62,6 +64,11 @@ class NegocioSocio(object):
         if not regla_3(socio):
             return False
 
+        try:
+            datos.alta(socio)
+        except:
+            print("Error inesperado " + e)
+
         """
         Da de alta un socio.
         Se deben validar las 3 reglas de negocio primero.
@@ -73,6 +80,8 @@ class NegocioSocio(object):
         return True
 
     def baja(self, id_socio):
+        if datos.baja(id_socio):
+            return True
         """
         Borra el socio especificado por el id.
         Devuelve True si el borrado fue exitoso.
@@ -81,6 +90,14 @@ class NegocioSocio(object):
         return False
 
     def modificacion(self, socio):
+        try:
+            if regla_2(socio):
+                if datos.modificacion(socio):
+                    return True
+            else:
+                raise LongitudInvalida(e)
+        finally:
+
         """
         Modifica un socio.
         Se debe validar la regla 2 primero.
@@ -89,7 +106,7 @@ class NegocioSocio(object):
         :type socio: Socio
         :rtype: bool
         """
-        return False
+            return False
 
     def regla_1(self, socio):
         dni = socio.dni
@@ -98,16 +115,23 @@ class NegocioSocio(object):
             if socio is not None:
                 raise DniRepetido(e)
                 return False
-
+            else:
+                return True
         """
         Validar que el DNI del socio es unico (que ya no este usado).
         :type socio: Socio
         :raise: DniRepetido
         :return: bool
         """
-        return True
 
     def regla_2(self, socio):
+        nombre = socio.nombre
+        try:
+            if len(socio.nombre) > MIN_CARACTERES and len(socio.nombre) < MAX_CARACTERES:
+                return True
+            if len(socio.apellido) > MIN_CARACTERES and len(socio.apellido) < MAX_CARACTERES:
+                return True
+            raise LongitudInvalida(e)
         """
         Validar que el nombre y el apellido del socio cuenten con mas de 3 caracteres pero menos de 15.
         :type socio: Socio
@@ -117,9 +141,14 @@ class NegocioSocio(object):
         return False
 
     def regla_3(self):
+        socios = todos()
+        try:
+            if len(socios) > MAX_SOCIOS:
+                raise MaximoAlcanzado(e)
+                return False
         """
         Validar que no se esta excediendo la cantidad maxima de socios.
         :raise: MaximoAlcanzado
         :return: bool
         """
-        return False
+        return True
