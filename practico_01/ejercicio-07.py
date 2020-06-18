@@ -4,4 +4,13 @@
 
 # Resolver sin utilizar lista auxiliar
 def numeros_al_final(lista):
-    pass
+    lista.reverse()
+    return lista
+
+
+def main():
+    li = [1, 2, 3, 4, 5, 6, 7, 8]
+    print(numeros_al_final(li))
+
+
+main()

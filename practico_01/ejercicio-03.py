@@ -5,4 +5,17 @@
 
 
 def operacion(a, b, multiplicar):
-    pass
+    if multiplicar:
+        return a * b
+    else:
+        return a / b
+
+bool = True
+a=1
+b=2
+
+#assert operacion(a, b, bool)
+print (operacion(a, b, bool))
+
+
+
