@@ -2,8 +2,8 @@
 
 import unittest
 
-from ejercicio_01 import Socio
-from capa_negocio import NegocioSocio, LongitudInvalida, DniRepetido
+from practico_05.ejercicio_01 import Socio
+from practico_06.capa_negocio import NegocioSocio, LongitudInvalida, DniRepetido, MaximoAlcanzado
 
 
 class TestsNegocio(unittest.TestCase):
@@ -29,18 +29,20 @@ class TestsNegocio(unittest.TestCase):
         self.assertEqual(len(self.ns.todos()), 1)
 
     def test_regla_1(self):
+        #Regla 1: no puede haber dos socios con el mismo DNI
         socio = Socio(dni=12345678, nombre='Juan', apellido='Perez')
         self.ns.alta(socio)
 
+        #DNI repetido
         invalido = Socio(dni=12345678, nombre='Juan', apellido='Perez')
-
         self.assertRaises(DniRepetido, self.ns.regla_1, invalido)
-        valido = Socio(dni=20402685, nombre='Juan', apellido='Perez')
 
+        #DNI no repetido
+        valido = Socio(dni=20402685, nombre='Juan', apellido='Perez')
         self.assertTrue(self.ns.regla_1(valido))
 
     def test_regla_2_nombre_menor_3(self):
-        # valida regla
+        # Regla 2: nombre mayor a 3 caracteres
         valido = Socio(dni=12345678, nombre='Juan', apellido='Perez')
         self.assertTrue(self.ns.regla_2(valido))
 
@@ -49,30 +51,93 @@ class TestsNegocio(unittest.TestCase):
         self.assertRaises(LongitudInvalida, self.ns.regla_2, invalido)
 
     def test_regla_2_nombre_mayor_15(self):
-        pass
+        #Regla 2: nombre menor a 15 caracteres
+        valido = Socio(dni=36370135, nombre='Ana', apellido='Domingo')
+        self.assertTrue(self.ns.regla_2(valido))
+
+        #Nombre mayor a 15 caracteres
+        invalido = Socio(dni=36370135, nombre='HolaMeLlamoAnaClara', apellido='Domingo')
+        self.assertRaises(LongitudInvalida, self.ns.regla_2, invalido)
 
     def test_regla_2_apellido_menor_3(self):
-        pass
+        #Regla 2: apellido mayor a 3 caracteres
+        valido = Socio(dni=36370135, nombre='Ana', apellido='Domingo')
+        self.assertTrue(self.ns.regla_2(valido))
+
+        #Apellido menor a 3 caracteres
+        invalido = Socio(dni=36370135, nombre='Ana', apellido='Ba')
+        self.assertRaises(LongitudInvalida, self.ns.regla_2, invalido)
 
     def test_regla_2_apellido_mayor_15(self):
-        pass
+         #Regla 2: apellido menor a 15 caracteres
+        valido = Socio(dni=23111111, nombre='Luciano', apellido='Gorza')
+        self.assertTrue(self.ns.regla_2(valido))
+
+        #Apellido mayor a 15 caracteres
+        invalido = Socio(dni=231111111, nombre='Luciano', apellido='Este Es Un Apellido Muy Largo')
+        self.assertRaises(LongitudInvalida, self.ns.regla_2, invalido)
 
     def test_regla_3(self):
-        pass
+        #Regla  3: no puede excederse la cantidad máxima de socios
+        socio = Socio(dni=36370135, name='Ana', apellido='Domingo')
+        self.assertRaises(MaximoAlcanzado, self.ns.regla_3, socio)
 
     def test_baja(self):
-        pass
+        # pre-condiciones: tener un socio cargado
+        socio = Socio(dni=12345678, nombre='Juan', apellido='Perez')
+        self.ns.alta(socio)
+
+        # ejecuto la lógica
+        resultado = self.ns.baja(1)
+
+        # post-condiciones: el socio fue dado de baja en la base de datos
+        self.assertTrue(resultado)
+        self.assertEqual(len(self.ns.todos()), 0)
 
     def test_buscar(self):
-        pass
+        # pre-condiciones: tener un socio cargado
+        socio = Socio(dni=12345678, nombre='Juan', apellido='Perez')
+        self.ns.alta(socio)
+
+        # ejecuto la lógica
+        resultado = self.ns.buscar(1)
+
+        # post-condiciones: se encontró al socio cuyo id se ingresó
+        self.assertEqual(socio.dni, resultado.dni)
 
     def test_buscar_dni(self):
-        pass
+        # pre-condiciones: tener un socio cargado
+        socio = Socio(dni=12345678, nombre='Juan', apellido='Perez')
+        self.ns.alta(socio)
+
+        # ejecuto la lógica
+        resultado = self.ns.buscar_dni(12345678)
+
+        # post-condiciones: se encontró al socio cuyo dni se ingresó
+        self.assertEqual(socio.dni, resultado.dni)
 
     def test_todos(self):
-        pass
+        # pre-condiciones: tener al menos un socio cargado
+        socio = Socio(dni=12345678, nombre='Juan', apellido='Perez')
+        self.ns.alta(socio)
+
+        # ejecuto la lógica
+        resultado = self.ns.todos()
+
+        # post-condiciones: devuelve la cantidad de socios ingresados
+        self.assertEqual(len(resultado), 1)
 
     def test_modificacion(self):
-        pass
+        # pre-condiciones: tener un socio cargado
+        socio = Socio(dni=12345678, nombre='Juan', apellido='Perez')
+        self.ns.alta(socio)
+        socio_modificado = self.ns.datos.buscar_dni(12345678)
+        socio_modificado.nombre = 'José'
+
+        # ejecuto la lógica
+        resultado = self.ns.modificacion(socio_modificado)
+
+        # post-condiciones: se encontró al socio cuyo dni se ingresó
+        self.assertTrue(resultado)
 
 unittest.main()

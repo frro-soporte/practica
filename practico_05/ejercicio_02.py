@@ -88,15 +88,18 @@ class DatosSocio(object):
 
     def modificacion(self, socio):
         a = self.session.query(Socio).filter(Socio.id == socio.id).first()
-        self.session.delete(a)
-        self.session.add(socio)
+        a.dni = socio.dni
+        a.nombre = socio.nombre
+        a.apellido = socio.apellido
+        self.session.commit
+        a = self.session.query(Socio).filter(Socio.id == socio.id).first()
         """
         Guarda un socio con sus datos modificados.
         Devuelve el Socio modificado.
         :type socio: Socio
         :rtype: Socio
         """
-        return socio
+        return a
 
 
 def pruebas():
