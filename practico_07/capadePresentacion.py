@@ -23,7 +23,7 @@ class PresentacionSocio:
 
     def Socios(self):  
 
-        frameBtn = tk.Frame(SociosWindow)
+        frameBtn = tk.Frame(self.SociosDesktop)
         frameBtn.grid(row=0, column=0, columnspan=3, pady=20) 
 
         btnAgregar = tk.Button(frameBtn, text="Agregar", command=self.newSocio)
@@ -37,8 +37,8 @@ class PresentacionSocio:
         
         frameBtn.pack(side = TOP) 
 
-        self.trv= ttk.Treeview(SociosWindow)
-        self.trv = ttk.Treeview(SociosWindow, columns=("surname", "name", "dni"))
+        self.trv= ttk.Treeview(self.SociosDesktop)
+        self.trv = ttk.Treeview(self.SociosDesktop, columns=("surname", "name", "dni"))
         self.trv.heading("#0", text="ID")
         self.trv.heading("surname", text="Apellido")
         self.trv.heading("name", text="Nombre")
@@ -56,7 +56,8 @@ class PresentacionSocio:
     
 
     def newSocio(self):
-        self.new = tk.Toplevel(SociosWindow)
+        self.new = tk.Toplevel(self.SociosDesktop)
+        self.new.grab_set()
 
         frame = LabelFrame(self.new, text="Ingresar Nuevo Socio")
         frame.grid(row=0, column=0, columnspan=3, pady=20)
@@ -102,11 +103,11 @@ class PresentacionSocio:
         except ValueError :
             messagebox.showinfo("Imposible Crear Usuario", "El DNI solo debe contener digitos numericos")
         except DniRepetido as dr:
-            messagebox.showinfo("Imposible Crear Usuario", str(dr.args)[2:-3])
+            messagebox.showinfo("Imposible Crear Usuario", dr.args[0])
         except LongitudInvalida as li:
-            messagebox.showinfo("Imposible Crear Usuario", str(li.args)[2:-3])
+            messagebox.showinfo("Imposible Crear Usuario", li.args[0])
         except MaximoAlcanzado as ma:
-            messagebox.showinfo("Imposible Crear Usuario", str(ma.args)[2:-3])
+            messagebox.showinfo("Imposible Crear Usuario", ma.args[0])
 
     def deleteSocio(self):
         curItem = self.trv.item(self.trv.selection())
@@ -122,7 +123,8 @@ class PresentacionSocio:
             id = int(curItem["text"])
             self.socioActual = self.negocio.buscar(id)
 
-            self.new = tk.Toplevel(SociosWindow)
+            self.new = tk.Toplevel(self.SociosDesktop)
+            self.new.grab_set()
 
             frame = LabelFrame(self.new, text="Modificar Socio")
             frame.grid(row=0, column=0, columnspan=3, pady=20)
@@ -172,7 +174,7 @@ class PresentacionSocio:
         except ValueError :
             messagebox.showinfo("Imposible Crear Usuario", "El DNI solo debe contener digitos numericos")
         except LongitudInvalida as li:
-            messagebox.showinfo("Imposible Actualizar Usuario", str(li.args)[2:-3])
+            messagebox.showinfo("Imposible Actualizar Usuario", li.args[0])
   
         
 
