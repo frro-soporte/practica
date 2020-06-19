@@ -1,25 +1,19 @@
 # Implementar los metodos de la capa de negocio de socios.
 
-from ejercicio_01 import Socio
-from ejercicio_02 import DatosSocio
+from practico_05.ejercicio_01 import Socio
+from practico_05.ejercicio_02 import DatosSocio
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String
 
 
 class DniRepetido(Exception):
-    # print("".format(Exception +"  - El DNI ya se encuentra ingresado para otro socio, verifique."))
     pass
-
 
 class LongitudInvalida(Exception):
-    # print("".format(Exception +"  - El nombre y/o el apellido del socio tienen una longitud inválida, la misma debe estar comprendida entre" +  MIN_CARACTERES + " y " + MAX_CARACTERES))
     pass
-
 
 class MaximoAlcanzado(Exception):
-    # print("".format(Exception +"  - Se ha alcanzado el máximo de socios que pueden darse de alta."))
     pass
-
 
 class NegocioSocio(object):
 
@@ -57,17 +51,19 @@ class NegocioSocio(object):
         return socios_lista
 
     def alta(self, socio):
-        if not self.regla_1(socio):
-            return False
-        if not self.regla_2(socio):
-            return False
-        if not self.regla_3():
+        try: 
+            self.regla_1(socio)
+            self.regla_2(socio)
+            self.regla_3()
+        except Exception as err:
+            print('Hubo un error: ', err.args)
             return False
 
         try:
             self.datos.alta(socio)
-        except:
-            print("Error inesperado " + e)
+        except Exception as err:
+            print("Error: ", err)
+            return False
 
         """
         Da de alta un socio.
@@ -80,74 +76,70 @@ class NegocioSocio(object):
         return True
 
     def baja(self, id_socio):
-        if datos.baja(id_socio):
-            return True
-        """
-        Borra el socio especificado por el id.
-        Devuelve True si el borrado fue exitoso.
-        :rtype: bool
-        """
-        return False
+        return self.datos.baja(id_socio)
+    """
+    Borra el socio especificado por el id.
+    Devuelve True si el borrado fue exitoso.
+    :rtype: bool
+    """
 
     def modificacion(self, socio):
         try:
-            if regla_2(socio):
-                if datos.modificacion(socio):
+            if self.regla_2(socio):
+                if self.datos.modificacion(socio):
                     return True
-            else:
-                raise LongitudInvalida
-        except:
-            return False
+                else:
+                    return False
+        except Exception as err:
+            print('Error: ', err.args)
+        return False
 
-        """
-        Modifica un socio.
-        Se debe validar la regla 2 primero.
-        Si no valida, levantar la excepcion correspondiente.
-        Devuelve True si la modificacion fue exitosa.
-        :type socio: Socio
-        :rtype: bool
-        """
-
+    """
+    Modifica un socio.
+    Se debe validar la regla 2 primero.
+    Si no valida, levantar la excepcion correspondiente.
+    Devuelve True si la modificacion fue exitosa.
+    :type socio: Socio
+    :rtype: bool
+    """
 
     def regla_1(self, socio):
         dni = socio.dni
         socio = self.datos.buscar_dni(dni)
-        if socio is not None:
-            raise DniRepetido
-            return False
-        else:
+        if socio is None:
             return True
-        """
-        Validar que el DNI del socio es unico (que ya no este usado).
-        :type socio: Socio
-        :raise: DniRepetido
-        :return: bool
-        """
+        else:
+            raise DniRepetido('El DNI ingresado ya se encuentra registrado para otro socio, verifique.')
+        return False
+    """
+    Validar que el DNI del socio es unico (que ya no este usado).
+    :type socio: Socio
+    :raise: DniRepetido
+    :return: bool
+    """
 
     def regla_2(self, socio):
-        nombre = socio.nombre
-        # try:
-        if len(socio.nombre) <= self.MIN_CARACTERES or len(socio.nombre) >= self.MAX_CARACTERES:
-            raise LongitudInvalida
-        if len(socio.apellido) <= self.MIN_CARACTERES or len(socio.apellido) >= self.MAX_CARACTERES:
-            raise LongitudInvalida
-
-        """
-        Validar que el nombre y el apellido del socio cuenten con mas de 3 caracteres pero menos de 15.
-        :type socio: Socio
-        :raise: LongitudInvalida
-        :return: bool
-        """
-        return True
+        if len(socio.nombre) > self.MIN_CARACTERES and len(socio.nombre) < self.MAX_CARACTERES and len(socio.apellido) > self.MIN_CARACTERES and len(socio.apellido) < self.MAX_CARACTERES:
+            return True
+        else:
+            raise LongitudInvalida('El nombre o el apellido ingresados no cumplen con la regla de ' + self.MIN_CARACTERES + ' mínimos y ' + self.MAX_CARACTERES + ' máximos.' )
+        return False
+    """
+    Validar que el nombre y el apellido del socio cuenten con mas de 3 caracteres pero menos de 15.
+    :type socio: Socio
+    :raise: LongitudInvalida
+    :return: bool
+    """
 
     def regla_3(self):
         socios = self.datos.todos()
-        if len(socios) > self.MAX_SOCIOS:
-            raise MaximoAlcanzado
-            return False
-        """
-        Validar que no se esta excediendo la cantidad maxima de socios.
-        :raise: MaximoAlcanzado
-        :return: bool
-        """
-        return True
+        if len(socios) < self.MAX_SOCIOS:
+            return True
+        else:
+            raise MaximoAlcanzado('Se ha alcanzado el máximo de socios permitidos.')
+        return False
+    """
+    Validar que no se esta excediendo la cantidad maxima de socios.
+    :raise: MaximoAlcanzado
+    :return: bool
+    """
