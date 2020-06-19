@@ -137,7 +137,6 @@ class TestsNegocio(unittest.TestCase):
         # ejecuto la lógica
         resultado = self.ns.modificacion(socio_modificado)
 
-        # post-condiciones: se encontró al socio cuyo dni se ingresó
         self.assertTrue(resultado)
 
 unittest.main()
