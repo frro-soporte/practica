@@ -45,6 +45,12 @@ def log_in():
     return render_template('login.html')
 
 
+@app.route('/recover_password')
+def recover_password():
+    if logged():
+        return go_to("dashboard")
+    return render_template('recover_password.html')
+
 @app.route('/logout')
 def log_out():
     delete_session_information()
