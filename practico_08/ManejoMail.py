@@ -13,7 +13,7 @@ class ManejoMail(object):
 
 	def enviarCorreo(self):		
 
-		message = "<html><h2><b>Reporte de Periodo </b></h2></html>"
+		message = "Reporte de Periodo"
 		subject = 'Prueba de correo'
 
 		message = 'Subject: {}\n\n{}'.format(subject, message)

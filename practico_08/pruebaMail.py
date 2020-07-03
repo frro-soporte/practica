@@ -17,7 +17,7 @@ from ManejoMail import ManejoMail
 
 mMail = ManejoMail()
 
-mMail.destinatarios.append("ariasramirox@gmail.com")
+mMail.destinatarios.append("pablopaezps97@gmail.com")
 
 mMail.enviarCorreo()
 
