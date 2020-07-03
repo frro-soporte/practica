@@ -15,10 +15,13 @@ class Datos():
 
 class DatosPenitentes(Datos):
     pass
-
 class DatosSacerdotes(Datos):
     pass
 class DatosCursos(Datos):
+    pass
+class DatosTurnos(Datos):
+    pass
+class DatosSacerdotesCentros(Datos):
     pass
 
 if __name__ == '__main__':
