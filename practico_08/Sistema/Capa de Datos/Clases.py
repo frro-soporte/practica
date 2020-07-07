@@ -12,15 +12,17 @@ SacerdoteCentro= Table('SacerdotesCentros', Base.metadata,
     Column('rangoAtencionCentro', String, nullable=True)
     )
 
+class Turno(Base):
+    __tablename__="Turnos"
+    dni = Column('dni', Integer, ForeignKey('Sacerdotes.dni'), primary_key=True)
+    idCentro = Column('idCentro', String, ForeignKey('Penitentes.idCentro'), primary_key=True)
+    mail =  Column('mail', String, ForeignKey('Penitentes.mail'), primary_key=True)
+    fechayHoraTurno = Column('fechayHoraTurno', DateTime)
+    descripcionSacerdote = Column('descripcionSacerdote', String, nullable=True)
+    descricpcionPenitente = Column('descricpcionPenitente', String, nullable=True)
 
-Turno = Table('Turnos', Base.metadata,
-    Column('dni', Integer, ForeignKey('Sacerdotes.dni')),
-    Column('idCentro', Integer, ForeignKey('Centros.idCentro')),
-    Column('mail', String, ForeignKey('Penitentes.mail')),
-    Column('fechayHoraTurno', DateTime),
-    Column('descripcionSacerdote', String, nullable=True),
-    Column('descricpcionPenitente', String, nullable=True)
-    )
+   
+
 
 class Sacerdote(Base):
     __tablename__="Sacerdotes"   
@@ -29,8 +31,9 @@ class Sacerdote(Base):
     mail=Column(String)
     celular=Column(Integer)
    
-    centrosR = relationship("Centro", back_populates='Centros', secondary=SacerdoteCentro)
-    turnosR = relationship("Turnos", back_populates='Turnos', secondary=Turno)
+    centros = relationship("Centro", back_populates='sacerdotes', secondary=SacerdoteCentro)
+    turnos = relationship("Turnos")
+    
 
 class Centro(Base):
     __tablename__="Centros"
@@ -40,8 +43,8 @@ class Centro(Base):
     codPostal = Column(String)
     sexoAtencion = Column(String)
 
-    sacerdotesR = relationship("Sacerdotes",back_populates='Sacerdotes', secondary=SacerdoteCentro)
-    turnosR = relationship("Turnos", back_populates='Turnos', secondary=Turno)
+    sacerdotes = relationship("Sacerdotes",back_populates='centros', secondary=SacerdoteCentro)
+    turnos = relationship("Turnos")
 
 class Penitente(Base):
     __tablename__="Penitentes"
@@ -51,7 +54,7 @@ class Penitente(Base):
     estado = Column(String)
     sexo = Column(String)
 
-    turnosR = relationship("Turnos", back_populates='Turnos', secondary=Turno)
+    turnos = relationship("Turnos")
 
 
     
