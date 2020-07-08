@@ -1,0 +1,30 @@
+DateTime:
+
+The datetime module supplies classes for manipulating dates and times.
+
+datetime.timedelta
+A duration expressing the difference between two date, time, or datetime instances to microsecond resolution.
+
+Flask:
+
+Flask.redirect
+Returns a response object that, if called, redirects the client to the target location.
+
+Flask.session
+The session object works pretty much like an ordinary dict, with the difference that it keeps track on modifications.
+
+Flask.url_for
+Generates a URL to the given endpoint with the method provided.
+
+Flask.render_template
+Renders a template from the template folder with the given context.
+
+Flask.request
+The request object used by default in Flask. 
+It is what ends up as request. If you want to replace the request object used you can subclass this and set request_class to your subclass.
+
+Flask.flash
+Flashes a message to the next request. In order to remove the flashed message from the session and to display it to the user, the template has to call get_flashed_messages().
+
+Flask_sqlAlchemy
+Flask_sqlalchemy is an extension for Flask that adds support for SQLAlchemy to your application. It aims to simplify using SQLAlchemy with Flask by providing useful defaults and extra helpers that make it easier to accomplish common tasks.
