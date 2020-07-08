@@ -5,7 +5,7 @@ from Clases import Base, Sacerdote, Penitente, Centro
 class Datos():
     def __init__(self):
         engine = create_engine('sqlite:///turnosConfesiones.db')
-        Base.metadata.drop_all(engine) #Elimina todo lo que pueda tener el motor
+        # Base.metadata.drop_all(engine) #Elimina todo lo que pueda tener el motor
         Base.metadata.bind = engine
         db_session = sessionmaker()
         db_session.bind = engine
