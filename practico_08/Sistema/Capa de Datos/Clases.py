@@ -13,6 +13,7 @@ SacerdoteCentro= Table('SacerdotesCentros', Base.metadata,
     Column('rangoAtencionCentro', String, nullable=True)
     )
 
+
 class Sacerdote(Base):
     __tablename__="Sacerdotes"   
     dni=Column(Integer,primary_key=True)
