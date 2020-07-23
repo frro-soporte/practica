@@ -4,14 +4,14 @@ from sqlalchemy import Column, Integer, String, DateTime, Sequence, ForeignKey, 
 from sqlalchemy.orm import sessionmaker, relationship
 
 
-Base=declarative_base()
+Base = declarative_base()
 
-SacerdoteCentro= Table('SacerdotesCentros', Base.metadata,
-    Column('dni', Integer, ForeignKey('Sacerdotes.dni')),
-    Column('idCentro', Integer, ForeignKey('Centros.idCentro')),
-    Column('rangoAtencionSacerdote', String),
-    Column('rangoAtencionCentro', String, nullable=True)
-    )
+# SacerdoteCentro= Table('SacerdotesCentros', Base.metadata,
+#     Column('dni', Integer, ForeignKey('Sacerdotes.dni')),
+#     Column('idCentro', Integer, ForeignKey('Centros.idCentro')),
+#     Column('rangoAtencionSacerdote', String),
+#     Column('rangoAtencionCentro', String, nullable=True)
+#     )
 
 
 class Sacerdote(Base):
@@ -21,8 +21,8 @@ class Sacerdote(Base):
     mail=Column(String)
     celular=Column(Integer)
    
-    centros = relationship("Centro", back_populates='sacerdotes', secondary=SacerdoteCentro)
-    turnos = relationship("Turnos")
+    # centros = relationship("Centro", back_populates='sacerdotes', secondary=SacerdoteCentro)
+    # turnos = relationship("Turnos")
     
 
 class Centro(Base):
@@ -33,14 +33,14 @@ class Centro(Base):
     codPostal = Column(String)
     sexoAtencion = Column(String)
 
-    sacerdotes = relationship("Sacerdotes",back_populates='centros', secondary=SacerdoteCentro)
-    turnos = relationship("Turnos")
+    # sacerdotes = relationship("Sacerdotes",back_populates='centros', secondary=SacerdoteCentro)
+    # turnos = relationship("Turnos")
 
 
 class Turno(Base):
     __tablename__="Turnos"
     dni = Column('dni', Integer, ForeignKey('Sacerdotes.dni'), primary_key=True)
-    idCentro = Column('idCentro', String, ForeignKey('Centros.idCentro'), primary_key=True)
+    idCentro = Column('idCentro', Integer, ForeignKey('Centros.idCentro'), primary_key=True)
     mail =  Column('mail', String, ForeignKey('Penitentes.mail'), primary_key=True)
     fechayHoraTurno = Column('fechayHoraTurno', DateTime)
     descripcionSacerdote = Column('descripcionSacerdote', String, nullable=True)
@@ -55,6 +55,6 @@ class Penitente(Base):
     estado = Column(Boolean) 
     sexo = Column(String)
 
-    turnos = relationship("Turnos")
+    # turnos = relationship("Turnos")
 
     

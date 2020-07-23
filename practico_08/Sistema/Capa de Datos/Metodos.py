@@ -1,6 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from Clases import Base, Sacerdote, Penitente, Centro
+from Clases import Base, Centro, Sacerdote, Penitente, Turno
+
 
 class Datos():
     def __init__(self):
@@ -10,39 +11,70 @@ class Datos():
         db_session = sessionmaker()
         db_session.bind = engine
         self.session = db_session()
-        Base.metadata.create_all(engine) #crea todas las tablas que todavia no existen
-        
+        Base.metadata.create_all(engine) # crea todas las tablas que todavia no existen
+
+class DatosCentros(Datos):
+    def __init__(self):
+        super().__init__()        
+
+    def alta(self, cen):        
+        self.session.add(cen)
+        self.session.commit()
+        return cen
 
 class DatosPenitentes(Datos):
-    pass
+    def __init__(self):
+        super().__init__()
+
+    def alta(self,pen):
+        self.session.add(pen)
+        self.session.commit()
+        return pen
+
 class DatosSacerdotes(Datos):
-    pass
-class DatosCursos(Datos):
-    pass
+    def __init__(self):
+        super().__init__()    
+
+    def alta(self,sac):
+        self.session.add(sac)
+        self.session.commit()
+        return sac
+
+
 class DatosTurnos(Datos):
-    pass
-class DatosSacerdotesCentros(Datos):
-    pass
+    def __init__(self):
+        super().__init__()   
+
+    def alta(self,tur):
+        self.session.add(tur)
+        self.session.commit()
+        return tur
+   
+# class DatosSacerdotesCentros(Datos):
+#     def __init__(self):
+#         super().__init__()      
+
 
 if __name__ == '__main__':
-    datos = Datos()    
-    
+
+    # Populate Centros
+    dc = DatosCentros()   
     cen = Centro(nombre="Antartida", direccion="Av Estrada 145", codPostal="2000", sexoAtencion = "M")
-    datos.session.add(cen)
+    dc.alta(cen)
 
+    # Populate Sacerdotes
+    ds = DatosSacerdotes()
+    sac = Sacerdote(dni=12345, nombreApellido='Juan Prez', mail='jp@gmail.com', celular='34123456')
+    ds.alta(sac)
+  
+    # Populate penitentes
+    dp = DatosPenitentes()
+    pen = Penitente(mail='HernyG@gmail.com', nombreApellido='Hernan Gomez' , celular='1234123',estado=True, sexo='M')
+    dp.alta(pen)
+
+    # Pululate turnos
+    # esto no estaria funcionando correctamente
+    dt = DatosTurnos()
+    tur = Turno(dni=12345,idCentro=2, mail='HernyG@gmail.com', descripcionSacerdote='None',descricpcionPenitente='None') 
+    dt.alta(tur)
    
-
-    # pen = Penitente("lucas@gmail.com", "Lucas Gervasoni", "341234567", True, "M" )
-    # datos.session.add(pen)
-
-    # horario1=Crono(dia='lunes',hora_inicio="7:00 am", hora_fin='8:00')
-    # session.add(horario1)
-    # horario1.curso_hora=Course(nombrec='Quimica')
-    # horario1.curso_profe=Maestro(nombrep='Vicente',apellidop='  Huidobro')
-
-
-    # print(horario1.curso_profe)
-    # print(session.query(Course).filter(Maestro.profe_curso.any()).all())
-    # print(session.query(Crono).filter(Maestro.profe_curso.any()).all())
-
-    # session.commit()
