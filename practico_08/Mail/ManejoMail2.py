@@ -11,14 +11,15 @@ from email.message import EmailMessage
 msg = EmailMessage()
 msg['Subject'] = 'Esto es el asunto'
 msg['From'] = 'turnosconfesiones@gmail.com'
-msg['To'] = 'ariasramirox@gmail.com' # contacts
+msg['To'] = 'ariasramirox@gmail.com' # contacts 
 # ', '.join(contacts)
-msg.set_content('Esto es texto plano')
+msg.set_content('Esto es texto plano') # el contenido alternativo pisa esto
+mensaje_python = 'Hola'
 msg.add_alternative("""\
 <!DOCTYPE html>
 <html>
     <body>
-        <h1 style="color SlateGray;"> Esto es html! </h1>
+        <h1 style="color SlateGray;"> Esto es html! </h1>      
     </body>
 </html>    
 """, subtype='html')

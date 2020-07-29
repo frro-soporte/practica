@@ -22,7 +22,7 @@ class Sacerdote(Base):
     celular=Column(Integer)
    
     # centros = relationship("Centro", back_populates='sacerdotes', secondary=SacerdoteCentro)
-    # turnos = relationship("Turnos")
+    turnos = relationship("Turno", backref = 'sac')
     
 
 class Centro(Base):
@@ -34,18 +34,7 @@ class Centro(Base):
     sexoAtencion = Column(String)
 
     # sacerdotes = relationship("Sacerdotes",back_populates='centros', secondary=SacerdoteCentro)
-    # turnos = relationship("Turnos")
-
-
-class Turno(Base):
-    __tablename__="Turnos"
-    dni = Column('dni', Integer, ForeignKey('Sacerdotes.dni'), primary_key=True)
-    idCentro = Column('idCentro', Integer, ForeignKey('Centros.idCentro'), primary_key=True)
-    mail =  Column('mail', String, ForeignKey('Penitentes.mail'), primary_key=True)
-    fechayHoraTurno = Column('fechayHoraTurno', DateTime)
-    descripcionSacerdote = Column('descripcionSacerdote', String, nullable=True)
-    descricpcionPenitente = Column('descricpcionPenitente', String, nullable=True)  
-
+    turnos = relationship("Turno",backref = 'cen')
 
 class Penitente(Base):
     __tablename__="Penitentes"
@@ -55,6 +44,15 @@ class Penitente(Base):
     estado = Column(Boolean) 
     sexo = Column(String)
 
-    # turnos = relationship("Turnos")
+    turnos = relationship("Turno",backref = 'pet')
 
-    
+class Turno(Base):
+    __tablename__="Turnos"
+    dni = Column('dni', Integer, ForeignKey('Sacerdotes.dni'), primary_key=True)
+    idCentro = Column('idCentro', Integer, ForeignKey('Centros.idCentro'), primary_key=True)
+    mail =  Column('mail', String, ForeignKey('Penitentes.mail'), primary_key=True)
+    fechayHoraTurno = Column('fechayHoraTurno', DateTime)
+    descripcionSacerdote = Column('descripcionSacerdote', String, nullable=True)
+    descricpcionPenitente = Column('descricpcionPenitente', String, nullable=True) 
+
+  
