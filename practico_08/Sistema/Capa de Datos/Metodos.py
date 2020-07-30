@@ -5,7 +5,8 @@ from Clases import Base, Centro, Sacerdote, Penitente, Turno
 
 class Datos():
     def __init__(self):
-        engine = create_engine('sqlite:///turnosConfesiones.db')
+        engine = create_engine('mysql+pymysql://u448809972_gregorioSamsa:rosarioCentral119@185.201.11.149:3306/u448809972_turnosDB')
+        #df.to_sql('table', engine, if_exists='append', index=False)
         # Base.metadata.drop_all(engine) #Elimina todo lo que pueda tener el motor
         Base.metadata.bind = engine
         db_session = sessionmaker()
@@ -27,7 +28,7 @@ class DatosPenitentes(Datos):
         super().__init__()
 
     def alta(self,pen):
-        self.session.add(pen)
+        self.session.add(pen)   
         self.session.commit()
         return pen
 
@@ -58,23 +59,23 @@ class DatosTurnos(Datos):
 if __name__ == '__main__':
 
     # Populate Centros
-    dc = DatosCentros()   
-    cen = Centro(nombre="Antartida", direccion="Av Estrada 145", codPostal="2000", sexoAtencion = "M")
-    dc.alta(cen)
+    #dc = DatosCentros()   
+    #cen = Centro(nombre="Antartida", direccion="Av Estrada 145", codPostal="2000", sexoAtencion = "M")
+    #dc.alta(cen)
 
     # Populate Sacerdotes
-    ds = DatosSacerdotes()
-    sac = Sacerdote(dni=12345, nombreApellido='Juan Prez', mail='jp@gmail.com', celular='34123456')
-    ds.alta(sac)
+    #ds = DatosSacerdotes()
+    #sac = Sacerdote(dni=12345, nombreApellido='Juan Prez', mail='jp@gmail.com', celular='34123456')
+    #ds.alta(sac)
   
     # Populate penitentes
-    dp = DatosPenitentes()
-    pen = Penitente(mail='HernyG@gmail.com', nombreApellido='Hernan Gomez' , celular='1234123',estado=True, sexo='M')
-    dp.alta(pen)
+    #dp = DatosPenitentes()
+    #pen = Penitente(mail='HernyG@gmail.com', nombreApellido='Hernan Gomez' , celular='1234123',estado=True, sexo='M')
+    #dp.alta(pen)
 
     # Pululate turnos
     # esto no estaria funcionando correctamente
-    dt = DatosTurnos()
-    tur = Turno(dni=12345,idCentro=2, mail='HernyG@gmail.com', descripcionSacerdote='None',descricpcionPenitente='None') 
-    dt.alta(tur)
+    #dt = DatosTurnos()
+    #tur = Turno(dni=12345,idCentro=2, mail='HernyG@gmail.com', descripcionSacerdote='None',descricpcionPenitente='None') 
+    #dt.alta(tur)
    
