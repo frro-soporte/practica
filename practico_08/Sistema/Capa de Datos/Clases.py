@@ -57,4 +57,13 @@ class Penitente(Base):
 
     turnos = relationship("Turnos")
 
-    
+class Turno(Base):
+    __tablename__="Turnos"
+    dni = Column('dni', Integer, ForeignKey('Sacerdotes.dni'), primary_key=True)
+    idCentro = Column('idCentro', Integer, ForeignKey('Centros.idCentro'), primary_key=True)
+    mail =  Column('mail', String, ForeignKey('Penitentes.mail'), primary_key=True)
+    fechayHoraTurno = Column('fechayHoraTurno', DateTime)
+    descripcionSacerdote = Column('descripcionSacerdote', String, nullable=True)
+    descricpcionPenitente = Column('descricpcionPenitente', String, nullable=True) 
+
+  

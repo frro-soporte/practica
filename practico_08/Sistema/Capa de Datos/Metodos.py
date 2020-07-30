@@ -23,6 +23,26 @@ class DatosCentros(Datos):
         self.session.commit()
         return cen
 
+    def buscar_id(self, centro_id): 
+        try:
+            centro = self.session.query(Centro).filter(Centro.idCentro == centro_id).first()
+            return centro
+        except:
+            print ("No se encontro el centro con id: ", centro_id)
+            return None
+
+    def buscar_nombre(self, nombre_centro): 
+        try:
+            centro = self.session.query(Centro).filter(Centro.idCentro == nombre_centro).first()
+            return centro
+        except:
+            print ("No se encontro el centro con nombre: ", nombre_centro)
+            return None            
+
+    def todos(self):
+        centros = self.session.query(Sacerdote).all()
+        return centros
+
 class DatosPenitentes(Datos):
     def __init__(self):
         super().__init__()
@@ -31,6 +51,18 @@ class DatosPenitentes(Datos):
         self.session.add(pen)   
         self.session.commit()
         return pen
+    
+    def buscar_mail(self, penitente_mail): 
+        try:
+            penitente = self.session.query(Penitente).filter(Penitente.mail == penitente_mail).first()
+            return penitente
+        except:
+            print ("No se encontro el penitente con mail: ", penitente_mail)
+            return None            
+
+    def todos(self):
+        centros = self.session.query(Sacerdote).all()
+        return centros
 
 class DatosSacerdotes(Datos):
     def __init__(self):
@@ -40,6 +72,18 @@ class DatosSacerdotes(Datos):
         self.session.add(sac)
         self.session.commit()
         return sac
+
+    def buscar(self, dni_sacerdote): 
+        try:
+            sacerdote = self.session.query(Sacerdote).filter(Sacerdote.dni == dni_sacerdote).first()
+            return sacerdote
+        except:
+            print ("No se encontro el sacerdote: ", dni_sacerdote)
+            return None
+
+    def todos(self):
+        sacerdotes = self.session.query(Sacerdote).all()
+        return sacerdotes
 
 
 class DatosTurnos(Datos):
