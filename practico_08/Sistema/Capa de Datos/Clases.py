@@ -1,69 +1,87 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, DateTime, Sequence, ForeignKey, Table, Boolean
+from sqlalchemy import Column, Integer, String, DateTime, Sequence, ForeignKey, Table, Boolean, ForeignKeyConstraint
 from sqlalchemy.orm import sessionmaker, relationship
 
 
 Base = declarative_base()
 
-SacerdoteCentro= Table('SacerdotesCentros', Base.metadata,
-     Column('dni', Integer, ForeignKey('Sacerdotes.dni')),
-     Column('idCentro', Integer, ForeignKey('Centros.idCentro')),
+SacerdoteCentro= Table('sacerdotesCentros', Base.metadata,
+     Column('idSC', Integer, primary_key=True, autoincrement=True),
+     Column('dni', Integer),
+     Column('idCentro', Integer),
      Column('rangoAtencionSacerdote', String(100)),
-     Column('rangoAtencionCentro', String(100), nullable=True)
+     Column('rangoAtencionCentro', String(100), nullable=True),
+
+     ForeignKeyConstraint(
+        ['dni'], ['sacerdotes.dni'],
+        name='fk_sacerdotesCentros_sacerdotes'
+        ),
+     ForeignKeyConstraint(
+        ['idCentro'], ['centros.idCentro'],
+        name='fk_sacerdotesCentros_centros'
+        )
+        
      )
 
 
 class Sacerdote(Base):
-    __tablename__="Sacerdotes"   
+    __tablename__="sacerdotes"   
     dni=Column(Integer,primary_key=True)
     nombreApellido=Column(String(100))
     mail=Column(String(100))
     celular=Column(Integer)
    
     centros = relationship("Centro", back_populates='sacerdotes', secondary=SacerdoteCentro)
-    turnos = relationship("Turnos")
-    
+
 
 class Centro(Base):
-    __tablename__="Centros"
+    __tablename__="centros"
     idCentro = Column(Integer, primary_key=True, autoincrement=True)
     nombre = Column(String(100))
     direccion = Column(String(100))
     codPostal = Column(String(100))
     sexoAtencion = Column(String(100))
 
-    sacerdotes = relationship("Sacerdotes",back_populates='centros', secondary=SacerdoteCentro)
-    turnos = relationship("Turnos")
+    sacerdotes = relationship("Sacerdote",back_populates='centros', secondary=SacerdoteCentro)
+
 
 
 class Turno(Base):
-    __tablename__="Turnos"
-    dni = Column('dni', Integer, ForeignKey('Sacerdotes.dni'), primary_key=True)
-    idCentro = Column('idCentro', Integer, ForeignKey('Centros.idCentro'), primary_key=True)
-    mail =  Column('mail', String(100), ForeignKey('Penitentes.mail'), primary_key=True)
+    __tablename__="turnos"
+    idTurno = Column('idTurno', Integer, primary_key = True, autoincrement = True)
+    dni = Column('dni', Integer)
+    idCentro = Column('idCentro', Integer)
+    mail =  Column('mail', String(100))
     fechayHoraTurno = Column('fechayHoraTurno', DateTime)
     descripcionSacerdote = Column('descripcionSacerdote', String(250), nullable=True)
-    descricpcionPenitente = Column('descricpcionPenitente', String(250), nullable=True)  
+    descricpcionPenitente = Column('descricpcionPenitente', String(250), nullable=True)
+    
+    ForeignKeyConstraint(
+    ['dni'], ['sacerdotes.dni'],
+    name='fk_turnos_sacerdotes'
+    ),
+    ForeignKeyConstraint(
+    ['idCentro'], ['centros.idCentro'],
+    name='fk_turnos_centros'
+    ),
+    ForeignKeyConstraint(
+    ['mail'], ['penitentes.mail'],
+    name='fk_turnos_penitentes'
+    )  
+
+
 
 
 class Penitente(Base):
-    __tablename__="Penitentes"
+    __tablename__="penitentes"
     mail = Column(String(100), primary_key=True)
     nombreApellido = Column(String(100))
     celular = Column(String(100))
     estado = Column(Boolean) 
     sexo = Column(String(100))
 
-    turnos = relationship("Turnos")
 
-class Turno(Base):
-    __tablename__="Turnos"
-    dni = Column('dni', Integer, ForeignKey('Sacerdotes.dni'), primary_key=True)
-    idCentro = Column('idCentro', Integer, ForeignKey('Centros.idCentro'), primary_key=True)
-    mail =  Column('mail', String, ForeignKey('Penitentes.mail'), primary_key=True)
-    fechayHoraTurno = Column('fechayHoraTurno', DateTime)
-    descripcionSacerdote = Column('descripcionSacerdote', String, nullable=True)
-    descricpcionPenitente = Column('descricpcionPenitente', String, nullable=True) 
+ 
 
   
