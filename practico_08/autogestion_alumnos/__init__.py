@@ -1,19 +1,27 @@
 from flask import Flask
-from datetime import timedelta
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 
-app = Flask(__name__)
 
-app.secret_key = "frro_soporte"
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///login.sqlite3'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.permanent_session_lifetime = timedelta(minutes=3)
+db = SQLAlchemy()
+bcrypt = Bcrypt()
+login_manager = LoginManager()
+login_manager.login_view = 'users.log_in'
 
-db = SQLAlchemy(app)
-bcrypt = Bcrypt(app)
-login_manager = LoginManager(app)
-login_manager.login_view = 'log_in'
 
-from autogestion_alumnos import routes
+def create_app(config_class):
+    app = Flask(__name__)
+    app.config.from_object(config_class)
+
+    db.init_app(app)
+    db.app = app
+    bcrypt.init_app(app)
+    login_manager.init_app(app)
+
+    from autogestion_alumnos.users.routes import users
+    from autogestion_alumnos.main.routes import main
+    app.register_blueprint(users)
+    app.register_blueprint(main)
+
+    return app
