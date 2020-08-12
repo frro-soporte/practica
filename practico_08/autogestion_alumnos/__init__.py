@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
+from flask_bootstrap import Bootstrap
 
 
 db = SQLAlchemy()
@@ -14,6 +15,7 @@ def create_app(config_class):
     app = Flask(__name__)
     app.config.from_object(config_class)
 
+    bootstrap = Bootstrap(app)
     db.init_app(app)
     db.app = app
     bcrypt.init_app(app)

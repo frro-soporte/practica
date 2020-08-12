@@ -1,69 +1,179 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="dashboard.css">
-    <meta charset="UTF-8">
-    <title>Dashboard</title>
-    <style>
-        #background {
-            position: absolute;
-            text-align: center;
-            vertical-align: middle;
-            width: 100%;
-            background: radial-gradient(96.69% 305.6% at 1.2% 1.81%, rgba(5, 15, 31, 0.85) 0%, #101825 44.27%, #6ba1f2 99.99%, #77a3ee 99.99%);
-            border: 1px solid #000000;
-            box-sizing: border-box;
-        }
-        #whiteBox {
-            position: relative;
-            margin: 10% auto;
-            width: 1000px;
-            height: 800px;
-            background: #ffffff;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.25);
-        }
-        #userIcon {
-            border-radius: 50%;
-            margin-left: 400px;
-            margin-top: 50px;
-            position: absolute;
-            width: 200px;
-            height: 200px;
-            background: #C4C4C4;
-            display: flex;
-            flex-direction: column;
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ super() }}
+    Home
+{% endblock %}
+
+{% block content %}
+
+<style>
+    .container {
+          padding-top: 80px;
+          padding-left: 80px;
+          padding-right: 40px;
+          background-color: rgb(148, 167, 187);
+          }
+    .card {
+          border-radius: 10px;
+          padding: 15px;
+          max-width: 500px;
+          margin:  auto;
+          text-align: center;
+      }
+    table{
+          margin-left: auto;
+          margin-right: auto;
+          font-size: 11px;
+  }
+
+    table,td {
+          border: 0.5px solid black;
         }
 
-        .signUp {
-            margin-top: 15px;
-            font-style: normal;
-            font-weight: normal;
-            font-size: 25px;
-            color: black;
-            margin-left: -75px;
-            text-decoration: none;
-        }
+</style>
+    <div class="container" container>
+    <div class="row" >
+      <div class="col-lg-5 mb-4" >
+        <div class="card " style="height: 300px">
+          <div class="card-body ">
+            <h4 class="card-title ">
+              <a href="#" style="text-decoration:none">Próximos Parciales</a>
+            </h4>
+                     <!-- inicio tablas parciales-->
+					<div class="card">
+                            <table class="table ">
+                                <tr class="bg-primary">
+                                    <td><b>Condicion</b></td>
+                                    <td><b>Detalle</b></td>
+                                    <td><b>Ver</b></td>
+                                </tr>
+                                <tr>
+                                      <td>
+                                        <strong><span style="color: #ff0000;">No realizado</span></strong>
+                                      </td>
+                                       <td>
+                                          <a>30/8/2020 Soporte</a>
+                                      </td>
+                                      <td>
+                                          <strong>Detalle</strong>
+                                      </td>
+                                </tr>
 
-    </style>
-</head>
-<body>
-<div id="background">
-    <div id="whiteBox">
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                {% for msg in messages %}
-                    <p>{{msg}}</p>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-        <div id="userIcon"/>
-        <div style="width: 700px; margin-top:30px; display: inline-block; text-align: left">
-            <a class="signUp" href="/logout">Log out</a>
+                            </table>
+                      </div>
+             <!--fin tablas parciales-->
+
+          </div>
         </div>
-    </div>
-</div>
-</body>
-</html>
+      </div>
+      <div class="col-lg-5 mb-4 offset-lg-1 " >
+        <div class="card " style="height: 300px">
+          <div class="card-body">
+            <h4 class="card-title">
+              <a href="#" style="text-decoration:none">Próximas Tareas</a>
+             </h4>
+            <!-- inicio tablas tarea-->
+					<div class="card">
+                            <table class="table ">
+                                <tr class="bg-primary">
+                                    <td><b>Condicion</b></td>
+                                    <td><b>Detalle</b></td>
+                                    <td><b>Ver</b></td>
+                                    </tr>
+                                    <tr>
+                                      <td>
+                                          <span style="color: #00ff00;"><strong>Realizada</strong></span>
+                                      </td>
+                                      <td>
+                                          <a>15/8/2020 Simulacion</a>
+                                      </td>
+                                      <td>
+                                          <strong>Detalle</strong>
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <td>
+                                        <strong><span style="color: #ff0000;">No realizada</span></strong>
+                                      </td>
+                                       <td>
+                                          <a>20/8/2020 Soporte</a>
+                                      </td>
+                                      <td>
+                                          <strong>Detalle</strong>
+                                      </td>
+                                    </tr>
+
+                            </table>
+                      </div>
+             <!--fin tablas tareas-->
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-5 mb-4">
+        <div class="card " style="height: 300px">
+          <div class="card-body">
+            <h4 class="card-title">
+              <a href="#" style="text-decoration:none">Ver Calendario</a>
+            </h4>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-5 mb-4 offset-lg-1">
+        <div class="card " style="height: 300px">
+          <div class="card-body">
+            <h4 class="card-title">
+              <a href="#" style="text-decoration:none">Ver Materias</a>
+            </h4>
+                          <!-- inicio tablas materias-->
+					<div class="card">
+                            <table class="table ">
+                                <tr class="bg-primary">
+                                    <td><b>Nombre</b></td>
+                                    <td><b>Profesor</b></td>
+                                    <td><b>Comision</b></td>
+                                    <td><b>Horario</b></td>
+                                    </tr>
+                                    <tr>
+                                      <td>
+                                          <a>Soporte</a>
+                                      </td>
+                                      <td>
+                                          <a>Torres</a>
+                                      </td>
+                                      <td>
+                                          <a>404</a>
+                                      </td>
+                                      <td>
+                                          <a>Lunes-18:30</a>
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <td>
+                                        <a>Simulacion</a>
+                                      </td>
+                                       <td>
+                                          <a>Torres</a>
+                                      </td>
+                                      <td>
+                                          <a>404</a>
+                                      </td>
+                                      <td>
+                                          <a>Lunes-18:30</a>
+                                      </td>
+                                    </tr>
+
+                            </table>
+             <!--fin tablas materias-->
+                    </div>
+          </div>
+        </div>
+      </div>
+
+  </div>
+    {% include 'footer.html' %}
+            </div>
+        </div>
+{% endblock %}
