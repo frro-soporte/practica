@@ -1,7 +1,8 @@
 from flask import session, render_template, request, flash
-from autogestion_alumnos.model import Users
-from autogestion_alumnos import app, db
-from autogestion_alumnos.utils import go_to, logged, delete_session_information
+from autogestion_alumnos.models import User
+from autogestion_alumnos import app, db, bcrypt
+from autogestion_alumnos.utils import go_to
+from flask_login import login_user, current_user, logout_user, login_required
 
 
 @app.route("/")
@@ -16,9 +17,8 @@ def redirected_home(default_page):
 
 @app.route('/sign_up', methods=["POST", "GET"])
 def sign_up():
-    if logged():
+    if current_user.is_authenticated:
         return go_to("log_in")
-    delete_session_information()
     if request.method == "POST":
         userName = request.form["userName"]
         password = request.form["password"]
@@ -34,15 +34,16 @@ def sign_up():
 def register_user(dni, user_name, password):
     if is_user_created(dni, user_name):
         return False
-    registered_user = Users(dni=dni, name=user_name, password=password)
+    hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+    registered_user = User(dni=dni, name=user_name, password=hashed_password)
     db.session.add(registered_user)
     db.session.commit()
     return True
 
 
 def is_user_created(dni=None, user_name=None):
-    dni_registered = Users.query.filter_by(dni=dni).first()
-    user_registered = Users.query.filter_by(name=user_name).first()
+    dni_registered = User.query.filter_by(dni=dni).first()
+    user_registered = User.query.filter_by(name=user_name).first()
     if dni_registered is None and user_registered is None:
         return False
     else:
@@ -51,34 +52,32 @@ def is_user_created(dni=None, user_name=None):
 
 @app.route('/logout', methods=["POST", "GET"])
 def log_out():
-    delete_session_information()
+    logout_user()
     return go_to("log_in")
 
 
 @app.route('/login', methods=["POST", "GET"])
 def log_in():
-    if logged():
+    if current_user.is_authenticated:
         return go_to("dashboard")
     if request.method == "POST":
         session.permanent = True
-        userName = request.form["userName"]
+        user_name = request.form["userName"]
         password = request.form["password"]
-        session["userName"] = userName
-        session["password"] = password
-        registered = is_user_registered()
+        registered = is_user_registered(user_name, password)
         if registered:
-            if logged():
-                return go_to("dashboard")
-        delete_session_information()
+            user = User.query.filter_by(name=user_name).first()
+            login_user(user)
+            return go_to("dashboard")
     return render_template('login.html')
 
 
-def is_user_registered():
-    temporal_user = Users.query.filter_by(name=session["userName"]).first()
+def is_user_registered(user_name, password):
+    temporal_user = User.query.filter_by(name=user_name).first()
     if temporal_user is None:
         flash("User not registered.")
         return False
-    if temporal_user.password == session["password"]:
+    if bcrypt.check_password_hash(temporal_user.password, password):
         return True
     flash("Password incorrect. Please try again.")
     return False
@@ -86,13 +85,12 @@ def is_user_registered():
 
 @app.route('/recover_password')
 def recover_password():
-    if logged():
+    if current_user.is_authenticated:
         return go_to("dashboard")
     return render_template('recover_password.html')
 
 
 @app.route('/dashboard')
+@login_required
 def dashboard():
-    if logged():
-        return render_template('dashboard.html')
-    return go_to("log_in")
+    return render_template('dashboard.html')
