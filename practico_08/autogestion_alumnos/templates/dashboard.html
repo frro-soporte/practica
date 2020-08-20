@@ -1,154 +1,103 @@
-{% extends 'base.html' %}
-
-{% block title %}
-    {{ super() }}
-    Home
-{% endblock %}
-
-{% block content %}
-<main>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <meta charset="UTF-8">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            margin-right:40px;
+            margin-left: 40px;
+            margin-top: 160px;
+            display: flex;
+            justify-content: center;
+            align-self: center;
+            min-height: 50vh;
+            background: #222;
+        }
+        .container {
+            position: relative;
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(50%, 1fr));
+            grid-template-rows: minmax(auto, auto);
+            margin: 50px;
+            grid-auto-flow: dense;
+            grid-gap: 10px;
+        }
+        .container .box {
+            background: #333;
+            padding: 20px;
+            display: grid;
+            place-items: center;
+            transition: 0.8s;
+        }
+        .container .box:hover {
+            background: #e91e63;
+            transform: translateY(30px);
+        }
+        .container .box img {
+            position: relative;
+            max-width: 100px;
+            margin-bottom: 10px;
+        }
+        .container .box p{
+            color: #fff;
+            text-align: center;
+            font-size: 20px;
+            font-family: Arial;
+        }
+        a:link, a:visited, a:active {
+        text-decoration:none;
+        }
+    </style>
+    </head>
+<body>
     <div class="container">
-    <div class="row" >
-      <div class="col-lg-5 mb-4" >
-        <div class="card " style="height: 300px">
-          <div class="card-body ">
-            <h4 class="card-title ">
-              <a href="#" style="text-decoration:none">Próximos Parciales</a>
-            </h4>
-                     <!-- inicio tablas parciales-->
-					<div class="card">
-                            <table class="table ">
-                                <tr class="bg-primary">
-                                    <td><b>Condicion</b></td>
-                                    <td><b>Detalle</b></td>
-                                    <td><b>Ver</b></td>
-                                </tr>
-                                <tr>
-                                      <td>
-                                        <strong><span style="color: #ff0000;">No realizado</span></strong>
-                                      </td>
-                                       <td>
-                                          <a>30/8/2020 Soporte</a>
-                                      </td>
-                                      <td>
-                                          <strong>Detalle</strong>
-                                      </td>
-                                </tr>
-
-                            </table>
-                      </div>
-             <!--fin tablas parciales-->
-
-          </div>
+        <div class="box">
+            <div class="content">
+                <a href="#">
+                    <img src="/static/images/1.png">
+                    <p>Calendario</p>
+                </a>
+            </div>
         </div>
-      </div>
-      <div class="col-lg-5 mb-4 offset-lg-1 " >
-        <div class="card " style="height: 300px">
-          <div class="card-body">
-            <h4 class="card-title">
-              <a href="#" style="text-decoration:none">Próximas Tareas</a>
-             </h4>
-            <!-- inicio tablas tarea-->
-					<div class="card">
-                            <table class="table ">
-                                <tr class="bg-primary">
-                                    <td><b>Condicion</b></td>
-                                    <td><b>Detalle</b></td>
-                                    <td><b>Ver</b></td>
-                                    </tr>
-                                    <tr>
-                                      <td>
-                                          <span style="color: #00ff00;"><strong>Realizada</strong></span>
-                                      </td>
-                                      <td>
-                                          <a>15/8/2020 Simulacion</a>
-                                      </td>
-                                      <td>
-                                          <strong>Detalle</strong>
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td>
-                                        <strong><span style="color: #ff0000;">No realizada</span></strong>
-                                      </td>
-                                       <td>
-                                          <a>20/8/2020 Soporte</a>
-                                      </td>
-                                      <td>
-                                          <strong>Detalle</strong>
-                                      </td>
-                                    </tr>
-
-                            </table>
-                      </div>
-             <!--fin tablas tareas-->
-
-          </div>
-        </div>
-      </div>
-
-      <div class="col-lg-5 mb-4">
-        <div class="card " style="height: 300px">
-          <div class="card-body">
-            <h4 class="card-title">
-              <a href="#" style="text-decoration:none">Ver Calendario</a>
-            </h4>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-5 mb-4 offset-lg-1">
-        <div class="card " style="height: 300px">
-          <div class="card-body">
-            <h4 class="card-title">
-              <a href="#" style="text-decoration:none">Ver Materias</a>
-            </h4>
-                          <!-- inicio tablas materias-->
-					<div class="card">
-                            <table class="table ">
-                                <tr class="bg-primary">
-                                    <td><b>Nombre</b></td>
-                                    <td><b>Profesor</b></td>
-                                    <td><b>Comision</b></td>
-                                    <td><b>Horario</b></td>
-                                    </tr>
-                                    <tr>
-                                      <td>
-                                          <a>Soporte</a>
-                                      </td>
-                                      <td>
-                                          <a>Torres</a>
-                                      </td>
-                                      <td>
-                                          <a>404</a>
-                                      </td>
-                                      <td>
-                                          <a>Lunes-18:30</a>
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td>
-                                        <a>Simulacion</a>
-                                      </td>
-                                       <td>
-                                          <a>Torres</a>
-                                      </td>
-                                      <td>
-                                          <a>404</a>
-                                      </td>
-                                      <td>
-                                          <a>Lunes-18:30</a>
-                                      </td>
-                                    </tr>
-
-                            </table>
-             <!--fin tablas materias-->
-                    </div>
-          </div>
-        </div>
-      </div>
-
     </div>
+    <div class="container">
+        <div class="box">
+            <div class="content">
+                <a href="#">
+                    <img src="/static/images/2.png">
+                    <p>Tareas</p>
+                </a>
+            </div>
+        </div>
     </div>
+    <div class="container">
+        <div class="box">
+            <div class="content">
+                <a href="#">
+                    <img src="/static/images/test.png">
+                    <p>Parciales</p>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="box">
+            <div class="content">
+                <a href="#">
+                    <img src="/static/images/dates.png">
+                    <p>Materias</p>
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
 
-</main>
-{% endblock %}
