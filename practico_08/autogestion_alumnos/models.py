@@ -14,13 +14,13 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(250), nullable=False)
 
     # son
-    subjects = db.relationship('Subject', back_populates='user', lazy=True)
+    subjects = db.relationship('Subject', backref='user', lazy=True)
 
     def __repr__(self):
         return f"User('dni: {self.dni}', 'name: {self.name}')"
 
 
-subjects_professors_association_table = db.Table('association', db.metadata,
+subjects_professors_association_table = db.Table('subjects_professors_association_table', db.metadata,
                                                  db.Column('subject_id', db.Integer, db.ForeignKey('subject.id')),
                                                  db.Column('professor_id', db.Integer, db.ForeignKey('professor.id')),
                                                  )
@@ -37,11 +37,10 @@ class Subject(db.Model):
 
     # parent
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    user = db.relationship('User', back_populates='subjects')
 
     # children
-    exams = db.relationship('Exam', back_populates='subjects', lazy=True)
-    tasks = db.relationship('Task', back_populates='subjects', lazy=True)
+    exams = db.relationship('Exam', backref='subject', lazy=True)
+    tasks = db.relationship('Task', backref='subject', lazy=True)
 
     # association to professors
     professors = db.relationship('Professor', secondary=subjects_professors_association_table, back_populates='subjects',
@@ -57,13 +56,14 @@ class Professor(db.Model):
     name = db.Column(db.String(250), nullable=False)
     email = db.Column(db.String(250), nullable=True)
     questions_hour = db.Column(db.String(250), nullable=True)
+    type_of_class = db.Column(db.String(10), nullable=True)
 
     # association to subjects
     subjects = db.relationship('Subject', secondary=subjects_professors_association_table, back_populates='professors',
                                lazy=True)
 
     def __repr__(self):
-        return f"Professor('{self.name}', '{self.email}', '{self.questions_hour}')"
+        return f"Professor('{self.name}', '{self.email}', '{self.questions_hour}', '{self.type_of_class}')"
 
 
 class Exam(db.Model):
@@ -74,7 +74,6 @@ class Exam(db.Model):
 
     # parent
     subject_id = db.Column(db.Integer, db.ForeignKey('subject.id'), nullable=False)
-    subjects = db.relationship('Subject', back_populates='exams', lazy=True)
 
     def __repr__(self):
         return f"Exam('{self.description}', '{self.date}', '{self.score}')"
@@ -89,7 +88,6 @@ class Task(db.Model):
 
     # parent
     subject_id = db.Column(db.Integer, db.ForeignKey('subject.id'), nullable=False)
-    subjects = db.relationship('Subject', back_populates='tasks', lazy=True)
 
     def __repr__(self):
         return f"Task('{self.description}', '{self.date}', '{self.score}', '{self.is_done}')"
