@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+            * {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        }
+        body {
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-row: 1fr;
+            place-items: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #222;
+        }
+        .box {
+            padding: 40px 75px 10px 30px;
+            position: relative;
+            background:  #333;
+            border-top: 50px solid white;
+            width: 350px;
+        }
+        .box h2 {
+            color: #fff;
+            font-size: 30px;
+            padding: 10px 0;
+            margin-left: 20px;
+            display: inline-block;
+            border-bottom: 4px solid #fff;
+            text-align: center;
+        }
+        .box label {
+            color: #fff;
+            font-size: 17px;
+            font-family: Arial;
+            margin: 40px 0;
+            display: block;
+            cursor: pointer;
+        }
+        .box span {
+            position: relative;
+            left: 20px;
+            transition: 0.6s;
+        }
+        .box input[type="checkbox"]:checked ~ span
+        {
+            color: #e91e63;
+            text-decoration: line-through;
+        }
+        .box .task {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h2>Tareas</h2>
+        <label>
+            <input type="checkbox" name="">
+            <i></i>
+            <span class="task">19/09/2020 TP Soporte</span>
+        </label>
+        <label>
+            <input type="checkbox" name="">
+            <i></i>
+            <span class="task">20/09/2020 TP Simulacion</span>
+        </label>
+        <label>
+            <input type="checkbox" name="">
+            <i></i>
+            <span class="task">29/09/2020 TP ADR </span>
+        </label>
+        <label>
+            <input type="checkbox" name="">
+            <i></i>
+            <span class="task">11/08/2020 TP Comunicaciones</span>
+        </label>
+    </div>
+</body>
+</html>
