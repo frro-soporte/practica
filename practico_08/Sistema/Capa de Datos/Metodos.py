@@ -6,10 +6,6 @@ from Clases import Base, Centro, Sacerdote, Penitente, Turno
 class Datos():
     def __init__(self):
         engine = create_engine('mysql+pymysql://u448809972_gregorioSamsa:rosarioCentral119@185.201.11.149:3306/u448809972_turnosDB')
-        #df.to_sql('table', engine, if_exists='append', index=False)
-
-        #Base.metadata.drop_all(engine) #Elimina todo lo que pueda tener el motor
-        #Base.metadata.clear() #Borra las clases anteriores
         #Base.metadata.reflect(engine=engine) #Prepara las clases en la metadata para un reinicio
 
         Base.metadata.bind = engine
@@ -17,6 +13,9 @@ class Datos():
         db_session.bind = engine
         self.session = db_session()
         Base.metadata.create_all(engine) # crea todas las tablas que todavia no existen
+
+        #Base.metadata.drop_all(engine)  #Elimina todo lo que pueda tener el motor
+        #Base.metadata.clear() #Borra las clases anteriores
 
 class DatosCentros(Datos):
     def __init__(self):
@@ -99,31 +98,10 @@ class DatosTurnos(Datos):
         self.session.commit()
         return tur
    
-# class DatosSacerdotesCentros(Datos):
-#     def __init__(self):
-#         super().__init__()      
+class Disponibilidad(Datos):
+    def __init__(self):
+         super().__init__()      
 
 
 if __name__ == '__main__':
-
-    # Populate Centros
-    dc = DatosCentros()   
-    cen = Centro(nombre="Litoral", direccion="La Paz 640", codPostal="2000", sexoAtencion = "M")
-    dc.alta(cen)
-
-    # Populate Sacerdotes
-    ds = DatosSacerdotes()
-    sac = Sacerdote(dni=12345, nombreApellido='Pablo Paez', mail='pp@gmail.com', celular='34453456')
-    ds.alta(sac)
-  
-    # Populate penitentes
-    dp = DatosPenitentes()
-    pen = Penitente(mail='HernyG@gmail.com', nombreApellido='Hernan Gomez' , celular='1234123',estado=True, sexo='M')
-    dp.alta(pen)
-
-    # Pululate turnos
-    # esto no estaria funcionando correctamente
-    dt = DatosTurnos()
-    tur = Turno(dni=12345,idCentro=2, mail='HernyG@gmail.com', descripcionSacerdote='None',descricpcionPenitente='None') 
-    dt.alta(tur)
-   
+    datos = Datos()

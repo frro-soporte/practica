@@ -1,29 +1,29 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, DateTime, Sequence, ForeignKey, Table, Boolean, ForeignKeyConstraint
+from sqlalchemy import Column, Integer, String, DateTime, Time, Sequence, ForeignKey, Table, Boolean, ForeignKeyConstraint
 from sqlalchemy.orm import sessionmaker, relationship
-
+from sqlalchemy.dialects.oracle import BLOB
 
 Base = declarative_base()
 
-SacerdoteCentro= Table('sacerdotesCentros', Base.metadata,
-     Column('idSC', Integer, primary_key=True, autoincrement=True),
-     Column('dni', Integer),
-     Column('idCentro', Integer),
-     Column('rangoAtencionSacerdote', String(100)),
-     Column('rangoAtencionCentro', String(100), nullable=True),
+class Disponibilidad(Base):
+    __tablename__ = "disponibilidades"
+    idSC = Column('idSC', Integer, primary_key=True, autoincrement=True)
+    dni = Column('dni', Integer)
+    idCentro = Column('idCentro', Integer)
+    diaAtencion = Column('diaAtencion', Integer)
+    horaInicioAtencion = Column('horaInicioAtencion', Time)
+    horaFinAtencion = Column('horaFinAtencion', Time)
 
-     ForeignKeyConstraint(
+
+    ForeignKeyConstraint(
         ['dni'], ['sacerdotes.dni'],
-        name='fk_sacerdotesCentros_sacerdotes'
+        name='fk_disponibilidades_sacerdotes'
         ),
-     ForeignKeyConstraint(
+    ForeignKeyConstraint(
         ['idCentro'], ['centros.idCentro'],
-        name='fk_sacerdotesCentros_centros'
+        name='fk_diponibilidades_centros'
         )
-        
-     )
-
 
 class Sacerdote(Base):
     __tablename__="sacerdotes"   
@@ -31,8 +31,9 @@ class Sacerdote(Base):
     nombreApellido=Column(String(100))
     mail=Column(String(100))
     celular=Column(Integer)
+    imagen = Column(BLOB)
    
-    centros = relationship("Centro", back_populates='sacerdotes', secondary=SacerdoteCentro)
+    centros = relationship("Centro", back_populates='sacerdotes', secondary=Disponibilidad)
 
 
 class Centro(Base):
@@ -42,8 +43,9 @@ class Centro(Base):
     direccion = Column(String(100))
     codPostal = Column(String(100))
     sexoAtencion = Column(String(100))
+    imagen = Column(BLOB)
 
-    sacerdotes = relationship("Sacerdote",back_populates='centros', secondary=SacerdoteCentro)
+    sacerdotes = relationship("Sacerdote",back_populates='centros', secondary=Disponibilidad)
 
 
 
