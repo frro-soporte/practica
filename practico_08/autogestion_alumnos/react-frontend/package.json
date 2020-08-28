@@ -21,7 +21,7 @@
   },
   "scripts": {
     "start-frontend": "react-scripts start",
-    "start-flask-api": "cd .. && flask run",
+    "start-flask-api": "cd .. && python3 run.py",
     "build": "react-scripts build",
     "eject": "react-scripts eject"
   },
