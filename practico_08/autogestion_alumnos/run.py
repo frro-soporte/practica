@@ -1,5 +1,5 @@
-from autogestion_alumnos import db, create_app
-from autogestion_alumnos.config import Config
+from flask_backend import db, create_app
+from flask_backend.config import Config
 
 app = create_app(Config)
 

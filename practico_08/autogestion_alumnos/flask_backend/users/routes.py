@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, flash, session
-from autogestion_alumnos.models import User
-from autogestion_alumnos.utils import go_to
-from autogestion_alumnos.users.utils import register_user, is_user_registered
+from flask_backend.models import User
+from flask_backend.utils import go_to
+from flask_backend.users.utils import register_user, is_user_registered
 from flask_login import login_user, current_user, logout_user
 
 users = Blueprint('users', __name__)

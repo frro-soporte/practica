@@ -1,6 +1,6 @@
 from flask import flash
-from autogestion_alumnos.models import User
-from autogestion_alumnos import db, bcrypt
+from flask_backend.models import User
+from flask_backend import db, bcrypt
 
 
 def register_user(dni, user_name, password):
