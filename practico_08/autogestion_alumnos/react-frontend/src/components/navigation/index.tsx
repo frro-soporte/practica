@@ -1,10 +1,10 @@
 import * as React from 'react'
 
-import { JustChildren, Style } from '../../utils/tsTypes'
-import { Colors, Dimensions } from '../../style'
-import { VerticalStack } from '../../common/components/flex'
+import { JustChildren, Style } from 'utils/tsTypes'
+import { Colors, Dimensions } from 'style'
+import { VerticalStack } from 'common/components/flex'
 import { EntrySeparator } from './components/menuEntry'
-import {DashboardMenu} from "./components/singleLinkMenu";
+import { DashboardMenu } from './components/singleLinkMenu'
 
 function StaticPositionMainContainer(props: JustChildren): JSX.Element {
     const style: Style = {

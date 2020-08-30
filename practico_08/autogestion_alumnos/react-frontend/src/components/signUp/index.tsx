@@ -1,6 +1,6 @@
 import React from 'react'
-import { StyleMap } from '../../utils/tsTypes'
-import { VerticalStack } from '../../common/components/flex'
+import { StyleMap } from 'utils/tsTypes'
+import { VerticalStack } from 'common/components/flex'
 
 export const signUp = (): JSX.Element => {
     const styles: StyleMap = {

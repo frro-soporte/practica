@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { MaybeVisible, Style } from '../../utils/tsTypes'
+import { MaybeVisible, Style } from 'utils/tsTypes'
 
 type StackProps = React.DetailedHTMLProps<
     React.HTMLAttributes<HTMLDivElement>,

@@ -1,9 +1,9 @@
 import * as React from 'react'
-import { Colors, Dimensions } from '../../../style'
-import { Style, StyleMap } from '../../../utils/tsTypes'
-import { getValueOrDefault, isNil } from '../../../utils/checks'
-import { HorizontalStack } from '../../../common/components/flex'
-import { noop } from '../../../utils/utils'
+import { Colors, Dimensions } from 'style'
+import { Style, StyleMap } from 'utils/tsTypes'
+import { getValueOrDefault, isNil } from 'utils/checks'
+import { HorizontalStack } from 'common/components/flex'
+import { noop } from 'utils/utils'
 
 interface EntryToolTipProps {
     tooltip: React.ReactNode

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Style } from '../../../utils/tsTypes'
+import { Style } from 'utils/tsTypes'
 import { TriggerIcon } from './menuEntry'
 import { Link } from 'react-router-dom'
 
