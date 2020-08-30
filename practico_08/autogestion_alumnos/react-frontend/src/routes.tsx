@@ -1,5 +1,7 @@
 import React from 'react'
 import { Route, Redirect, Switch } from 'react-router-dom'
+import { login } from './components/login'
+import { signUp } from "./components/signUp";
 
 export class RoutesApp extends React.Component {
     render(): JSX.Element {
@@ -15,7 +17,7 @@ export class RoutesApp extends React.Component {
     }
 }
 
-const isAuthenticated = true
+const isAuthenticated = false
 
 const App = (): JSX.Element => {
     if (isAuthenticated) {
@@ -48,8 +50,8 @@ const Acc = (): JSX.Element => {
                 <Route exact path="/acc">
                     <Redirect to={'/acc/login'} />
                 </Route>
-                <Route path="/acc/login" component={Login} />
-                <Route path="/acc/signup" component={Signup} />
+                <Route path="/acc/login" component={login} />
+                <Route path="/acc/signup" component={signUp} />
                 <Route path="/acc/password-reset" component={PasswordReset} />
             </Switch>
         )
@@ -57,14 +59,6 @@ const Acc = (): JSX.Element => {
 
 const DashboardLoader = (): JSX.Element => {
     return <button>Log Out</button>
-}
-
-const Login = (): JSX.Element => {
-    return <button>Login</button>
-}
-
-const Signup = (): JSX.Element => {
-    return <h1>signup</h1>
 }
 
 const PasswordReset = (): JSX.Element => {
