@@ -1,6 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from Clases import Base, Centro, Sacerdote, Penitente, Turno
+from Clases import Base, Centro, Sacerdote, Penitente, Turno, Ciudad
+
 
 
 class Datos():
@@ -50,12 +51,12 @@ class DatosPenitentes(Datos):
     def __init__(self):
         super().__init__()
 
-    def alta(self,pen):
+    def add(self,pen):
         self.session.add(pen)   
         self.session.commit()
         return pen
     
-    def buscar_mail(self, penitente_mail): 
+    def searchByEmail(self, penitente_mail): 
         try:
             penitente = self.session.query(Penitente).filter(Penitente.mail == penitente_mail).first()
             return penitente
@@ -63,7 +64,7 @@ class DatosPenitentes(Datos):
             print ("No se encontro el penitente con mail: ", penitente_mail)
             return None            
 
-    def todos(self):
+    def all(self):
         centros = self.session.query(Sacerdote).all()
         return centros
 
@@ -71,12 +72,12 @@ class DatosSacerdotes(Datos):
     def __init__(self):
         super().__init__()    
 
-    def alta(self,sac):
+    def all(self,sac):
         self.session.add(sac)
         self.session.commit()
         return sac
 
-    def buscar(self, dni_sacerdote): 
+    def search(self, dni_sacerdote): 
         try:
             sacerdote = self.session.query(Sacerdote).filter(Sacerdote.dni == dni_sacerdote).first()
             return sacerdote
@@ -84,7 +85,7 @@ class DatosSacerdotes(Datos):
             print ("No se encontro el sacerdote: ", dni_sacerdote)
             return None
 
-    def todos(self):
+    def all(self):
         sacerdotes = self.session.query(Sacerdote).all()
         return sacerdotes
 
@@ -93,14 +94,21 @@ class DatosTurnos(Datos):
     def __init__(self):
         super().__init__()   
 
-    def alta(self,tur):
+    def add(self,tur):
         self.session.add(tur)
         self.session.commit()
         return tur
    
-class Disponibilidad(Datos):
+class DatosDisponibilidad(Datos):
     def __init__(self):
-         super().__init__()      
+         super().__init__() 
+
+class DatosCiudad(Datos):
+
+    def getAll(self):
+        ciudades= self.session.query(Ciudad).all()
+        return ciudades
+         
 
 
 

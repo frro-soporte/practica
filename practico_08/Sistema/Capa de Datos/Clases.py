@@ -25,6 +25,14 @@ class Disponibilidad(Base):
         name='fk_diponibilidades_centros'
         )
 
+class Ciudad(Base):
+    __tablename__="ciudades"
+    idCiudad = Column(Integer, primary_key=True, autoincrement=True)
+    pais = Column(String(100))
+    provincia = Column(String(100))
+    nombre = Column(String(100))
+    codigoPostal = Column(Integer)
+
 class Sacerdote(Base):
     __tablename__="sacerdotes"   
     dni=Column(Integer,primary_key=True)
@@ -32,8 +40,14 @@ class Sacerdote(Base):
     mail=Column(String(100))
     celular=Column(Integer)
     imagen = Column(BLOB)
+    idCiudad = Column(Integer)
    
     centros = relationship("Centro", back_populates='sacerdotes', secondary=Disponibilidad)
+
+    ForeignKeyConstraint(
+    ['idCiudad'], ['ciudades.idCiudad'],
+    name='fk_sacerdotes_ciudades'
+    )
 
 
 class Centro(Base):
@@ -44,8 +58,14 @@ class Centro(Base):
     codPostal = Column(String(100))
     sexoAtencion = Column(String(100))
     imagen = Column(BLOB)
+    idCiudad = Column(Integer)
 
     sacerdotes = relationship("Sacerdote",back_populates='centros', secondary=Disponibilidad)
+   
+    ForeignKeyConstraint(
+    ['idCiudad'], ['ciudades.idCiudad'],
+    name='fk_centros_ciudades'
+    )
 
 
 
