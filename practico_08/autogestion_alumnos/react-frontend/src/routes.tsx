@@ -1,7 +1,8 @@
 import React from 'react'
 import { Route, Redirect, Switch } from 'react-router-dom'
 import { login } from './components/login'
-import { signUp } from "./components/signUp";
+import { signUp } from './components/signUp'
+import { Layout } from './components/app/layout'
 
 export class RoutesApp extends React.Component {
     render(): JSX.Element {
@@ -58,7 +59,7 @@ const Acc = (): JSX.Element => {
 }
 
 const DashboardLoader = (): JSX.Element => {
-    return <button>Log Out</button>
+    return <Layout>Log Out</Layout>
 }
 
 const PasswordReset = (): JSX.Element => {
