@@ -187,7 +187,7 @@ export class MenuTrigger extends React.Component<MenuTriggerProps> {
  * Icon component to be used inside MenuTriggers
  */
 interface TriggerIconProps {
-    // icon: Icons
+    icon: string
     style?: Style
     isActive?: boolean
     isExpanded?: boolean
