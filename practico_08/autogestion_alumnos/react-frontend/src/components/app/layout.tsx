@@ -3,7 +3,7 @@ import * as React from 'react'
 import { Colors, Dimensions } from 'style'
 import { JustChildren, Style, StyleMap } from 'utils/tsTypes'
 import { HorizontalStack } from 'common/components/flex'
-import { Navigation } from 'navigation'
+import { Navigation } from 'components/navigation'
 
 class ScrollContainer extends React.Component<JustChildren> {
     private htmlRef: HTMLElement | null
