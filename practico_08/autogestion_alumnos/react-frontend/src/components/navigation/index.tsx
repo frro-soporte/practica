@@ -4,6 +4,7 @@ import { JustChildren, Style } from '../../utils/tsTypes'
 import { Colors, Dimensions } from '../../style'
 import { VerticalStack } from '../../common/components/flex'
 import { EntrySeparator } from './components/menuEntry'
+import {DashboardMenu} from "./components/singleLinkMenu";
 
 function StaticPositionMainContainer(props: JustChildren): JSX.Element {
     const style: Style = {
@@ -121,7 +122,7 @@ export function Navigation(props: ScreenSizeProps): JSX.Element {
             <MainContainer isSmallScreen={isSmallScreen}>
                 <TopContainer>
                     <EntrySeparator style={{ flexBasis: 12 }} />
-                    {/*<DashboardMenu />*/}
+                    <DashboardMenu />
                     <EntrySeparator style={{ flexBasis: 10 }} />
                 </TopContainer>
                 <MiddleContainer isSmallScreen={isSmallScreen}>
