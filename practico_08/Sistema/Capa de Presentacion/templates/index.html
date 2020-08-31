@@ -1,5 +1,6 @@
 {% extends "base.html" %}
-{% block title %} User {% endblock %}
+
+{% block title %} Inicio {% endblock %}
 {% block content %}
     {% with messages = get_flashed_messages() %}
         {% if messages %}
@@ -19,9 +20,7 @@
                     <h3>Ciudad a consultar</h3>
                   </div>
                   <div class="col-sm">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Dropdown button
-                    </button>
+                        {{form.ddlciudades(class_="btn btn-secondary dropdown-toggle")}}                        
                   </div>
               </div>
           </div>  

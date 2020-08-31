@@ -1,1 +1,18 @@
 {% extends "base.html" %}
+{% block title %} Sacerdotes {% endblock %}
+{% block content %}
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    {% for image_name in image_names %}
+                    <div class="row">
+                        <img class="img-thumbnail rounded float-left" src=" {{url_for('send_image', filename=image_name, tipo=1)}}">
+                    </div>
+                    {% endfor %} 
+                </div>
+                <div class="col">
+
+                </div>   
+            </div>
+        </div>
+{% endblock %}

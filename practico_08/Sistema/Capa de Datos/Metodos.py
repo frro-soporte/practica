@@ -103,14 +103,23 @@ class DatosDisponibilidad(Datos):
     def __init__(self):
          super().__init__() 
 
-class DatosCiudad(Datos):
+class DatosCiudades(Datos):
+    def __init__(self):
+         super().__init__() 
 
     def getAll(self):
         ciudades= self.session.query(Ciudad).all()
         return ciudades
+
+    def getOne(self, id):
+        return self.Session.query.filter_by(idCiudad=id).first()
          
 
 
 
 if __name__ == '__main__':
     datos = Datos()
+    ciudades = DatosCiudades().getAll()
+    print(ciudades[0].nombre)
+    print("Tipo: ")
+    print(type(ciudades))

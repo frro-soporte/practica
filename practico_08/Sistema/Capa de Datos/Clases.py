@@ -6,25 +6,6 @@ from sqlalchemy.dialects.oracle import BLOB
 
 Base = declarative_base()
 
-class Disponibilidad(Base):
-    __tablename__ = "disponibilidades"
-    idSC = Column('idSC', Integer, primary_key=True, autoincrement=True)
-    dni = Column('dni', Integer)
-    idCentro = Column('idCentro', Integer)
-    diaAtencion = Column('diaAtencion', Integer)
-    horaInicioAtencion = Column('horaInicioAtencion', Time)
-    horaFinAtencion = Column('horaFinAtencion', Time)
-
-
-    ForeignKeyConstraint(
-        ['dni'], ['sacerdotes.dni'],
-        name='fk_disponibilidades_sacerdotes'
-        ),
-    ForeignKeyConstraint(
-        ['idCentro'], ['centros.idCentro'],
-        name='fk_diponibilidades_centros'
-        )
-
 class Ciudad(Base):
     __tablename__="ciudades"
     idCiudad = Column(Integer, primary_key=True, autoincrement=True)
@@ -33,6 +14,7 @@ class Ciudad(Base):
     nombre = Column(String(100))
     codigoPostal = Column(Integer)
 
+
 class Sacerdote(Base):
     __tablename__="sacerdotes"   
     dni=Column(Integer,primary_key=True)
@@ -40,15 +22,8 @@ class Sacerdote(Base):
     mail=Column(String(100))
     celular=Column(Integer)
     imagen = Column(BLOB)
-    idCiudad = Column(Integer)
+    idCiudad = Column(Integer, ForeignKey('ciudades.idCiudad'))
    
-    centros = relationship("Centro", back_populates='sacerdotes', secondary=Disponibilidad)
-
-    ForeignKeyConstraint(
-    ['idCiudad'], ['ciudades.idCiudad'],
-    name='fk_sacerdotes_ciudades'
-    )
-
 
 class Centro(Base):
     __tablename__="centros"
@@ -58,14 +33,9 @@ class Centro(Base):
     codPostal = Column(String(100))
     sexoAtencion = Column(String(100))
     imagen = Column(BLOB)
-    idCiudad = Column(Integer)
-
-    sacerdotes = relationship("Sacerdote",back_populates='centros', secondary=Disponibilidad)
+    idCiudad = Column(Integer, ForeignKey('ciudades.idCiudad'))
    
-    ForeignKeyConstraint(
-    ['idCiudad'], ['ciudades.idCiudad'],
-    name='fk_centros_ciudades'
-    )
+
 
 
 
@@ -78,19 +48,18 @@ class Turno(Base):
     fechayHoraTurno = Column('fechayHoraTurno', DateTime)
     descripcionSacerdote = Column('descripcionSacerdote', String(250), nullable=True)
     descricpcionPenitente = Column('descricpcionPenitente', String(250), nullable=True)
-    
-    ForeignKeyConstraint(
-    ['dni'], ['sacerdotes.dni'],
-    name='fk_turnos_sacerdotes'
-    ),
-    ForeignKeyConstraint(
-    ['idCentro'], ['centros.idCentro'],
-    name='fk_turnos_centros'
-    ),
-    ForeignKeyConstraint(
-    ['mail'], ['penitentes.mail'],
-    name='fk_turnos_penitentes'
-    )  
+
+class Disponibilidad(Base):
+    __tablename__ = "disponibilidades"
+    idSC = Column('idSC', Integer, primary_key=True, autoincrement=True)
+    dni = Column('dni', Integer, ForeignKey('sacerdotes.dni'))
+    idCentro = Column('idCentro', Integer, ForeignKey('centros.idCentro'))
+    diaAtencion = Column('diaAtencion', Integer)
+    horaInicioAtencion = Column('horaInicioAtencion', Time)
+    horaFinAtencion = Column('horaFinAtencion', Time)
+
+    sacerdote = relationship(Sacerdote)
+    centro = relationship(Centro)
 
 
 
