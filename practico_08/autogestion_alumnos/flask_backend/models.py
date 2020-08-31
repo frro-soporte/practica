@@ -1,15 +1,11 @@
-from flask_backend import db, login_manager
+from flask_backend import db
 from flask_login import UserMixin
-
-
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
 
 
 class User(db.Model, UserMixin):
     id = db.Column('id', db.Integer, primary_key=True, autoincrement=True, unique=True, nullable=False)
     dni = db.Column(db.Integer, unique=True, nullable=False)
+    legajo = db.Column(db.Integer, unique=True, nullable=False)
     name = db.Column(db.String(250), nullable=False)
     password = db.Column(db.String(250), nullable=False)
 
@@ -17,7 +13,7 @@ class User(db.Model, UserMixin):
     subjects = db.relationship('Subject', backref='user', lazy=True)
 
     def __repr__(self):
-        return f"User('dni: {self.dni}', 'name: {self.name}')"
+        return f"User('dni: {self.dni}', 'name: {self.name}', 'legajo: {self.legajo}')"
 
 
 subjects_professors_association_table = db.Table('subjects_professors_association_table', db.metadata,
