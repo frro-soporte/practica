@@ -2,11 +2,14 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter as Router } from 'react-router-dom'
 import './index.css'
-import { RoutesApp } from './routes'
+import { CookiesProvider } from 'react-cookie/lib'
+import RoutesApp from './routes'
 
 ReactDOM.render(
-    <Router>
-        <RoutesApp />
-    </Router>,
+    <CookiesProvider>
+        <Router>
+            <RoutesApp />
+        </Router>
+    </CookiesProvider>,
     document.getElementById('root')
 )
