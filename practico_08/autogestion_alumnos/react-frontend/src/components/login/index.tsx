@@ -1,0 +1,182 @@
+import React, { useCallback, useState } from 'react'
+import { StyleMap } from 'utils/tsTypes'
+import { VerticalStack } from 'common/components/flex'
+import { LoginModel } from 'components/login/model'
+import { Cookies } from 'react-cookie/lib'
+import { Redirect, Switch } from 'react-router-dom'
+
+export const Login = (props: { cookies: Cookies }): JSX.Element => {
+    const model = new LoginModel(props.cookies)
+
+    const styles: StyleMap = {
+        background: {
+            position: 'absolute',
+            textAlign: 'center',
+            verticalAlign: 'middle',
+            width: '100%',
+            background:
+                'radial-gradient(96.69% 305.6% at 1.2% 1.81%, rgba(5, 15, 31, 0.85) 0%, #101825 44.27%, #6ba1f2 99.99%, #77a3ee 99.99%)',
+            border: '1px solid #000000',
+            boxSizing: 'border-box',
+        },
+        whiteBox: {
+            position: 'relative',
+            margin: '10% auto',
+            width: '1000px',
+            height: '800px',
+            background: '#ffffff',
+            display: 'flex',
+            flexDirection: 'column',
+            boxShadow: '10px 10px 10px rgba(0, 0, 0, 0.25)',
+        },
+        userIcon: {
+            borderRadius: '50%',
+            marginLeft: '400px',
+            marginTop: '50px',
+            position: 'absolute',
+            width: '200px',
+            height: '200px',
+            background: '#C4C4C4',
+            display: 'flex',
+            flexDirection: 'column',
+        },
+    }
+
+    return (
+        <div style={styles.background}>
+            <div style={styles.whiteBox}>
+                <div style={styles.userIcon} />
+                <LoginForm model={model} />
+                <BottomOptions />
+            </div>
+        </div>
+    )
+}
+
+const LoginForm = (props: { model: LoginModel }): JSX.Element => {
+    const styles: StyleMap = {
+        loginForm: {
+            marginTop: '200px',
+            alignSelf: 'center',
+        },
+        inputForm: {
+            marginTop: '75px',
+            width: '300px',
+            height: '50px',
+            textAlign: 'center',
+            color: 'rgba(0, 0, 0, 0.5)',
+            fontStyle: 'normal',
+            fontWeight: 'normal',
+            fontSize: '35px',
+            borderWidth: '4px',
+            borderColor: '#b3b3b3',
+            fontFamily: 'New York Medium',
+        },
+        loginButton: {
+            marginTop: '75px',
+            width: '320px',
+            height: '60px',
+            background: '#D22828',
+            borderWidth: 'medium',
+            borderColor: '#a12121',
+            boxShadow: '0 4px 4px rgba(0, 0, 0, 0.25)',
+            borderRadius: '22px',
+            fontStyle: 'normal',
+            fontWeight: 'normal',
+            fontFamily: 'New York Medium',
+            fontSize: '35px',
+            color: '#FFFFFF',
+        },
+    }
+
+    const [username, setUserName] = useState('')
+    const [password, setPassword] = useState('')
+    const [errorMessage, setErrorMessage] = useState('')
+    const goToDashboard = useCallback(() => {
+        return (
+            <Switch>
+                <Redirect to={'/app/dashboard'} />
+            </Switch>
+        )
+    }, [])
+
+    return (
+        <VerticalStack style={{ alignSelf: 'center' }}>
+            <form style={styles.loginForm}>
+                <VerticalStack>
+                    <input
+                        style={styles.inputForm}
+                        type="text"
+                        name="userName"
+                        required={true}
+                        placeholder="Username"
+                        value={username}
+                        onChange={(event) => {
+                            setUserName(event.target.value)
+                        }}
+                    />
+                    <input
+                        style={styles.inputForm}
+                        type="password"
+                        name="password"
+                        required={true}
+                        placeholder="Password"
+                        value={password}
+                        onChange={(event) => {
+                            setPassword(event.target.value)
+                        }}
+                    />
+                    {errorMessage}
+                </VerticalStack>
+            </form>
+            <button
+                style={styles.loginButton}
+                onClick={() =>
+                    props.model.onClickLogin(
+                        username,
+                        password,
+                        setErrorMessage,
+                        goToDashboard
+                    )
+                }
+            >
+                Log In
+            </button>
+        </VerticalStack>
+    )
+}
+
+const BottomOptions = (): JSX.Element => {
+    const styles: StyleMap = {
+        signUp: {
+            marginTop: '15px',
+            fontStyle: 'normal',
+            fontWeight: 'normal',
+            fontSize: '25px',
+            color: 'black',
+            textDecoration: 'none',
+        },
+        lostYourPassword: {
+            marginTop: '15px',
+            fontStyle: 'normal',
+            fontWeight: 'normal',
+            fontSize: '25px',
+            color: 'black',
+            textDecoration: 'none',
+        },
+        bottomLinks: {
+            width: '500px',
+            alignSelf: 'center',
+        },
+    }
+    return (
+        <VerticalStack style={styles.bottomLinks}>
+            <a style={styles.signUp} href="/signup">
+                Sign Up
+            </a>
+            <a style={styles.lostYourPassword} href="/">
+                Lost your password?
+            </a>
+        </VerticalStack>
+    )
+}
