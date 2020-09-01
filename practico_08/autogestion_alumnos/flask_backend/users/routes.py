@@ -12,7 +12,7 @@ users = Blueprint('users', __name__)
 def logout():
     jti = get_raw_jwt()['jti']
     blacklist.add(jti)
-    return jsonify({"status": "ok", "msg": "Successfully logged out"}), 200
+    return dict(status="ok")
 
 
 blacklist = set()
@@ -32,17 +32,17 @@ def sign_up():
         legajo = request.json.get("legajo", None)
         dni = request.json.get("dni", None)
         if not userName:
-            return jsonify({"status": "error", "msg": "Missing userName"}), 400
+            return dict(status="error", msg="Missing userName")
         if not password:
-            return jsonify({"status": "error", "msg": "Missing password"}), 400
+            return dict(status="error", msg="Missing password")
         if not legajo:
-            return jsonify({"status": "error", "msg": "Missing legajo"}), 400
+            return dict(status="error", msg="Missing legajo")
         if not dni:
-            return jsonify({"status": "error", "msg": "Missing dni"}), 400
+            return dict(status="error", msg="Missing dni")
         if register_user(dni, userName, password, legajo):
-            return jsonify({"status": "ok"}), 200
-        return jsonify({"status": "error", "msg": "Already registered"}), 400
-    return jsonify({"status": "error", "msg": "Request not allowed"}), 400
+            return dict(status="ok")
+        return dict(status="error", msg="Already registered")
+    return dict(status="error", msg="Request not allowed")
 
 
 @users.route('/login', methods=["POST", "GET"])
@@ -52,16 +52,16 @@ def log_in():
         user_name = request.json.get("userName", None)
         password = request.json.get("password", None)
         if not user_name:
-            return jsonify({"status": "error", "msg": "Missing user_name"}), 400
+            return dict(status="error", msg="Missing user_name")
         if not password:
-            return jsonify({"status": "error", "msg": "Missing password"}), 400
+            return dict(status="error", msg="Missing password")
         registered = is_user_registered(user_name, password)
         if registered:
             user = User.query.filter_by(name=user_name).first()
             access_token = create_access_token(identity=user.name)
-            return jsonify({"status": "ok", "msg": {"access_token": access_token}}), 200
-        return jsonify({"status": "error", "msg": "Bad user name or password"}), 401
-    return jsonify({"status": "error", "msg": "Request not allowed"}), 400
+            return dict(status="ok", data=dict(access_token=access_token))
+        return dict(status="error", msg="Bad user name or password")
+    return dict(status="error", msg="Request not allowed")
 
 
 @users.route('/test_token', methods=["GET"])
@@ -69,5 +69,6 @@ def log_in():
 def recover_password():
     if request.method == "GET":
         current_user = get_jwt_identity()
-        return jsonify({"status": "ok", "msg": {"logged_in_as": current_user}}), 200
-    return jsonify({"status": "error", "msg": "Request not allowed"}), 400
+        return dict(status="ok", data=dict(logged_in_as=current_user))
+    return dict(status="error", msg="Request not allowed")
+

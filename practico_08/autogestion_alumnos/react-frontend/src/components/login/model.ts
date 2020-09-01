@@ -26,18 +26,21 @@ export class LoginModel {
             return
         }
 
-        const maybeAuthorization = await this.tryToLogin()
-        if (isNil(maybeAuthorization)) {
-            setErrorMessage(
-                'Something went wrong, please check your information and try again'
-            )
+        const response = await this.tryToLogin()
+
+        if (response.status === 'ok') {
+            this.cookies.set('access_token', response.msg.access_token)
+            return goToDashboard()
+        }
+        if (response.msg === '') {
+            setErrorMessage('Something went wrong, please try again')
             return
         }
-        this.cookies.set('access_token', maybeAuthorization)
-        return goToDashboard()
+        setErrorMessage(response.msg)
+        return
     }
 
-    tryToLogin = async (): Promise<string> => {
+    tryToLogin = async (): Promise<{ msg: any; status: string }> => {
         const response = axios
             .post(
                 '/login',
@@ -52,10 +55,16 @@ export class LoginModel {
                 }
             )
             .then((response) => {
-                return response.data.msg.access_token
+                return {
+                    status: response.data.status,
+                    msg: response.data.msg || response.data.data,
+                }
             })
             .catch(() => {
-                return null
+                return {
+                    status: 'error',
+                    msg: '',
+                }
             })
         return response
     }
