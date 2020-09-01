@@ -18,10 +18,9 @@ class Ciudad(Base):
 class Sacerdote(Base):
     __tablename__="sacerdotes"   
     dni=Column(Integer,primary_key=True)
-    nombreApellido=Column(String(100))
+    apellidoNombre=Column(String(100))
     mail=Column(String(100))
     celular=Column(Integer)
-    imagen = Column(BLOB)
     idCiudad = Column(Integer, ForeignKey('ciudades.idCiudad'))
    
 
@@ -30,9 +29,7 @@ class Centro(Base):
     idCentro = Column(Integer, primary_key=True, autoincrement=True)
     nombre = Column(String(100))
     direccion = Column(String(100))
-    codPostal = Column(String(100))
     sexoAtencion = Column(String(100))
-    imagen = Column(BLOB)
     idCiudad = Column(Integer, ForeignKey('ciudades.idCiudad'))
    
 

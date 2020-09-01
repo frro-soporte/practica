@@ -3,7 +3,7 @@ import flask
 import sys
 sys.path.append('c:/Users/ppaez/Documents/Repositorios/frro-soporte-2020-23/practico_08/Sistema/Capa de Datos')
 
-from Metodos import DatosCiudades
+from Metodos import DatosCiudades, DatosSacerdotes, DatosCentros
 from flask import Flask, redirect, url_for, render_template, request, session, flash, send_from_directory
 from datetime import timedelta
 from flask_wtf import FlaskForm
@@ -36,12 +36,16 @@ def send_image(filename,tipo):
 @app.route('/sacerdotes')
 def sacerdotes():
     image_names = os.listdir('C:/Users/ppaez/Documents/Repositorios/frro-soporte-2020-23/practico_08/Sistema/Capa de Presentacion/images/sacerdotes')
-    return render_template('sacerdotes.html', image_names=image_names)
+    ds = DatosSacerdotes()
+    sacerdotes = ds.GetAll()
+    return render_template('sacerdotes.html', image_names=image_names, sacerdotes = sacerdotes)
 
 @app.route('/centros')
 def centro():
+    dc = DatosCentros()
+    centros = dc.GetAll()
     image_names = os.listdir('C:/Users/ppaez/Documents/Repositorios/frro-soporte-2020-23/practico_08/Sistema/Capa de Presentacion/images/centros')
-    return render_template('centros.html', image_names=image_names)
+    return render_template('centros.html', image_names=image_names, centros = centros)
 
 @app.route('/cancelarTurno')
 def cancelarTurno():

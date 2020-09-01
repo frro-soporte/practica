@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, asc
 from sqlalchemy.orm import sessionmaker
 from Clases import Base, Centro, Sacerdote, Penitente, Turno, Ciudad
 
@@ -43,8 +43,8 @@ class DatosCentros(Datos):
             print ("No se encontro el centro con nombre: ", nombre_centro)
             return None            
 
-    def todos(self):
-        centros = self.session.query(Sacerdote).all()
+    def GetAll(self):
+        centros = self.session.query(Centro).order_by(asc(Centro.nombre)).all()
         return centros
 
 class DatosPenitentes(Datos):
@@ -72,7 +72,7 @@ class DatosSacerdotes(Datos):
     def __init__(self):
         super().__init__()    
 
-    def all(self,sac):
+    def Add(self,sac):
         self.session.add(sac)
         self.session.commit()
         return sac
@@ -85,8 +85,9 @@ class DatosSacerdotes(Datos):
             print ("No se encontro el sacerdote: ", dni_sacerdote)
             return None
 
-    def all(self):
-        sacerdotes = self.session.query(Sacerdote).all()
+    def GetAll(self):
+        sacerdotes = self.session.query(Sacerdote).order_by(asc(Sacerdote.apellidoNombre)).all()
+       
         return sacerdotes
 
 
@@ -119,7 +120,5 @@ class DatosCiudades(Datos):
 
 if __name__ == '__main__':
     datos = Datos()
-    ciudades = DatosCiudades().getAll()
-    print(ciudades[0].nombre)
-    print("Tipo: ")
-    print(type(ciudades))
+    sacerdotes = DatosSacerdotes().GetAll()
+    print(type(sacerdotes))

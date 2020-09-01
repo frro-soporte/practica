@@ -2,17 +2,16 @@
 {% block title %} Sacerdotes {% endblock %}
 {% block content %}
         <div class="container">
-            <div class="row">
+            {% for image_name in image_names %}
+            <div class="row">              
                 <div class="col">
-                    {% for image_name in image_names %}
-                    <div class="row">
-                        <img class="img-thumbnail rounded float-left" src=" {{url_for('send_image', filename=image_name, tipo=1)}}">
-                    </div>
-                    {% endfor %} 
+                    <img class="img-thumbnail rounded float-left" src=" {{url_for('send_image', filename=image_name, tipo=1)}}">
                 </div>
                 <div class="col">
-
-                </div>   
+                   <h4> {{sacerdotes[image_names.index(image_name)].apellidoNombre}} </h4> 
+                </div> 
+                  
             </div>
+            {% endfor %} 
         </div>
 {% endblock %}
