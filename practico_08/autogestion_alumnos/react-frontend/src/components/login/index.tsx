@@ -3,7 +3,7 @@ import { StyleMap } from 'utils/tsTypes'
 import { VerticalStack } from 'common/components/flex'
 import { LoginModel } from 'components/login/model'
 import { Cookies } from 'react-cookie/lib'
-import { Redirect, Switch } from 'react-router-dom'
+import {Redirect, Switch, Link, useHistory} from 'react-router-dom'
 
 export const Login = (props: { cookies: Cookies }): JSX.Element => {
     const model = new LoginModel(props.cookies)
@@ -92,12 +92,9 @@ const LoginForm = (props: { model: LoginModel }): JSX.Element => {
     const [username, setUserName] = useState('')
     const [password, setPassword] = useState('')
     const [errorMessage, setErrorMessage] = useState('')
+    const history = useHistory()
     const goToDashboard = useCallback(() => {
-        return (
-            <Switch>
-                <Redirect to={'/app/dashboard'} />
-            </Switch>
-        )
+        history.push('/app/dashboard')
     }, [])
 
     return (
@@ -171,12 +168,12 @@ const BottomOptions = (): JSX.Element => {
     }
     return (
         <VerticalStack style={styles.bottomLinks}>
-            <a style={styles.signUp} href="/signup">
+            <Link style={styles.signUp} to={'/acc/signup'}>
                 Sign Up
-            </a>
-            <a style={styles.lostYourPassword} href="/">
+            </Link>
+            <Link style={styles.lostYourPassword} to={'/'}>
                 Lost your password?
-            </a>
+            </Link>
         </VerticalStack>
     )
 }

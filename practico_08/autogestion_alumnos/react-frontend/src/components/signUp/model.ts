@@ -1,35 +1,38 @@
 import axios from 'axios'
-import { Cookies } from 'react-cookie/lib'
+import {withCookies} from "react-cookie/lib";
+import {withRouter} from "react-router";
 
-export class LoginModel {
+export class SignUpModel {
+    dni = ''
+    legajo = ''
     username = ''
     password = ''
-    cookies: Cookies
 
-    constructor(cookies: Cookies) {
-        this.cookies = cookies
-    }
-
-    onClickLogin = async (
+    onClickSignUp = async (
+        dni: string,
+        legajo: string,
         username: string,
         password: string,
         setErrorMessage: (error: string) => void,
-        goToDashboard: () => void
+        goToLogin: () => void
     ): Promise<void> => {
+        this.dni = dni
+        this.legajo = legajo
         this.username = username
         this.password = password
         setErrorMessage('')
 
-        if (username === '' || password === '') {
+        if (dni === '' || legajo === '' || username === '' || password === '') {
             setErrorMessage('Please complete all the fields and try again.')
             return
         }
 
-        const response = await this.tryToLogin()
+        const response = await this.tryToSignUp()
 
+        console.log(response)
         if (response.status === 'ok') {
-            this.cookies.set('access_token', response.msg.access_token)
-            return goToDashboard()
+            console.log('adentro del if status')
+            return goToLogin()
         }
         if (response.msg === '') {
             setErrorMessage('Something went wrong, please try again')
@@ -39,13 +42,15 @@ export class LoginModel {
         return
     }
 
-    tryToLogin = async (): Promise<{ msg: any; status: string }> => {
+    tryToSignUp = async (): Promise<{ msg: any; status: string }> => {
         const response = axios
             .post(
-                '/login',
+                '/sign_up',
                 {
                     userName: this.username,
                     password: this.password,
+                    legajo: this.legajo,
+                    dni: this.dni,
                 },
                 {
                     headers: {
@@ -56,7 +61,7 @@ export class LoginModel {
             .then((response) => {
                 return {
                     status: response.data.status,
-                    msg: response.data.msg || response.data.data,
+                    msg: response.data.msg || '',
                 }
             })
             .catch(() => {
