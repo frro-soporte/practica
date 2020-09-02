@@ -1,8 +1,13 @@
-import React from 'react'
+import React, { useCallback, useState } from 'react'
 import { StyleMap } from 'utils/tsTypes'
 import { VerticalStack } from 'common/components/flex'
 
-export const signUp = (): JSX.Element => {
+import { SignUpModel } from './model'
+import {Link, Redirect, Switch, useHistory} from 'react-router-dom'
+
+export const SignUp = (): JSX.Element => {
+    const model = new SignUpModel()
+
     const styles: StyleMap = {
         background: {
             position: 'absolute',
@@ -35,6 +40,21 @@ export const signUp = (): JSX.Element => {
             display: 'flex',
             flexDirection: 'column',
         },
+    }
+
+    return (
+        <div style={styles.background}>
+            <div style={styles.whiteBox}>
+                <div style={styles.userIcon} />
+                <SignUpForm model={model} />
+                <BottomOptions />
+            </div>
+        </div>
+    )
+}
+
+const SignUpForm = (props: { model: SignUpModel }): JSX.Element => {
+    const styles: StyleMap = {
         signUpForm: {
             marginTop: '200px',
             alignSelf: 'center',
@@ -66,6 +86,94 @@ export const signUp = (): JSX.Element => {
             fontFamily: 'New York Medium',
             fontSize: '35px',
             color: '#FFFFFF',
+            alignSelf: 'center',
+        },
+    }
+    const [dni, setDni] = useState('')
+    const [legajo, setLegajo] = useState('')
+    const [username, setUserName] = useState('')
+    const [password, setPassword] = useState('')
+    const [errorMessage, setErrorMessage] = useState('')
+    const history = useHistory()
+    const goToLogin = useCallback(() => {
+        history.push('/acc/login')
+    }, [])
+
+    return (
+        <VerticalStack>
+            <form style={styles.signUpForm}>
+                <VerticalStack>
+                    <input
+                        style={styles.inputForm}
+                        type="text"
+                        name="dni"
+                        required={true}
+                        placeholder="Dni"
+                        value={dni}
+                        onChange={(event) => {
+                            setDni(event.target.value)
+                        }}
+                    />
+                    <input
+                        style={styles.inputForm}
+                        type="text"
+                        name="legajo"
+                        required={true}
+                        placeholder="Legajo"
+                        value={legajo}
+                        onChange={(event) => {
+                            setLegajo(event.target.value)
+                        }}
+                    />
+                    <input
+                        style={styles.inputForm}
+                        type="text"
+                        name="userName"
+                        required={true}
+                        placeholder="Username"
+                        value={username}
+                        onChange={(event) => {
+                            setUserName(event.target.value)
+                        }}
+                    />
+                    <input
+                        style={styles.inputForm}
+                        type="password"
+                        name="password"
+                        required={true}
+                        placeholder="Password"
+                        value={password}
+                        onChange={(event) => {
+                            setPassword(event.target.value)
+                        }}
+                    />
+                    {errorMessage}
+                </VerticalStack>
+            </form>
+            <button
+                style={styles.signupButton}
+                onClick={() =>
+                    props.model.onClickSignUp(
+                        dni,
+                        legajo,
+                        username,
+                        password,
+                        setErrorMessage,
+                        goToLogin
+                    )
+                }
+            >
+                Sign Up
+            </button>
+        </VerticalStack>
+    )
+}
+
+const BottomOptions = (): JSX.Element => {
+    const styles: StyleMap = {
+        bottomLinks: {
+            width: '500px',
+            alignSelf: 'center',
         },
         loginButton: {
             marginTop: '15px',
@@ -74,60 +182,15 @@ export const signUp = (): JSX.Element => {
             fontSize: '25px',
             color: 'black',
             textDecoration: 'none',
-        },
-        bottomLinks: {
-            width: '500px',
             alignSelf: 'center',
         },
     }
 
     return (
-        <div style={styles.background}>
-            <div style={styles.whiteBox}>
-                <div style={styles.userIcon} />
-                <form style={styles.signUpForm} action="#" method="post">
-                    <VerticalStack>
-                        <input
-                            style={styles.inputForm}
-                            type="text"
-                            name="dni"
-                            required={true}
-                            placeholder="Dni"
-                        />
-                        <input
-                            style={styles.inputForm}
-                            type="text"
-                            name="legajo"
-                            required={true}
-                            placeholder="Legajo"
-                        />
-                        <input
-                            style={styles.inputForm}
-                            type="text"
-                            name="userName"
-                            required={true}
-                            placeholder="Username"
-                        />
-                        <input
-                            style={styles.inputForm}
-                            type="password"
-                            name="password"
-                            required={true}
-                            placeholder="Password"
-                        />
-                        <input
-                            style={styles.signupButton}
-                            type="submit"
-                            value="SignUp"
-                        />
-                    </VerticalStack>
-                </form>
-                <VerticalStack style={styles.bottomLinks}>
-                    <a style={styles.loginButton} href="/acc/login">
-                        Already registered? Login
-                    </a>
-                </VerticalStack>
-            </div>
-        </div>
+        <VerticalStack style={styles.bottomLinks}>
+            <Link style={styles.loginButton} to={'/acc/login'}>
+                Already registered? Login
+            </Link>
+        </VerticalStack>
     )
 }

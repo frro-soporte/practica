@@ -1,7 +1,7 @@
 import React from 'react'
 import { Route, Redirect, Switch } from 'react-router-dom'
 import { Login } from './components/login'
-import { signUp } from './components/signUp'
+import { SignUp } from './components/signUp'
 import { Layout } from './components/app/layout'
 import { Cookies, withCookies } from 'react-cookie/lib'
 import { isNotNil } from './utils/checks'
@@ -30,7 +30,7 @@ class RoutesApp extends React.Component<RoutesAppProps> {
     }
 }
 
-const App = (props: { cookies: Cookies }): JSX.Element => {
+export const App = (props: { cookies: Cookies }): JSX.Element => {
     const accessToken = props.cookies.get('access_token')
     const isAuthenticated = isNotNil(accessToken)
     if (isAuthenticated) {
@@ -75,7 +75,7 @@ const Acc = (props: { cookies: Cookies }): JSX.Element => {
                     path="/acc/login"
                     render={() => <Login cookies={props.cookies} />}
                 />
-                <Route path="/acc/signup" component={signUp} />
+                <Route path="/acc/signup" render={() => <SignUp />} />
                 <Route path="/acc/password-reset" component={PasswordReset} />
             </Switch>
         )
