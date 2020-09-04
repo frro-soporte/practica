@@ -8,7 +8,16 @@
                     <img class="img-thumbnail rounded float-left" src=" {{url_for('send_image', filename=image_name, tipo=1)}}">
                 </div>
                 <div class="col">
-                   <h4> {{sacerdotes[image_names.index(image_name)].apellidoNombre}} </h4> 
+                   <h5> {{sacerdotes[image_names.index(image_name)].apellidoNombre}} </h5>
+                   <h7>Centros de atencion</h7>
+                   <ul>
+                        {% for sacerdote in sacerdotes.centros %}
+                        <li>
+                            {{sacerdote.centros.nombreCentro}}
+                        </li>
+                        {% endblock %} 
+                   </ul>
+                   
                 </div> 
                   
             </div>

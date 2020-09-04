@@ -37,7 +37,7 @@ def send_image(filename,tipo):
 def sacerdotes():
     image_names = os.listdir('C:/Users/ppaez/Documents/Repositorios/frro-soporte-2020-23/practico_08/Sistema/Capa de Presentacion/images/sacerdotes')
     ds = DatosSacerdotes()
-    sacerdotes = ds.GetAll()
+    sacerdotes = ds.GetAllconCentros()
     return render_template('sacerdotes.html', image_names=image_names, sacerdotes = sacerdotes)
 
 @app.route('/centros')

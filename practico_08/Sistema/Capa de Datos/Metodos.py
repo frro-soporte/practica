@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine, asc
 from sqlalchemy.orm import sessionmaker
-from Clases import Base, Centro, Sacerdote, Penitente, Turno, Ciudad
+from Clases import Base, Centro, Sacerdote, Penitente, Turno, Ciudad, Disponibilidad
 
 
 
@@ -14,7 +14,7 @@ class Datos():
         db_session.bind = engine
         self.session = db_session()
         Base.metadata.create_all(engine) # crea todas las tablas que todavia no existen
-
+        self.connection = engine.connect()
         #Base.metadata.drop_all(engine)  #Elimina todo lo que pueda tener el motor
         #Base.metadata.clear() #Borra las clases anteriores
 
@@ -46,6 +46,16 @@ class DatosCentros(Datos):
     def GetAll(self):
         centros = self.session.query(Centro).order_by(asc(Centro.nombre)).all()
         return centros
+
+    def GetAllxSacerdote(self,dniSacerdote):
+        dd = DatosDisponibilidad()
+        idcentros = dd.GetidCentrosxdni(dniSacerdote)
+        centros = []
+        for i in idcentros:
+            centros.append(dd.GetOne(i,dniSacerdote))
+        return centros
+    
+
 
 class DatosPenitentes(Datos):
     def __init__(self):
@@ -86,9 +96,19 @@ class DatosSacerdotes(Datos):
             return None
 
     def GetAll(self):
-        sacerdotes = self.session.query(Sacerdote).order_by(asc(Sacerdote.apellidoNombre)).all()
-       
+        sacerdotes = self.session.query(Sacerdote).order_by(asc(Sacerdote.apellidoNombre)).all()      
         return sacerdotes
+
+    def GetCentrosyHorarios(self,sacerdote):
+        dc = DatosCentros()
+        dd= DatosDisponibilidad()
+        centros = dc.GetAllxSacerdote(sacerdote.dni)
+        horarios = []
+        for c in centros:
+          disponibilidad =  dd.GetOne(c.idCentro,sacerdote.dni)
+          horarios.append([disponibilidad.horaInicioAtencion,disponibilidad.horaFinAtencion])
+        sacerdote.centrosyDisponibilidad = [centros,horarios]
+        return sacerdote.centrosyDisponibilidad
 
 
 class DatosTurnos(Datos):
@@ -102,7 +122,13 @@ class DatosTurnos(Datos):
    
 class DatosDisponibilidad(Datos):
     def __init__(self):
-         super().__init__() 
+        super().__init__() 
+
+    def GetidCentrosxdni(self, dniSacerdote):
+        return self.session.query(Disponibilidad).filter_by(dni = dniSacerdote).all()
+    
+    def GetOne(self, idCentro, dniSacerdote):
+        return self.session.query(Disponibilidad).filter_by(idCentro = idCentro, dni = dniSacerdote).one()
 
 class DatosCiudades(Datos):
     def __init__(self):
@@ -119,6 +145,11 @@ class DatosCiudades(Datos):
 
 
 if __name__ == '__main__':
-    datos = Datos()
-    sacerdotes = DatosSacerdotes().GetAll()
-    print(type(sacerdotes))
+    ds = DatosSacerdotes()
+    sacerdotes = ds.GetAll()
+    for s in sacerdotes:
+        s.centrosyDisponibilidad = ds.GetCentrosyHorarios(s)
+        for  i in s.centrosyDisponibilidad[0]:
+            print("centro: ", i)
+        for j in s.centrosyDisponibilidad[1]:
+            print("hora inicio: ", j[1] , "hora fin: ", j[2])
