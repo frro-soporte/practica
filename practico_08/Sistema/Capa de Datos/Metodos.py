@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, asc
+from sqlalchemy import create_engine, asc, and_
 from sqlalchemy.orm import sessionmaker
 from Clases import Base, Centro, Sacerdote, Penitente, Turno, Ciudad, Disponibilidad
 
@@ -14,7 +14,7 @@ class Datos():
         db_session.bind = engine
         self.session = db_session()
         Base.metadata.create_all(engine) # crea todas las tablas que todavia no existen
-        self.connection = engine.connect()
+    
         #Base.metadata.drop_all(engine)  #Elimina todo lo que pueda tener el motor
         #Base.metadata.clear() #Borra las clases anteriores
 
@@ -37,11 +37,14 @@ class DatosCentros(Datos):
 
     def buscar_nombre(self, nombre_centro): 
         try:
-            centro = self.session.query(Centro).filter(Centro.idCentro == nombre_centro).first()
+            centro = self.session.query(Centro).filter(Centro.nombre == nombre_centro).first()
             return centro
         except:
             print ("No se encontro el centro con nombre: ", nombre_centro)
-            return None            
+            return None 
+
+    def GetOne(self, idCentro):
+        return  self.session.query(Centro).filter(Centro.idCentro == idCentro).first()
 
     def GetAll(self):
         centros = self.session.query(Centro).order_by(asc(Centro.nombre)).all()
@@ -49,10 +52,12 @@ class DatosCentros(Datos):
 
     def GetAllxSacerdote(self,dniSacerdote):
         dd = DatosDisponibilidad()
-        idcentros = dd.GetidCentrosxdni(dniSacerdote)
+        disponibilidades = dd.GetCentrosxdni(dniSacerdote)
         centros = []
-        for i in idcentros:
-            centros.append(dd.GetOne(i,dniSacerdote))
+        for d in disponibilidades:
+            centro = self.GetOne(d.idCentro) 
+            if centro not in centros:
+                centros.append(centro)
         return centros
     
 
@@ -104,11 +109,14 @@ class DatosSacerdotes(Datos):
         dd= DatosDisponibilidad()
         centros = dc.GetAllxSacerdote(sacerdote.dni)
         horarios = []
+        centrosyDisponibilidad = []
         for c in centros:
-          disponibilidad =  dd.GetOne(c.idCentro,sacerdote.dni)
-          horarios.append([disponibilidad.horaInicioAtencion,disponibilidad.horaFinAtencion])
-        sacerdote.centrosyDisponibilidad = [centros,horarios]
-        return sacerdote.centrosyDisponibilidad
+            horarios=[]
+            disponibilidades =  dd.GetAllxDiaySacerdote(c.idCentro,sacerdote.dni)
+            for d in disponibilidades:
+                horarios.append([d.diaNombre,d.horaInicioAtencion,d.horaFinAtencion])
+            centrosyDisponibilidad.append([c,horarios])
+        return centrosyDisponibilidad
 
 
 class DatosTurnos(Datos):
@@ -124,11 +132,16 @@ class DatosDisponibilidad(Datos):
     def __init__(self):
         super().__init__() 
 
-    def GetidCentrosxdni(self, dniSacerdote):
-        return self.session.query(Disponibilidad).filter_by(dni = dniSacerdote).all()
+    def GetCentrosxdni(self, dniSacerdote):
+        return self.session.query(Disponibilidad).filter(Disponibilidad.dni == dniSacerdote).all()
     
-    def GetOne(self, idCentro, dniSacerdote):
-        return self.session.query(Disponibilidad).filter_by(idCentro = idCentro, dni = dniSacerdote).one()
+    def GetAllxDiaySacerdote(self, idCentro, dniSacerdote):
+        disponibilidadesAll = self.session.query(Disponibilidad).all()
+        dispobilidadesFiltradas = []
+        for d in disponibilidadesAll:
+            if (d.idCentro == idCentro and d.dni == dniSacerdote):
+                dispobilidadesFiltradas.append(d)
+        return dispobilidadesFiltradas
 
 class DatosCiudades(Datos):
     def __init__(self):
@@ -148,8 +161,11 @@ if __name__ == '__main__':
     ds = DatosSacerdotes()
     sacerdotes = ds.GetAll()
     for s in sacerdotes:
+        print(s.apellidoNombre)
         s.centrosyDisponibilidad = ds.GetCentrosyHorarios(s)
-        for  i in s.centrosyDisponibilidad[0]:
-            print("centro: ", i)
-        for j in s.centrosyDisponibilidad[1]:
-            print("hora inicio: ", j[1] , "hora fin: ", j[2])
+        for  i in s.centrosyDisponibilidad:
+            print("centro: ", i[0].nombre)
+            atenciones = i[1:]
+            for j in atenciones:
+                for atencion in j:
+                    print("dia: ", atencion[0] ,"hora inicio: ", atencion[1], "hora fin: ", atencion[2])

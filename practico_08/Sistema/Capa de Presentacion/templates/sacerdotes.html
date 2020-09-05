@@ -9,13 +9,19 @@
                 </div>
                 <div class="col">
                    <h5> {{sacerdotes[image_names.index(image_name)].apellidoNombre}} </h5>
-                   <h7>Centros de atencion</h7>
-                   <ul>
-                        {% for sacerdote in sacerdotes.centros %}
+                    <ul>
+                        {% for centro in sacerdotes[image_names.index(image_name)].centrosyDisponibilidad %}
                         <li>
-                            {{sacerdote.centros.nombreCentro}}
+                            <h7> {{centro[0].nombre}} - {{centro[0].direccion}} </h7>
+                            <ul>
+                                {% for atenciones in centro[1:] %}
+                                    {% for a in atenciones:%}
+                                        <li>{{a[0]}}: {{a[1].strftime("%H:%M")}}-{{a[2].strftime("%H:%M")}} </li>                                  
+                                    {% endfor%}
+                                {% endfor %}
+                            </ul>
                         </li>
-                        {% endblock %} 
+                        {% endfor %} 
                    </ul>
                    
                 </div> 

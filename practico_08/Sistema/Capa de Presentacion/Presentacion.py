@@ -5,7 +5,7 @@ sys.path.append('c:/Users/ppaez/Documents/Repositorios/frro-soporte-2020-23/prac
 
 from Metodos import DatosCiudades, DatosSacerdotes, DatosCentros
 from flask import Flask, redirect, url_for, render_template, request, session, flash, send_from_directory
-from datetime import timedelta
+from datetime import timedelta, datetime
 from flask_wtf import FlaskForm
 from wtforms import SelectField
 
@@ -37,7 +37,9 @@ def send_image(filename,tipo):
 def sacerdotes():
     image_names = os.listdir('C:/Users/ppaez/Documents/Repositorios/frro-soporte-2020-23/practico_08/Sistema/Capa de Presentacion/images/sacerdotes')
     ds = DatosSacerdotes()
-    sacerdotes = ds.GetAllconCentros()
+    sacerdotes = ds.GetAll()
+    for s in sacerdotes:
+        s.centrosyDisponibilidad = ds.GetCentrosyHorarios(s)
     return render_template('sacerdotes.html', image_names=image_names, sacerdotes = sacerdotes)
 
 @app.route('/centros')

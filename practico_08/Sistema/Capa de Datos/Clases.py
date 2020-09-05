@@ -58,6 +58,7 @@ class Disponibilidad(Base):
     dni = Column('dni', Integer, ForeignKey('sacerdotes.dni'))
     idCentro = Column('idCentro', Integer, ForeignKey('centros.idCentro'))
     diaAtencion = Column('diaAtencion', Integer)
+    diaNombre = Column('diaNombre', String(30))
     horaInicioAtencion = Column('horaInicioAtencion', Time)
     horaFinAtencion = Column('horaFinAtencion', Time)
 
