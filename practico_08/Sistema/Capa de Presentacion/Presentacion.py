@@ -44,9 +44,11 @@ def sacerdotes():
 
 @app.route('/centros')
 def centro():
+    image_names = os.listdir('C:/Users/ppaez/Documents/Repositorios/frro-soporte-2020-23/practico_08/Sistema/Capa de Presentacion/images/centros')
     dc = DatosCentros()
     centros = dc.GetAll()
-    image_names = os.listdir('C:/Users/ppaez/Documents/Repositorios/frro-soporte-2020-23/practico_08/Sistema/Capa de Presentacion/images/centros')
+    for c in centros:
+        c.sacerdotesyDisponibilidad = dc.GetSacerdotesyHorarios(c)
     return render_template('centros.html', image_names=image_names, centros = centros)
 
 @app.route('/cancelarTurno')

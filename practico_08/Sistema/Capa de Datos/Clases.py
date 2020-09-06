@@ -31,6 +31,9 @@ class Sacerdote(Base):
    
 
 class Centro(Base):
+    def __init(self,dni):
+        self.sacerdotesyDisponibilidad = []
+
     __tablename__="centros"
     idCentro = Column(Integer, primary_key=True, autoincrement=True)
     nombre = Column(String(100))
