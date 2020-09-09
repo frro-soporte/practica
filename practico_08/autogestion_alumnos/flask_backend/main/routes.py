@@ -5,18 +5,3 @@ from flask_login import login_required
 
 main = Blueprint('main', __name__)
 
-#
-# @main.route("/")
-# def home():
-#     return go_to("users.log_in")
-#
-#
-# @main.route('/<default_page>')
-# def redirected_home(default_page):
-#     return go_to("users.log_in")
-#
-#
-# @main.route('/dashboard')
-# @login_required
-# def dashboard():
-#     return render_template('dashboard.html')
