@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from flask import Blueprint, request, session, jsonify
 from flask_backend import jwt
 from flask_backend.models import User
@@ -58,7 +60,8 @@ def log_in():
         registered = is_user_registered(user_name, password)
         if registered:
             user = User.query.filter_by(name=user_name).first()
-            access_token = create_access_token(identity=user.name)
+            expires = timedelta(days=365)
+            access_token = create_access_token(identity=user.name, expires_delta=expires)
             return dict(status="ok", data=dict(access_token=access_token))
         return dict(status="error", msg="Bad user name or password")
     return dict(status="error", msg="Request not allowed")

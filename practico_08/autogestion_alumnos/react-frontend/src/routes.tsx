@@ -2,9 +2,11 @@ import React from 'react'
 import { Route, Redirect, Switch } from 'react-router-dom'
 import { Login } from './components/login'
 import { SignUp } from './components/signUp'
-import { Layout } from './components/app/layout'
 import { Cookies, withCookies } from 'react-cookie/lib'
 import { isNotNil } from './utils/checks'
+import { Dashboard } from './components/dashboard'
+import { Task } from 'components/task'
+import { Test } from 'components/test'
 
 interface RoutesAppProps {
     cookies: Cookies
@@ -30,21 +32,34 @@ class RoutesApp extends React.Component<RoutesAppProps> {
     }
 }
 
-export const App = (props: { cookies: Cookies }): JSX.Element => {
+const App = (props: { cookies: Cookies }): JSX.Element => {
     const accessToken = props.cookies.get('access_token')
-    const isAuthenticated = isNotNil(accessToken)
-    if (isAuthenticated) {
+    console.log(accessToken)
+    if (accessToken && isNotNil(accessToken)) {
         return (
             <Switch>
                 <Route exact path="/app">
                     <Redirect to={'/app/dashboard'} push={true} />
                 </Route>
-                <Route exact path="/">
-                    <Redirect to={'/app/dashboard'} push={true} />
-                </Route>
                 <Route
                     path={'/app/dashboard'}
-                    render={() => <DashboardLoader cookies={props.cookies} />}
+                    render={() => <Dashboard cookies={props.cookies} />}
+                />
+                <Route
+                    path={'/app/task'}
+                    render={() => <Task cookies={props.cookies} />}
+                />
+                <Route
+                    path={'/app/calendar'}
+                    render={() => <Dashboard cookies={props.cookies} />}
+                />
+                <Route
+                    path={'/app/subject'}
+                    render={() => <Dashboard cookies={props.cookies} />}
+                />
+                <Route
+                    path={'/app/test'}
+                    render={() => <Test cookies={props.cookies} />}
                 />
             </Switch>
         )
@@ -58,8 +73,8 @@ export const App = (props: { cookies: Cookies }): JSX.Element => {
 
 const Acc = (props: { cookies: Cookies }): JSX.Element => {
     const accessToken = props.cookies.get('access_token')
-    const isAuthenticated = isNotNil(accessToken)
-    if (isAuthenticated) {
+    console.log(props.cookies.get('access_token'))
+    if (accessToken && isNotNil(accessToken)) {
         return (
             <Switch>
                 <Redirect to={'/app'} push={true} />
@@ -79,10 +94,6 @@ const Acc = (props: { cookies: Cookies }): JSX.Element => {
                 <Route path="/acc/password-reset" component={PasswordReset} />
             </Switch>
         )
-}
-
-const DashboardLoader = (props: { cookies: Cookies }): JSX.Element => {
-    return <Layout>Log Out</Layout>
 }
 
 const PasswordReset = (): JSX.Element => {
