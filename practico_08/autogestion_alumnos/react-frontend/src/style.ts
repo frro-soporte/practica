@@ -134,20 +134,6 @@ export const Colors = {
         active: '#00B9A1', // used in borders of active menu/sub-menu entries
         selectedCellBorder: '#0E4049',
     },
-    retain: {
-        paymentRecovery: {
-            effectiveness: '#CAE9F1',
-            switch: '#56A5C4',
-        },
-        churnPrevention: {
-            effectiveness: '#E0D4E3',
-            switch: '#A76DB2',
-        },
-        disabled: {
-            effectiveness: '#DEE5E6',
-            switch: '#E8EEF0',
-        },
-    },
     primary: {
         light: '#F2F4F5',
         mid: '#5D8889',

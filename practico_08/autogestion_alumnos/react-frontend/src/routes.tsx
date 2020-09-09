@@ -5,7 +5,10 @@ import { SignUp } from './components/signUp'
 import { Layout } from './components/app/layout'
 import { Cookies, withCookies } from 'react-cookie/lib'
 import { isNotNil } from './utils/checks'
-
+import { Dashboard } from './components/dashboard'
+import { Task } from 'components/task'
+import { Test } from 'components/test'
+ 
 interface RoutesAppProps {
     cookies: Cookies
 }
@@ -44,7 +47,23 @@ export const App = (props: { cookies: Cookies }): JSX.Element => {
                 </Route>
                 <Route
                     path={'/app/dashboard'}
-                    render={() => <DashboardLoader cookies={props.cookies} />}
+                    render={() => <Dashboard cookies={props.cookies} />}
+                />
+                <Route
+                    path={'/app/task'}
+                    render={() => <Task cookies={props.cookies} />}
+                />
+                <Route
+                    path={'/app/calendar'}
+                    render={() => <Dashboard cookies={props.cookies} />}
+                />
+                <Route
+                    path={'/app/subject'}
+                    render={() => <Dashboard cookies={props.cookies} />}
+                />
+                <Route
+                    path={'/app/test'}
+                    render={() => <Test cookies={props.cookies} />}
                 />
             </Switch>
         )
@@ -79,10 +98,6 @@ const Acc = (props: { cookies: Cookies }): JSX.Element => {
                 <Route path="/acc/password-reset" component={PasswordReset} />
             </Switch>
         )
-}
-
-const DashboardLoader = (props: { cookies: Cookies }): JSX.Element => {
-    return <Layout>Log Out</Layout>
 }
 
 const PasswordReset = (): JSX.Element => {

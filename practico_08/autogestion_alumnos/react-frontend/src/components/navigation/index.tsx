@@ -4,11 +4,11 @@ import { JustChildren, Style } from 'utils/tsTypes'
 import { Colors, Dimensions } from 'style'
 import { VerticalStack } from 'common/components/flex'
 import { EntrySeparator } from './components/menuEntry'
-import { DashboardMenu } from './components/singleLinkMenu'
+import { DashboardMenu, CalendarMenu, TaskMenu, TestMenu, SubjectMenu, LogoutMenu } from './components/singleLinkMenu'
 
 function StaticPositionMainContainer(props: JustChildren): JSX.Element {
     const style: Style = {
-        background: Colors.background.menu3,
+        background: '#333',
         color: Colors.primary.light,
         height: '100%',
         width: Dimensions.width.nav,
@@ -17,51 +17,12 @@ function StaticPositionMainContainer(props: JustChildren): JSX.Element {
     return <VerticalStack style={style}>{props.children}</VerticalStack>
 }
 
-function FixedPositionMainContainer(props: JustChildren): JSX.Element {
-    const style: Style = {
-        background: Colors.background.menu3,
-        color: Colors.primary.light,
-        position: 'fixed',
-        top: 0,
-        bottom: 0,
-        width: Dimensions.width.nav,
-        flex: `0 0 ${Dimensions.width.nav}px`,
-    }
-    return <VerticalStack style={style}>{props.children}</VerticalStack>
-}
-
-type ContainerProps = JustChildren & ScreenSizeProps
-
-interface ScreenSizeProps {
-    isSmallScreen: boolean
-}
-
-function MainContainer(props: ContainerProps): JSX.Element {
-    if (props.isSmallScreen) {
-        return (
+function MainContainer(props: JustChildren): JSX.Element {
+    return (
             <StaticPositionMainContainer>
                 {props.children}
             </StaticPositionMainContainer>
         )
-    }
-    return (
-        <FixedPositionMainContainer>
-            {props.children}
-        </FixedPositionMainContainer>
-    )
-}
-
-function AbsolutePositionNavContainer(props: JustChildren): JSX.Element {
-    const style: Style = {
-        display: 'block',
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        width: Dimensions.width.nav,
-        minHeight: '100%',
-        zIndex: 100,
-    }
-    return <div style={style}>{props.children}</div>
 }
 
 function StaticPositionNavContainer(props: JustChildren): JSX.Element {
@@ -69,44 +30,35 @@ function StaticPositionNavContainer(props: JustChildren): JSX.Element {
         display: 'block',
         width: Dimensions.width.nav,
         minHeight: 690,
+        border: `3px solid #000000`,
     }
     return <div style={style}>{props.children}</div>
 }
 
-function NavigationContainer(props: ContainerProps): JSX.Element {
-    if (props.isSmallScreen) {
-        return (
+function NavigationContainer(props: JustChildren): JSX.Element {
+   return (
             <StaticPositionNavContainer>
                 {props.children}
             </StaticPositionNavContainer>
         )
-    }
-    return (
-        <AbsolutePositionNavContainer>
-            {props.children}
-        </AbsolutePositionNavContainer>
-    )
 }
 
 function TopContainer(props: JustChildren): JSX.Element {
     const style: Style = {
-        borderBottom: `1px solid ${Colors.lines.dark1}`,
+        borderBottom: `3px solid #000000`,
     }
     return <VerticalStack style={style}>{props.children}</VerticalStack>
 }
 
-function MiddleContainer(props: ContainerProps): JSX.Element {
-    const flex = props.isSmallScreen ? undefined : 'auto'
-    const style: Style = {
-        flex,
-    }
-    return <VerticalStack style={style}>{props.children}</VerticalStack>
+function MiddleContainer(props: JustChildren): JSX.Element {
+    return <VerticalStack>{props.children}</VerticalStack>
 }
 
-function BottomContainer(props: ContainerProps): JSX.Element {
-    const justifyContent = props.isSmallScreen ? 'flex-start' : 'flex-end'
+function BottomContainer(props: JustChildren): JSX.Element {
+    const justifyContent = 'flex-start'
     const style: Style = {
         justifyContent,
+        borderTop: `3px solid #000000`,
     }
     return <VerticalStack style={style}>{props.children}</VerticalStack>
 }
@@ -115,24 +67,30 @@ function BottomContainer(props: ContainerProps): JSX.Element {
  * Navigation bar
  */
 
-export function Navigation(props: ScreenSizeProps): JSX.Element {
-    const isSmallScreen = props.isSmallScreen
+export function Navigation(): JSX.Element {
     return (
-        <NavigationContainer isSmallScreen={isSmallScreen}>
-            <MainContainer isSmallScreen={isSmallScreen}>
+        <NavigationContainer >
+            <MainContainer >
                 <TopContainer>
                     <EntrySeparator style={{ flexBasis: 12 }} />
                     <DashboardMenu />
                     <EntrySeparator style={{ flexBasis: 10 }} />
                 </TopContainer>
-                <MiddleContainer isSmallScreen={isSmallScreen}>
+                <MiddleContainer >
                     <EntrySeparator />
-                    {/*<Otros menues />*/}
+                    <CalendarMenu />
+                    <EntrySeparator />
+                    <TaskMenu />
+                    <EntrySeparator />
+                    <TestMenu />
+                    <EntrySeparator />
+                    <SubjectMenu />
                     <EntrySeparator />
                 </MiddleContainer>
-                <BottomContainer isSmallScreen={isSmallScreen}>
-                    {/*<LogOut />*/}
-                    <EntrySeparator />
+                <BottomContainer >
+                    <EntrySeparator style={{ flexBasis: 10 }} />
+                    <LogoutMenu />
+                    <EntrySeparator style={{ flexBasis: 12 }} />
                 </BottomContainer>
             </MainContainer>
         </NavigationContainer>

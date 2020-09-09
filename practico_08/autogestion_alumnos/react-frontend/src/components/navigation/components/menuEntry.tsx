@@ -34,12 +34,6 @@ function EntryTooltip(props: EntryToolTipProps): JSX.Element {
     }
     return (
         <div style={styles.container}>
-            {/*<TooltipTriangle*/}
-            {/*    direction={TRIANGLE_DIR.LEFT}*/}
-            {/*    edgePixels={8}*/}
-            {/*    borderOffsetPixels={0}*/}
-            {/*    triangleStyle={styles.triangle}*/}
-            {/*/>*/}
             {props.tooltip}
         </div>
     )
@@ -66,7 +60,7 @@ interface EntrySeparatorProps {
 }
 export function EntrySeparator(props: EntrySeparatorProps): JSX.Element {
     const style: Style = {
-        minHeight: 5,
+        minHeight: '5px',
         flexBasis: 21,
         ...props.style,
     }
@@ -106,16 +100,7 @@ export function MenuEntry(props: MenuEntryProps): JSX.Element {
     return (
         <HorizontalStack style={styles.stack}>
             <EntryBorder isHighlighted={props.isActive} />
-            {/*<OnHoverTooltip*/}
-            {/*    tooltip={tooltip}*/}
-            {/*    closeTrigger={TOOLTIP_CLOSE_TRIGGER.CONTAINER_CLICK}*/}
-            {/*    tooltipEnabled={tooltipEnabled}*/}
-            {/*    style={triggerStyle}*/}
-            {/*    showDelayMs={0}*/}
-            {/*    hideDelayMs={0}*/}
-            {/*>*/}
             {props.children}
-            {/*</OnHoverTooltip>*/}
             <EntryBorder />
         </HorizontalStack>
     )

@@ -3,7 +3,7 @@ import { StyleMap } from 'utils/tsTypes'
 import { VerticalStack } from 'common/components/flex'
 import { LoginModel } from 'components/login/model'
 import { Cookies } from 'react-cookie/lib'
-import {Redirect, Switch, Link, useHistory} from 'react-router-dom'
+import { Link, useHistory} from 'react-router-dom'
 
 export const Login = (props: { cookies: Cookies }): JSX.Element => {
     const model = new LoginModel(props.cookies)
@@ -14,28 +14,28 @@ export const Login = (props: { cookies: Cookies }): JSX.Element => {
             textAlign: 'center',
             verticalAlign: 'middle',
             width: '100%',
-            background:
-                'radial-gradient(96.69% 305.6% at 1.2% 1.81%, rgba(5, 15, 31, 0.85) 0%, #101825 44.27%, #6ba1f2 99.99%, #77a3ee 99.99%)',
+            background: '#2B2F32',
             border: '1px solid #000000',
             boxSizing: 'border-box',
         },
         whiteBox: {
             position: 'relative',
-            margin: '10% auto',
-            width: '1000px',
-            height: '800px',
+            margin: '5% auto',
+            width: '500px',
+            height: '550px',
             background: '#ffffff',
             display: 'flex',
             flexDirection: 'column',
             boxShadow: '10px 10px 10px rgba(0, 0, 0, 0.25)',
+            borderRadius: '45px'
         },
         userIcon: {
             borderRadius: '50%',
-            marginLeft: '400px',
-            marginTop: '50px',
+            marginLeft: '200px',
+            marginTop: '30px',
             position: 'absolute',
-            width: '200px',
-            height: '200px',
+            width: '100px',
+            height: '100px',
             background: '#C4C4C4',
             display: 'flex',
             flexDirection: 'column',
@@ -56,29 +56,29 @@ export const Login = (props: { cookies: Cookies }): JSX.Element => {
 const LoginForm = (props: { model: LoginModel }): JSX.Element => {
     const styles: StyleMap = {
         loginForm: {
-            marginTop: '200px',
+            marginTop: '100px',
             alignSelf: 'center',
         },
         inputForm: {
             marginTop: '75px',
             width: '300px',
-            height: '50px',
+            height: '30px',
             textAlign: 'center',
             color: 'rgba(0, 0, 0, 0.5)',
             fontStyle: 'normal',
             fontWeight: 'normal',
-            fontSize: '35px',
+            fontSize: '30px',
             borderWidth: '4px',
             borderColor: '#b3b3b3',
             fontFamily: 'New York Medium',
         },
         loginButton: {
-            marginTop: '75px',
+            marginTop: '55px',
             width: '320px',
-            height: '60px',
-            background: '#D22828',
+            height: '50px',
+            background: '#e91e63',
             borderWidth: 'medium',
-            borderColor: '#a12121',
+            borderColor: '#b3b3b3',
             boxShadow: '0 4px 4px rgba(0, 0, 0, 0.25)',
             borderRadius: '22px',
             fontStyle: 'normal',
@@ -86,6 +86,7 @@ const LoginForm = (props: { model: LoginModel }): JSX.Element => {
             fontFamily: 'New York Medium',
             fontSize: '35px',
             color: '#FFFFFF',
+            cursor: 'pointer'
         },
     }
 
@@ -149,7 +150,7 @@ const BottomOptions = (): JSX.Element => {
             marginTop: '15px',
             fontStyle: 'normal',
             fontWeight: 'normal',
-            fontSize: '25px',
+            fontSize: '20px',
             color: 'black',
             textDecoration: 'none',
         },
@@ -157,7 +158,7 @@ const BottomOptions = (): JSX.Element => {
             marginTop: '15px',
             fontStyle: 'normal',
             fontWeight: 'normal',
-            fontSize: '25px',
+            fontSize: '23px',
             color: 'black',
             textDecoration: 'none',
         },
