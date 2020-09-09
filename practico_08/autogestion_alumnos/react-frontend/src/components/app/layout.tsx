@@ -4,6 +4,7 @@ import { Colors, Dimensions } from 'style'
 import { JustChildren, Style, StyleMap } from 'utils/tsTypes'
 import { HorizontalStack } from 'common/components/flex'
 import { Navigation } from 'components/navigation'
+import { Cookies } from 'react-cookie/lib'
 
 function RelativePositionAppContent(props: JustChildren): JSX.Element {
     const style: Style = {
@@ -20,18 +21,22 @@ function RelativePositionAppContent(props: JustChildren): JSX.Element {
 
 function AppContent(props: JustChildren): JSX.Element {
     return (
-            <RelativePositionAppContent>
-                {props.children}
-            </RelativePositionAppContent>
-        )
+        <RelativePositionAppContent>
+            {props.children}
+        </RelativePositionAppContent>
+    )
 }
 
 interface LayoutState {
     isSmallScreen: boolean
 }
 
-export class Layout extends React.Component<any, LayoutState> {
-    constructor(props: any) {
+interface LayoutProps {
+    cookies: Cookies
+}
+
+export class Layout extends React.Component<LayoutProps, LayoutState> {
+    constructor(props: LayoutProps) {
         super(props)
     }
 
@@ -53,14 +58,12 @@ export class Layout extends React.Component<any, LayoutState> {
         }
         return (
             <div style={styles.container}>
-                    <div style={styles.innerContainer}>
-                        <HorizontalStack>
-                            <Navigation />
-                            <AppContent >
-                                {props.children}
-                            </AppContent>
-                        </HorizontalStack>
-                    </div>
+                <div style={styles.innerContainer}>
+                    <HorizontalStack>
+                        <Navigation cookies={props.cookies} />
+                        <AppContent>{props.children}</AppContent>
+                    </HorizontalStack>
+                </div>
             </div>
         )
     }

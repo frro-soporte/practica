@@ -28,7 +28,9 @@ export class LoginModel {
         const response = await this.tryToLogin()
 
         if (response.status === 'ok') {
-            this.cookies.set('access_token', response.msg.access_token)
+            this.cookies.set('access_token', response.msg.access_token, {
+                path: '/',
+            })
             return goToDashboard()
         }
         if (response.msg === '') {
