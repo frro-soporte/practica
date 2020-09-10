@@ -9,6 +9,8 @@ import test from 'common/img/test-logo.png'
 import subject from 'common/img/subject-logo.png'
 import dashboard from 'common/img/home-logo.png'
 import logout from 'common/img/logout-logo.png'
+import { Logout } from '../../logout'
+import { Cookies } from 'react-cookie/lib'
 
 interface SingleLinkMenuProps {
     routeName: string
@@ -36,11 +38,10 @@ export function DashboardMenu(): JSX.Element {
         outline: 'none',
         cursor: 'pointer',
         alignSelf: 'center',
-
     }
     return (
         <Link to={'/app/dashboard/'} style={logo}>
-            <img src={dashboard} style={logo}/>
+            <img src={dashboard} style={logo} />
         </Link>
     )
 }
@@ -54,12 +55,11 @@ export function TaskMenu(): JSX.Element {
         outline: 'none',
         cursor: 'pointer',
         alignSelf: 'center',
-        marginTop: '10px'
-
+        marginTop: '10px',
     }
     return (
         <Link to={'/app/task/'} style={logo}>
-            <img src={task} style={logo}/>
+            <img src={task} style={logo} />
         </Link>
     )
 }
@@ -73,12 +73,11 @@ export function SubjectMenu(): JSX.Element {
         outline: 'none',
         cursor: 'pointer',
         alignSelf: 'center',
-        marginTop: '10px'
-
+        marginTop: '10px',
     }
     return (
         <Link to={'/app/subject/'} style={logo}>
-            <img src={subject} style={logo}/>
+            <img src={subject} style={logo} />
         </Link>
     )
 }
@@ -92,12 +91,11 @@ export function TestMenu(): JSX.Element {
         outline: 'none',
         cursor: 'pointer',
         alignSelf: 'center',
-        marginTop: '10px'
-
+        marginTop: '10px',
     }
     return (
         <Link to={'/app/test/'} style={logo}>
-            <img src={test} style={logo}/>
+            <img src={test} style={logo} />
         </Link>
     )
 }
@@ -111,17 +109,16 @@ export function CalendarMenu(): JSX.Element {
         outline: 'none',
         cursor: 'pointer',
         alignSelf: 'center',
-        marginTop: '10px'
-
+        marginTop: '10px',
     }
     return (
         <Link to={'/app/calendar/'} style={logo}>
-            <img src={calendar} style={logo}/>
+            <img src={calendar} style={logo} />
         </Link>
     )
 }
 
-export function LogoutMenu(): JSX.Element {
+export function LogoutMenu(props: { cookies: Cookies }): JSX.Element {
     const logo = {
         maxWidth: '40px',
         maxHeight: '40px',
@@ -132,8 +129,8 @@ export function LogoutMenu(): JSX.Element {
         alignSelf: 'center',
     }
     return (
-        <Link to={'/app/logout/'} style={logo}>
-            <img src={logout} style={logo}/>
-        </Link>
+        <Logout cookies={props.cookies} style={logo}>
+            <img src={logout} style={logo} />
+        </Logout>
     )
 }
