@@ -1,5 +1,42 @@
-from flask_backend.models import User
+from flask_backend.models import User, Subject
 from flask_backend import db, bcrypt
+
+
+def register_subject(subject_name, theory_hs, practice_hs, division, score, condition, theory_p, practice_p, username):
+    user_id = User.query.filter_by(name=username).first().id
+    try:
+        registered_subject = Subject(name=subject_name, theory_ddhhhh=theory_hs, practice_ddhhhh=practice_hs, division=division, score=score, condition=condition, theory_professor=theory_p, practice_professor=practice_p, user_id=user_id)
+        db.session.add(registered_subject)
+        db.session.commit()
+        return dict(status="ok", data=dict(registered_subject.serialize()))
+    except:
+        return dict(status="false")
+
+
+def modify_subject(subject_id, subject_name, theory_hs, practice_hs, division, score, condition, theory_p, practice_p):
+    subject = Subject.query.filter_by(id=subject_id).first()
+    try:
+        subject.name = subject_name
+        subject.theory_ddhhhh = theory_hs
+        subject.practice_ddhhhh = practice_hs
+        subject.division = division
+        subject.score = score
+        subject.condition = condition
+        subject.theory_professor = theory_p
+        subject.practice_professor = practice_p
+        db.session.commit()
+        return True
+    except:
+        return False
+
+
+def delete_subject(subject):
+    try:
+        db.session.delete(subject)
+        db.session.commit()
+        return True
+    except:
+        return False
 
 
 def register_user(dni, user_name, password, legajo):
