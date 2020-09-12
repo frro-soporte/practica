@@ -1,6 +1,17 @@
 from flask_backend import db
 from flask_login import UserMixin
 
+from sqlalchemy.inspection import inspect
+
+
+class Serializer(object):
+    def serialize(self):
+        return {c: getattr(self, c) for c in inspect(self).attrs.keys()}
+
+    @staticmethod
+    def serialize_list(l):
+        return [m.serialize() for m in l]
+
 
 class User(db.Model, UserMixin):
     id = db.Column('id', db.Integer, primary_key=True, autoincrement=True, unique=True, nullable=False)
@@ -15,11 +26,13 @@ class User(db.Model, UserMixin):
     def __repr__(self):
         return f"User('dni: {self.dni}', 'name: {self.name}', 'legajo: {self.legajo}')"
 
+    def serialize(self):
+        d = Serializer.serialize(self)
+        return d
 
-subjects_professors_association_table = db.Table('subjects_professors_association_table', db.metadata,
-                                                 db.Column('subject_id', db.Integer, db.ForeignKey('subject.id')),
-                                                 db.Column('professor_id', db.Integer, db.ForeignKey('professor.id')),
-                                                 )
+    def serialize_list(self, elements):
+        d = Serializer.serialize_list(elements)
+        return d
 
 
 class Subject(db.Model):
@@ -30,6 +43,8 @@ class Subject(db.Model):
     division = db.Column(db.String(3), nullable=False)
     score = db.Column(db.String(2), nullable=True)
     condition = db.Column(db.String(10), nullable=False)
+    theory_professor = db.Column(db.String(250), nullable=True)
+    practice_professor = db.Column(db.String(250), nullable=True)
 
     # parent
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
@@ -38,28 +53,19 @@ class Subject(db.Model):
     exams = db.relationship('Exam', backref='subject', lazy=True)
     tasks = db.relationship('Task', backref='subject', lazy=True)
 
-    # association to professors
-    professors = db.relationship('Professor', secondary=subjects_professors_association_table, back_populates='subjects',
-                                 lazy=True)
-
     def __repr__(self):
         return f"Subject('{self.name}', '{self.division}', '{self.score}', '{self.condition}'," \
-               f"'{self.practice_ddhhhh}', '{self.theory_ddhhhh}')"
+               f"'{self.practice_ddhhhh}', '{self.theory_ddhhhh}', '{self.theory_professor}', '{self.practice_professor}')"
 
+    def serialize(self):
+        d = Serializer.serialize(self)
+        del d['user']
+        return d
 
-class Professor(db.Model):
-    id = db.Column('id', db.Integer, primary_key=True, autoincrement=True, unique=True, nullable=False)
-    name = db.Column(db.String(250), nullable=False)
-    email = db.Column(db.String(250), nullable=True)
-    questions_hour = db.Column(db.String(250), nullable=True)
-    type_of_class = db.Column(db.String(10), nullable=True)
-
-    # association to subjects
-    subjects = db.relationship('Subject', secondary=subjects_professors_association_table, back_populates='professors',
-                               lazy=True)
-
-    def __repr__(self):
-        return f"Professor('{self.name}', '{self.email}', '{self.questions_hour}', '{self.type_of_class}')"
+    @staticmethod
+    def serialize_list(elements):
+        d = Serializer.serialize_list(elements)
+        return d
 
 
 class Exam(db.Model):
@@ -74,6 +80,15 @@ class Exam(db.Model):
     def __repr__(self):
         return f"Exam('{self.description}', '{self.date}', '{self.score}')"
 
+    def serialize(self):
+        d = Serializer.serialize(self)
+        del d['subject']
+        return d
+
+    def serialize_list(self, elements):
+        d = Serializer.serialize_list(elements)
+        return d
+
 
 class Task(db.Model):
     id = db.Column('id', db.Integer, primary_key=True, autoincrement=True, unique=True, nullable=False)
@@ -87,3 +102,12 @@ class Task(db.Model):
 
     def __repr__(self):
         return f"Task('{self.description}', '{self.date}', '{self.score}', '{self.is_done}')"
+
+    def serialize(self):
+        d = Serializer.serialize(self)
+        del d['subject']
+        return d
+
+    def serialize_list(self, elements):
+        d = Serializer.serialize_list(elements)
+        return d
