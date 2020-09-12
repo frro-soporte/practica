@@ -30,7 +30,8 @@ class User(db.Model, UserMixin):
         d = Serializer.serialize(self)
         return d
 
-    def serialize_list(self, elements):
+    @staticmethod
+    def serialize_list(elements):
         d = Serializer.serialize_list(elements)
         return d
 
@@ -71,7 +72,7 @@ class Subject(db.Model):
 class Exam(db.Model):
     id = db.Column('id', db.Integer, primary_key=True, autoincrement=True, unique=True, nullable=False)
     description = db.Column(db.String(250), nullable=False)
-    date = db.Column(db.DateTime, nullable=False)
+    date = db.Column(db.DateTime, nullable=True)
     score = db.Column(db.String(2), nullable=True)
 
     # parent
@@ -85,7 +86,8 @@ class Exam(db.Model):
         del d['subject']
         return d
 
-    def serialize_list(self, elements):
+    @staticmethod
+    def serialize_list(elements):
         d = Serializer.serialize_list(elements)
         return d
 
@@ -95,7 +97,7 @@ class Task(db.Model):
     description = db.Column(db.String(250), nullable=False)
     date = db.Column(db.DateTime, nullable=True)
     score = db.Column(db.String(2), nullable=True)
-    is_done = db.Column(db.Boolean, nullable=False, default=False)
+    is_done = db.Column(db.String(10), nullable=False, default="False")
 
     # parent
     subject_id = db.Column(db.Integer, db.ForeignKey('subject.id'), nullable=False)
@@ -108,6 +110,7 @@ class Task(db.Model):
         del d['subject']
         return d
 
-    def serialize_list(self, elements):
+    @staticmethod
+    def serialize_list(elements):
         d = Serializer.serialize_list(elements)
         return d

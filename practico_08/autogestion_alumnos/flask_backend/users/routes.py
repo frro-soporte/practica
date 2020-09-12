@@ -2,9 +2,10 @@ from datetime import timedelta
 
 from flask import Blueprint, request, session
 from flask_backend import jwt
-from flask_backend.models import User, Subject
+from flask_backend.models import User, Subject, Task, Exam
 from flask_backend.users.utils import register_user, is_user_registered, register_subject, delete_subject, \
-    modify_subject
+    modify_subject, register_task, delete_task, is_subject_id_valid, is_task_id_valid, modify_task, register_exam, \
+    delete_exam, is_exam_id_valid, modify_exam
 from flask_jwt_extended import create_access_token, jwt_required, get_raw_jwt, get_jwt_identity
 
 users = Blueprint('users', __name__)
@@ -25,6 +26,9 @@ blacklist = set()
 def check_if_token_in_blacklist(decrypted_token):
     jti = decrypted_token['jti']
     return jti in blacklist
+
+
+# USER METHODS
 
 
 @users.route('/sign_up', methods=["POST"])
@@ -68,6 +72,9 @@ def log_in():
     return dict(status="error", msg="Request not allowed")
 
 
+# SUBJECT METHODS
+
+
 @users.route('/subject', methods=["POST", "DELETE", "GET", "PUT"])
 @jwt_required
 def subject():
@@ -107,9 +114,11 @@ def subject():
     if request.method == "DELETE":
         subject_id = request.json.get("id", None)
         subject = Subject.query.filter_by(id=subject_id).first()
-        if delete_subject(subject):
-            return dict(status="ok")
-        return dict(status="error", msg="subject not deleted")
+        if subject is not None:
+            if delete_subject(subject):
+                return dict(status="ok")
+            return dict(status="error", msg="subject not deleted")
+        return dict(status="error", msg="subject not found")
 
     if request.method == "PUT":
         subject_id = request.json.get("id", None)
@@ -122,20 +131,21 @@ def subject():
         theory_professor = request.json.get("theory_professor", None)
         practice_professor = request.json.get("practice_professor", None)
 
-        if modify_subject(
-            subject_id,
-            name,
-            theory_ddhhhh,
-            practice_ddhhhh,
-            division,
-            score,
-            condition,
-            theory_professor,
-            practice_professor,
-        ):
-            return dict(status="ok")
-        return dict(status="error", msg="subject not updated")
-
+        if is_subject_id_valid(subject_id):
+            if modify_subject(
+                subject_id,
+                name,
+                theory_ddhhhh,
+                practice_ddhhhh,
+                division,
+                score,
+                condition,
+                theory_professor,
+                practice_professor,
+            ):
+                return dict(status="ok")
+            return dict(status="error", msg="subject not updated")
+        return dict(status="error", msg="subject not found")
     return dict(status="error", msg="request not allowed")
 
 
@@ -147,5 +157,147 @@ def get_subjects():
         user_id = User.query.filter_by(name=current_user).first().id
         subjects = Subject.query.filter_by(user_id=user_id).all()
         return dict(status="ok", data=dict(subjects=Subject.serialize_list(elements=subjects)))
+    return dict(status="error", msg="Request not allowed")
+
+
+# TASK METHODS
+
+
+@users.route('/task', methods=["POST", "DELETE", "GET", "PUT"])
+@jwt_required
+def task():
+    if request.method == "POST":
+        description = request.json.get("description", None)
+        date = request.json.get("date", None)
+        score = request.json.get("score", None)
+        is_done = request.json.get("isDone", None)
+        subject_id = request.json.get("subjectId", None)
+
+        registered_task = register_task(
+            description,
+            date,
+            score,
+            is_done,
+            subject_id
+        )
+        if registered_task['status'] == "ok":
+            return dict(status="ok", subject=registered_task['data'])
+        return dict(status="error", msg=registered_task['msg'])
+
+    if request.method == "GET":
+        task_id_get = request.json.get("id", None)
+        task_to_get = Task.query.filter_by(id=task_id_get).first()
+        if task_to_get is None:
+            return dict(status="error", msg="task not found")
+        return dict(status="ok", data=dict(task=task_to_get.serialize()))
+
+    if request.method == "DELETE":
+        task_id_delete = request.json.get("id", None)
+        task_to_delete = Task.query.filter_by(id=task_id_delete).first()
+        if task_to_delete is not None:
+            if delete_task(task_to_delete):
+                return dict(status="ok")
+            return dict(status="error", msg="task not deleted")
+        return dict(status="error", msg="task not found")
+
+    if request.method == "PUT":
+        task_id_put = request.json.get("id", None)
+        description = request.json.get("description", None)
+        date = request.json.get("date", None)
+        score = request.json.get("score", None)
+        is_done = request.json.get("isDone", None)
+
+        if is_task_id_valid(task_id_put):
+            if modify_task(
+                task_id_put,
+                description,
+                date,
+                score,
+                is_done,
+            ):
+                return dict(status="ok")
+            return dict(status="error", msg="task not updated")
+        return dict(status="error", msg="task not found")
+    return dict(status="error", msg="request not allowed")
+
+
+@users.route('/tasks', methods=["GET"])
+@jwt_required
+def get_tasks():
+    if request.method == "GET":
+        subject_id_get_task = request.json.get("id", None)
+        if is_subject_id_valid(subject_id_get_task):
+            tasks = Task.query.filter_by(subject_id=subject_id_get_task).all()
+            return dict(status="ok", data=dict(tasks=Task.serialize_list(elements=tasks)))
+        return dict(status="error", msg="subject id not found")
+    return dict(status="error", msg="Request not allowed")
+
+
+# EXAMS METHODS
+
+
+@users.route('/exam', methods=["POST", "DELETE", "GET", "PUT"])
+@jwt_required
+def exam():
+    if request.method == "POST":
+        description = request.json.get("description", None)
+        date = request.json.get("date", None)
+        score = request.json.get("score", None)
+        subject_id = request.json.get("subjectId", None)
+
+        registered_exam = register_exam(
+            description,
+            date,
+            score,
+            subject_id
+        )
+        if registered_exam['status'] == "ok":
+            return dict(status="ok", subject=registered_exam['data'])
+        return dict(status="error", msg=registered_exam['msg'])
+
+    if request.method == "GET":
+        exam_id_get = request.json.get("id", None)
+        exam_to_get = Exam.query.filter_by(id=exam_id_get).first()
+        if exam_to_get is None:
+            return dict(status="error", msg="exam not found")
+        return dict(status="ok", data=dict(task=exam_to_get.serialize()))
+
+    if request.method == "DELETE":
+        exam_id_delete = request.json.get("id", None)
+        exam_to_delete = Exam.query.filter_by(id=exam_id_delete).first()
+        if exam_to_delete is not None:
+            if delete_exam(exam_to_delete):
+                return dict(status="ok")
+            return dict(status="error", msg="exam not deleted")
+        return dict(status="error", msg="exam not found")
+
+    if request.method == "PUT":
+        exam_id_put = request.json.get("id", None)
+        description = request.json.get("description", None)
+        date = request.json.get("date", None)
+        score = request.json.get("score", None)
+
+        if is_exam_id_valid(exam_id_put):
+            if modify_exam(
+                exam_id_put,
+                description,
+                date,
+                score,
+            ):
+                return dict(status="ok")
+            return dict(status="error", msg="exam not updated")
+        return dict(status="error", msg="exam not found")
+    return dict(status="error", msg="request not allowed")
+
+
+@users.route('/exams', methods=["GET"])
+@jwt_required
+def get_exams():
+    if request.method == "GET":
+        subject_id_get_exam = request.json.get("id", None)
+        if is_subject_id_valid(subject_id_get_exam):
+            exams = Exam.query.filter_by(subject_id=subject_id_get_exam).all()
+            return dict(status="ok", data=dict(exam=Exam.serialize_list(elements=exams)))
+        return dict(status="error", msg="subject id not found")
     return dict(status="error", msg="Request not allowed")
 
