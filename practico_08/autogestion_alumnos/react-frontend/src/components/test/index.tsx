@@ -61,7 +61,6 @@ const TestList = (): JSX.Element => {
             <h2 style={styles.subtitle} >Examenes</h2>
             <label style={styles.testLine}>
                 <input type="checkbox" name="" ></input>
-                <i></i>
                 <span style={styles.testDescription}>19/09/2020 Parcial Soporte</span>
             </label>
         </div>
