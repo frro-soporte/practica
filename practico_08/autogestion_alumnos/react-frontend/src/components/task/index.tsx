@@ -35,7 +35,7 @@ const TaskList = (): JSX.Element => {
             borderTop: '50px solid white',
             width: '350px',
         },
-        h2: {
+        subtitle: {
             color: '#fff',
             fontSize: '30px',
             padding: '1px 0',
@@ -44,7 +44,7 @@ const TaskList = (): JSX.Element => {
             textAlign: 'center',
             marginTop: '0px',
         },
-        label: {
+        taskLine: {
             color: '#fff',
             fontSize: '17px',
             fontFamily: 'Arial',
@@ -52,22 +52,18 @@ const TaskList = (): JSX.Element => {
             display: 'block',
             cursor: 'pointer',
         },
-        span: {
+        taskDescription: {
             position: 'relative',
             left: '20px',
             transition: '0.6s',
-        },
-        task: {
-            fontWeight: 'bold',
-        },
-    }
+        }
+}
     return (
         <div style={styles.box}>
-            <h2 style={styles.h2}>Tareas</h2>
-            <label style={styles.label}>
-                <input type="checkbox" name=""></input>
-                <i></i>
-                <span style={styles.span}>19/09/2020 TP Soporte</span>
+            <h2 style={styles.subtitle} >Tareas</h2>
+            <label style={styles.taskLine}>
+                <input type="checkbox" name="" ></input>
+                <span style={styles.taskDescription}>19/09/2020 TP Soporte</span>
             </label>
         </div>
     )

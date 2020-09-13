@@ -103,4 +103,4 @@ ENV/
 .idea
 *.sqlite3
 practico_08/autogestion_alumnos/node_modules/.yarn-integrity
-practico_08/autogestion_alumnos/yarn.lock
+

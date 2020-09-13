@@ -35,7 +35,7 @@ const TestList = (): JSX.Element => {
             borderTop: '50px solid white',
             width: '350px',
         },
-        h2: {
+        subtitle: {
             color: '#fff',
             fontSize: '30px',
             padding: '1px 0',
@@ -44,7 +44,7 @@ const TestList = (): JSX.Element => {
             textAlign: 'center',
             marginTop: '0px',
         },
-        label: {
+        testLine: {
             color: '#fff',
             fontSize: '17px',
             fontFamily: 'Arial',
@@ -52,22 +52,16 @@ const TestList = (): JSX.Element => {
             display: 'block',
             cursor: 'pointer',
         },
-        span: {
+        testDescription: {
             position: 'relative',
             left: '20px',
             transition: '0.6s',
-        },
-        task: {
-            fontWeight: 'bold',
-        },
-    }
     return (
         <div style={styles.box}>
-            <h2 style={styles.h2}>Examenes</h2>
-            <label style={styles.label}>
-                <input type="checkbox" name=""></input>
-                <i></i>
-                <span style={styles.span}>19/09/2020 Parcial Soporte</span>
+            <h2 style={styles.subtitle} >Examenes</h2>
+            <label style={styles.testLine}>
+                <input type="checkbox" name="" ></input>
+                <span style={styles.testDescription}>19/09/2020 Parcial Soporte</span>
             </label>
         </div>
     )
