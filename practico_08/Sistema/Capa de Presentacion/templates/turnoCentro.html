@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %} Alta Turno {% endblock %}
+{% block content %}
+<div class="container">
+    <h3>Alta de Turno - {{centro.nombre}} </h3>
+    <div class="row">
+        <div class="col">
+            <img class="img-thumbnail rounded float-left" src=" {{url_for('send_image', filename=image_name, tipo=2)}}">
+        </div>
+        <div class="col">
+            <ul>
+                {% for sacerdote in centro.sacerdotesyDisponibilidad %}
+                <li>
+                    <h7> {{sacerdote[0].apellidoNombre}}</h7>
+                    <ul>
+                        {% for atenciones in sacerdote[1:] %}
+                            {% for a in atenciones:%}
+                                <li>{{a[0]}}: {{a[1].strftime("%H:%M")}}-{{a[2].strftime("%H:%M")}} </li>                                  
+                            {% endfor%}
+                        {% endfor %}
+                    </ul>
+                </li>
+                {% endfor %}
+               
+           </ul>
+        </div>
+    </div>
+    <br>
+    <br>
+    <div class="row">
+        <div class="col-sm">
+            <input type="email" class="form-control" id="email" name="email" placeholder="Ingrese su email">
+            <br>
+            {{form.ddlSacerdotes(class_="form-control")}}  
+            <br>
+            <div class="text-center">
+                <a href="/" class="btn btn-outline-primary">Enviar mail de Confirmacion</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -50,9 +50,9 @@ class DatosCentros(Datos):
         centros = self.session.query(Centro).order_by(asc(Centro.nombre)).all()
         return centros
 
-    def GetAllxSacerdote(self,dniSacerdote):
+    def GetAllxSacerdote(self,idSacerdote):
         dd = DatosDisponibilidad()
-        disponibilidades = dd.GetCentrosxdni(dniSacerdote)
+        disponibilidades = dd.GetCentrosxSacerdote(idSacerdote)
         centros = []
         for d in disponibilidades:
             centro = self.GetOne(d.idCentro) 
@@ -68,7 +68,7 @@ class DatosCentros(Datos):
         sacerdotesyDisponibilidad = []
         for s in sacerdotes:
             horarios=[]
-            disponibilidades =  dd.GetAllxCentroySacerdote(centro.idCentro,s.dni)
+            disponibilidades =  dd.GetAllxCentroySacerdote(centro.idCentro,s.idSacerdote)
             for d in disponibilidades:
                 horarios.append([d.diaNombre,d.horaInicioAtencion,d.horaFinAtencion])
             sacerdotesyDisponibilidad.append([s,horarios])
@@ -106,12 +106,12 @@ class DatosSacerdotes(Datos):
         self.session.commit()
         return sac
 
-    def GetOne(self, dni_sacerdote): 
+    def GetOne(self, idSacerdote): 
         try:
-            sacerdote = self.session.query(Sacerdote).filter(Sacerdote.dni == dni_sacerdote).first()
+            sacerdote = self.session.query(Sacerdote).filter(Sacerdote.idSacerdote == idSacerdote).first()
             return sacerdote
         except:
-            print ("No se encontro el sacerdote: ", dni_sacerdote)
+            print ("No se encontro el sacerdote: ", idSacerdote)
             return None
 
     def GetAll(self):
@@ -123,7 +123,7 @@ class DatosSacerdotes(Datos):
         disponibilidades = dd.GetSacerdotesxidCentro(idCentro)
         sacerdotes = []
         for d in disponibilidades:
-            sacerdote = self.GetOne(d.dni) 
+            sacerdote = self.GetOne(d.idSacerdote) 
             if sacerdote not in sacerdotes:
                 sacerdotes.append(sacerdote)
         return sacerdotes
@@ -131,12 +131,12 @@ class DatosSacerdotes(Datos):
     def GetCentrosyHorarios(self,sacerdote):
         dc = DatosCentros()
         dd= DatosDisponibilidad()
-        centros = dc.GetAllxSacerdote(sacerdote.dni)
+        centros = dc.GetAllxSacerdote(sacerdote.idSacerdote)
         horarios = []
         centrosyDisponibilidad = []
         for c in centros:
             horarios=[]
-            disponibilidades =  dd.GetAllxCentroySacerdote(c.idCentro,sacerdote.dni)
+            disponibilidades =  dd.GetAllxCentroySacerdote(c.idCentro,sacerdote.idSacerdote)
             for d in disponibilidades:
                 horarios.append([d.diaNombre,d.horaInicioAtencion,d.horaFinAtencion])
             centrosyDisponibilidad.append([c,horarios])
@@ -156,17 +156,17 @@ class DatosDisponibilidad(Datos):
     def __init__(self):
         super().__init__() 
 
-    def GetCentrosxdni(self, dniSacerdote):
-        return self.session.query(Disponibilidad).filter(Disponibilidad.dni == dniSacerdote).all()
+    def GetCentrosxSacerdote(self, idSacerdote):
+        return self.session.query(Disponibilidad).filter(Disponibilidad.idSacerdote == idSacerdote).all()
     
     def GetSacerdotesxidCentro(self, idCentro):
         return self.session.query(Disponibilidad).filter(Disponibilidad.idCentro == idCentro).all()
 
-    def GetAllxCentroySacerdote(self, idCentro, dniSacerdote):
+    def GetAllxCentroySacerdote(self, idCentro, idSacerdote):
         disponibilidadesAll = self.session.query(Disponibilidad).all()
         dispobilidadesFiltradas = []
         for d in disponibilidadesAll:
-            if (d.idCentro == idCentro and d.dni == dniSacerdote):
+            if (d.idCentro == idCentro and d.idSacerdote == idSacerdote):
                 dispobilidadesFiltradas.append(d)
         return dispobilidadesFiltradas
     

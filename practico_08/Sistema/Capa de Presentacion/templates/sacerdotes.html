@@ -22,10 +22,13 @@
                             </ul>
                         </li>
                         {% endfor %} 
-                   </ul>
-                   
+                   </ul>         
                 </div> 
-                  
+                <div class="col justify-content-center align-self-center">
+                    <div class="row">
+                        <a href="/turnoSacerdote/{{sacerdotes[image_names.index(image_name)].idSacerdote}}" class="btn btn-outline-secondary">Seleccionar</a>
+                    </div>
+                </div>                 
             </div>
             {% endfor %} 
         </div>

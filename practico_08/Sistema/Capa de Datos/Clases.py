@@ -17,12 +17,11 @@ class Ciudad(Base):
 
 
 class Sacerdote(Base):
-    def __init(self,dni):
+    def __init(self):
         self.centrosyDisponibilidad = []
-        self.dni = dni
-    
+
     __tablename__="sacerdotes"   
-    dni=Column(Integer,primary_key=True)
+    idSacerdote=Column(Integer,primary_key=True, autoincrement = True)
     apellidoNombre=Column(String(100))
     mail=Column(String(100))
     celular=Column(Integer)
@@ -48,7 +47,7 @@ class Centro(Base):
 class Turno(Base):
     __tablename__="turnos"
     idTurno = Column('idTurno', Integer, primary_key = True, autoincrement = True)
-    dni = Column('dni', Integer)
+    idSacerdote = Column('dni', Integer)
     idCentro = Column('idCentro', Integer)
     mail =  Column('mail', String(100))
     fechayHoraTurno = Column('fechayHoraTurno', DateTime)
@@ -58,7 +57,7 @@ class Turno(Base):
 class Disponibilidad(Base):
     __tablename__ = "disponibilidades"
     idDisponibilidad = Column('idDisponibilidad', Integer, primary_key=True, autoincrement=True)
-    dni = Column('dni', Integer, ForeignKey('sacerdotes.dni'))
+    idSacerdote = Column('idSacerdote', Integer, ForeignKey('sacerdotes.idSacerdote'))
     idCentro = Column('idCentro', Integer, ForeignKey('centros.idCentro'))
     diaAtencion = Column('diaAtencion', Integer)
     diaNombre = Column('diaNombre', String(30))

@@ -15,14 +15,16 @@ app.secret_key = 'hello'
 app.permanent_session_lifetime = timedelta(minutes=60)
 
 
-class Home(FlaskForm):
+class Controles(FlaskForm):
     ddlciudades = SelectField('ddlciudades', choices=[])
+    ddlCentros = SelectField('ddlCentros', choices=[])
+    ddlSacerdotes = SelectField('ddlSacerdotes', choices=[])
 
 @app.route('/', methods=['GET'])
 def home():
     dc = DatosCiudades()
-    form = Home()
-    form.ddlciudades.choices = [(ciudad.idCiudad, ciudad.nombre) for ciudad in dc.getAll()]
+    form = Controles()
+    form.ddlciudades.choices = [(ciudad.idCiudad, ciudad.nombre + " , "+ciudad.provincia) for ciudad in dc.getAll()]
     
     return render_template('index.html', form=form)
 
@@ -32,6 +34,7 @@ def send_image(filename,tipo):
         return send_from_directory("images/sacerdotes", filename)
     elif(tipo == '2'):
         return send_from_directory("images/centros", filename)
+
 
 @app.route('/sacerdotes')
 def sacerdotes():
@@ -54,6 +57,30 @@ def centro():
 @app.route('/cancelarTurno')
 def cancelarTurno():
     return render_template('cancelarTurno.html')
+
+@app.route('/turnoSacerdote/<int:idSacerdote>') 
+def turnoSacerdote(idSacerdote):
+    ds = DatosSacerdotes()
+    sacerdote = ds.GetOne(idSacerdote)
+    rutaImagen = sacerdote.apellidoNombre.replace(", ", "") + ".png"
+    sacerdote.centrosyDisponibilidad = ds.GetCentrosyHorarios(sacerdote)
+
+    dc = DatosCentros()
+    form = Controles()
+    form.ddlCentros.choices = [(centro.idCentro, centro.nombre + " , " + centro.direccion) for centro in dc.GetAll()]
+    return render_template('turnoSacerdote.html', image_name = rutaImagen, sacerdote = sacerdote, form = form)
+
+@app.route('/turnoCentro/<int:idCentro>')
+def turnoCentro(idCentro):
+    dc = DatosCentros()
+    centro = dc.GetOne(idCentro)
+    rutaImangen = centro.nombre.replace(" ", "") + ".png"
+    centro.sacerdotesyDisponibilidad = dc.GetSacerdotesyHorarios(centro)
+
+    ds = DatosSacerdotes()
+    form = Controles()
+    form.ddlSacerdotes.choices = [(sacerdote.idSacerdote, sacerdote.apellidoNombre) for sacerdote in ds.GetAll()]
+    return render_template('turnoCentro.html', image_name= rutaImangen, centro = centro, form=form)
 
 @app.route('/logout')
 def logout(): 

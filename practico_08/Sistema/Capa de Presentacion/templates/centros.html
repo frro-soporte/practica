@@ -5,10 +5,10 @@
             {% for image_name in image_names %}
             <div class="row">              
                 <div class="col">
-                    <img class="img-thumbnail rounded float-left" src=" {{url_for('send_image', filename=image_name, tipo=2)}}">
+                    <img class="img-thumbnail rounded float-left" src="{{url_for('send_image', filename=image_name, tipo=2)}}">
                 </div>
                 <div class="col">
-                    <h5> {{centros[image_names.index(image_name)].nombre}} </h5>
+                    <h5> {{centros[image_names.index(image_name)].nombre}} - {{centros[image_names.index(image_name)].direccion}} </h5>
                     <ul>
                         {% for sacerdote in centros[image_names.index(image_name)].sacerdotesyDisponibilidad %}
                         <li>
@@ -23,6 +23,12 @@
                         </li>
                         {% endfor %} 
                    </ul>
+                </div>
+                <div class="col justify-content-center align-self-center">
+                    <div class="row">
+                        <a href="/turnoCentro/{{centros[image_names.index(image_name)].idCentro}}" class="btn btn-outline-secondary">Seleccionar</a>
+                        
+                    </div>
                 </div> 
             </div>
             {% endfor %} 
