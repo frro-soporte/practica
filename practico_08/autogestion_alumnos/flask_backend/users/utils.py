@@ -1,5 +1,18 @@
-from flask_backend.models import User, Subject
+from flask_backend.models import User, Subject, Task, Exam
 from flask_backend import db, bcrypt
+
+
+# SUBJECT METHODS
+
+
+def is_subject_id_valid(subject_id):
+    try:
+        subject_id = Subject.query.filter_by(id=subject_id).first()
+        if subject_id is None:
+            return False
+        return True
+    except:
+        return False
 
 
 def register_subject(subject_name, theory_hs, practice_hs, division, score, condition, theory_p, practice_p, username):
@@ -37,6 +50,103 @@ def delete_subject(subject):
         return True
     except:
         return False
+
+
+# TASK METHODS
+
+
+def register_task(description, date, score, is_done, subject_id):
+    if is_subject_id_valid(subject_id):
+        try:
+            registered_task = Task(description=description, date=date, score=score, is_done=is_done, subject_id=subject_id)
+            print(registered_task)
+            db.session.add(registered_task)
+            db.session.commit()
+            return dict(status="ok", data=dict(registered_task.serialize()))
+        except:
+            return dict(status="false", msg="task not saved")
+    return dict(status="false", msg="subject id not valid")
+
+
+def is_task_id_valid(task_id):
+    try:
+        task_id = Task.query.filter_by(id=task_id).first()
+        if task_id is None:
+            return False
+        return True
+    except:
+        return False
+
+
+def modify_task(task_id, description, date, score, is_done):
+    task = Task.query.filter_by(id=task_id).first()
+    try:
+        task.description = description
+        task.date = date
+        task.score = score
+        task.is_done = is_done
+        db.session.commit()
+        return True
+    except:
+        return False
+
+
+def delete_task(task):
+    try:
+        db.session.delete(task)
+        db.session.commit()
+        return True
+    except:
+        return False
+
+
+# EXAM METHODS
+
+
+def register_exam(description, date, score, subject_id):
+    if is_subject_id_valid(subject_id):
+        try:
+            registered_exam = Exam(description=description, date=date, score=score, subject_id=subject_id)
+            db.session.add(registered_exam)
+            db.session.commit()
+            return dict(status="ok", data=dict(registered_exam.serialize()))
+        except:
+            return dict(status="false", msg="exam not saved")
+    return dict(status="false", msg="subject id not valid")
+
+
+def is_exam_id_valid(exam_id):
+    try:
+        exam_id = Exam.query.filter_by(id=exam_id).first()
+        if exam_id is None:
+            return False
+        return True
+    except:
+        return False
+
+
+def modify_exam(exam_id, description, date, score):
+    exam = Exam.query.filter_by(id=exam_id).first()
+    try:
+        exam.description = description
+        exam.date = date
+        exam.score = score
+        db.session.commit()
+        return True
+    except:
+        return False
+
+
+def delete_exam(exam):
+    try:
+        db.session.delete(exam)
+        db.session.commit()
+        return True
+    except:
+        return False
+
+
+# USER METHODS
 
 
 def register_user(dni, user_name, password, legajo):
