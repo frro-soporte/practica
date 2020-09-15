@@ -7,6 +7,7 @@ import { isNotNil } from './utils/checks'
 import { Dashboard } from './components/dashboard'
 import { Task } from 'components/task'
 import { Test } from 'components/test'
+import {Subject} from 'components/subject'
 
 interface RoutesAppProps {
     cookies: Cookies
@@ -55,7 +56,7 @@ const App = (props: { cookies: Cookies }): JSX.Element => {
                 />
                 <Route
                     path={'/app/subject'}
-                    render={() => <Dashboard cookies={props.cookies} />}
+                    render={() => <Subject cookies={props.cookies} />}
                 />
                 <Route
                     path={'/app/test'}
