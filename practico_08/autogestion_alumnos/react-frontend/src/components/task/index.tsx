@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useState, useCallback, useEffect } from 'react';
 import { StyleMap, Style } from 'utils/tsTypes'
 import { Cookies } from 'react-cookie/lib'
 import { Layout } from 'components/app/layout'
 
 export const Task = (props: { cookies: Cookies }): JSX.Element => {
-    const style: Style = {
+    const general: Style = {
         margin: '0',
         padding: '0',
         display: 'grid',
@@ -19,7 +19,7 @@ export const Task = (props: { cookies: Cookies }): JSX.Element => {
 
     return (
         <Layout cookies={props.cookies}>
-            <section style={style}>
+            <section style={general}>
                 <TaskList />
             </section>
         </Layout>
@@ -34,6 +34,7 @@ const TaskList = (): JSX.Element => {
             background: '#333',
             borderTop: '50px solid white',
             width: '350px',
+            borderRadius: '25px',
         },
         subtitle: {
             color: '#fff',
@@ -56,8 +57,46 @@ const TaskList = (): JSX.Element => {
             position: 'relative',
             left: '20px',
             transition: '0.6s',
+        },
+        noInput: {
+            display: 'none',
+        
+        },
+        inputOver:{
+            height: '25px',
+            width: '200px',
+            borderWidth: 'small',
+            borderColor: '#b3b3b3',
+            boxShadow: '0 1px 1px rgba(0, 0, 0, 0.25)',
+            fontSize: '14px',
+            marginTop: '2%',
+            marginBottom: '4%',
+            borderRadius: '5px',
+            display: 'flex',
+        },
+        addButton: {
+            height: '30px',
+            background: '#e91e63',
+            borderWidth: 'small',
+            borderColor: '#b3b3b3',
+            boxShadow: '0 1px 1px rgba(0, 0, 0, 0.25)',
+            color: 'white',
+            fontSize: '14px',
+            marginTop: '2%',
+            marginBottom: '4%',
+            float: 'right',
+            borderRadius: '5px',
+            cursor: 'pointer',
+         }
         }
-}
+
+        const [styleNewTask, setStyleNewTask] = useState(styles.noInput)
+
+        const onClick = useCallback(() => {
+            setStyleNewTask(styles.inputOver)
+        }, [])
+    
+
     return (
         <div style={styles.box}>
             <h2 style={styles.subtitle} >Tareas</h2>
@@ -65,6 +104,12 @@ const TaskList = (): JSX.Element => {
                 <input type="checkbox" name="" ></input>
                 <span style={styles.taskDescription}>19/09/2020 TP Soporte</span>
             </label>
+            <button onClick={onClick} style={styles.addButton}>Agregar Tarea</button> 
+            <form  >
+                <input style={styleNewTask} placeholder="Materia" name="subjectTask" />
+                <input style={styleNewTask} placeholder="dd/mm/aa" name="dateTask" />
+                <button style={styleNewTask}>Confirmar</button>
+            </form> 
         </div>
     )
 }
