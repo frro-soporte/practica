@@ -151,6 +151,7 @@ def get_subject():
         if subject is None:
             return dict(status="error", msg="Subject not found")
         return dict(status="ok", data=dict(subject={
+            'id': subject.id,
             'name': subject.name,
             'division': subject.division,
             'score': subject.score,
@@ -172,7 +173,22 @@ def get_subjects():
         current_user = get_jwt_identity()
         user_id = User.query.filter_by(name=current_user).first().id
         subjects = Subject.query.filter_by(user_id=user_id).all()
-        return dict(status="ok", data=dict(subjects=Subject.serialize_list(elements=subjects)))
+        final_subjects = []
+        for subject in subjects:
+            final_subjects.append({
+            'id': subject.id,
+            'name': subject.name,
+            'division': subject.division,
+            'score': subject.score,
+            'condition': subject.condition,
+            'theory_ddhhhh': subject.theory_ddhhhh,
+            'theory_professor': subject.theory_professor,
+            'practice_ddhhhh': subject.practice_ddhhhh,
+            'practice_professor': subject.practice_professor,
+            'exams': subject.serialize_list(subject.exams),
+            'tasks': subject.serialize_list(subject.tasks),
+        })
+        return dict(status="ok", data=dict(subjects=final_subjects))
     return dict(status="error", msg="Request not allowed")
 
 
@@ -197,7 +213,7 @@ def task():
             subject_id
         )
         if registered_task['status'] == "ok":
-            return dict(status="ok", subject=registered_task['data'])
+            return dict(status="ok", task=registered_task['data'])
         return dict(status="error", msg=registered_task['msg'])
 
     if request.method == "DELETE":
@@ -282,7 +298,7 @@ def exam():
             subject_id
         )
         if registered_exam['status'] == "ok":
-            return dict(status="ok", subject=registered_exam['data'])
+            return dict(status="ok", exam=registered_exam['data'])
         return dict(status="error", msg=registered_exam['msg'])
 
     if request.method == "DELETE":
