@@ -11,6 +11,7 @@ import dashboard from 'common/img/home-logo.png'
 import logout from 'common/img/logout-logo.png'
 import { Logout } from '../../logout'
 import { Cookies } from 'react-cookie/lib'
+import Tooltip from '@material-ui/core/Tooltip'
 
 interface SingleLinkMenuProps {
     routeName: string
@@ -40,9 +41,11 @@ export function DashboardMenu(): JSX.Element {
         alignSelf: 'center',
     }
     return (
-        <Link to={'/app/dashboard/'} style={logo}>
-            <img src={dashboard} style={logo} />
-        </Link>
+        <Tooltip title="Dashboard" placement="right">
+            <Link to={'/app/dashboard/'} style={logo}>
+                <img src={dashboard} style={logo} />
+            </Link>
+        </Tooltip>
     )
 }
 
@@ -58,9 +61,11 @@ export function TaskMenu(): JSX.Element {
         marginTop: '10px',
     }
     return (
-        <Link to={'/app/task/'} style={logo}>
-            <img src={task} style={logo} />
-        </Link>
+        <Tooltip title="Task" placement="right">
+            <Link to={'/app/task/'} style={logo}>
+                <img src={task} style={logo} />
+            </Link>
+        </Tooltip>
     )
 }
 
@@ -76,9 +81,11 @@ export function SubjectMenu(): JSX.Element {
         marginTop: '10px',
     }
     return (
-        <Link to={'/app/subject/'} style={logo}>
-            <img src={subject} style={logo} />
-        </Link>
+        <Tooltip title="Subject" placement="right">
+            <Link to={'/app/subject/'} style={logo}>
+                <img src={subject} style={logo} />
+            </Link>
+        </Tooltip>
     )
 }
 
@@ -94,9 +101,11 @@ export function TestMenu(): JSX.Element {
         marginTop: '10px',
     }
     return (
-        <Link to={'/app/test/'} style={logo}>
-            <img src={test} style={logo} />
-        </Link>
+        <Tooltip title="Exam" placement="right">
+            <Link to={'/app/test/'} style={logo}>
+                <img src={test} style={logo} />
+            </Link>
+        </Tooltip>
     )
 }
 
@@ -112,9 +121,11 @@ export function CalendarMenu(): JSX.Element {
         marginTop: '10px',
     }
     return (
-        <Link to={'/app/calendar/'} style={logo}>
-            <img src={calendar} style={logo} />
-        </Link>
+        <Tooltip title="Calendar" placement="right">
+            <Link to={'/app/calendar/'} style={logo}>
+                <img src={calendar} style={logo} />
+            </Link>
+        </Tooltip>
     )
 }
 
@@ -130,7 +141,9 @@ export function LogoutMenu(props: { cookies: Cookies }): JSX.Element {
     }
     return (
         <Logout cookies={props.cookies} style={logo}>
-            <img src={logout} style={logo} />
+            <Tooltip title="LogOut" placement="right">
+                <img src={logout} style={logo} />
+            </Tooltip>
         </Logout>
     )
 }
