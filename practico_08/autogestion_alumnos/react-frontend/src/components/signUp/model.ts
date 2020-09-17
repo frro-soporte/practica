@@ -1,6 +1,4 @@
 import axios from 'axios'
-import {withCookies} from "react-cookie/lib";
-import {withRouter} from "react-router";
 
 export class SignUpModel {
     dni = ''
@@ -29,9 +27,7 @@ export class SignUpModel {
 
         const response = await this.tryToSignUp()
 
-        console.log(response)
         if (response.status === 'ok') {
-            console.log('adentro del if status')
             return goToLogin()
         }
         if (response.msg === '') {

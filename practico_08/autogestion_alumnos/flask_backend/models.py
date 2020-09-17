@@ -97,7 +97,7 @@ class Task(db.Model):
     description = db.Column(db.String(250), nullable=False)
     date = db.Column(db.DateTime, nullable=True)
     score = db.Column(db.String(2), nullable=True)
-    is_done = db.Column(db.String(10), nullable=False, default="False")
+    is_done = db.Column(db.String(10), nullable=False, default="false")
 
     # parent
     subject_id = db.Column(db.Integer, db.ForeignKey('subject.id'), nullable=False)

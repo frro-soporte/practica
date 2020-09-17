@@ -75,7 +75,7 @@ def log_in():
 # SUBJECT METHODS
 
 
-@users.route('/subject', methods=["POST", "DELETE", "GET", "PUT"])
+@users.route('/subject', methods=["POST", "DELETE", "PUT"])
 @jwt_required
 def subject():
     if request.method == "POST":
@@ -103,13 +103,6 @@ def subject():
         if registered_subject['status'] == "ok":
             return dict(status="ok", subject=registered_subject['data'])
         return dict(status="error", msg="subject not saved")
-
-    if request.method == "GET":
-        subject_id = request.json.get("id", None)
-        subject = Subject.query.filter_by(id=subject_id).first()
-        if subject is None:
-            return dict(status="error", msg="Subject not found")
-        return dict(status="ok", data=dict(subject=subject.serialize()))
 
     if request.method == "DELETE":
         subject_id = request.json.get("id", None)
@@ -149,6 +142,30 @@ def subject():
     return dict(status="error", msg="request not allowed")
 
 
+@users.route('/getsubject', methods=["POST"])
+@jwt_required
+def get_subject():
+    if request.method == "POST":
+        subject_id = request.json.get("id", None)
+        subject = Subject.query.filter_by(id=subject_id).first()
+        if subject is None:
+            return dict(status="error", msg="Subject not found")
+        return dict(status="ok", data=dict(subject={
+            'id': subject.id,
+            'name': subject.name,
+            'division': subject.division,
+            'score': subject.score,
+            'condition': subject.condition,
+            'theory_ddhhhh': subject.theory_ddhhhh,
+            'theory_professor': subject.theory_professor,
+            'practice_ddhhhh': subject.practice_ddhhhh,
+            'practice_professor': subject.practice_professor,
+            'exams': subject.serialize_list(subject.exams),
+            'tasks': subject.serialize_list(subject.tasks),
+        }))
+    return dict(status="error", msg="Request not allowed")
+
+
 @users.route('/subjects', methods=["GET"])
 @jwt_required
 def get_subjects():
@@ -156,14 +173,29 @@ def get_subjects():
         current_user = get_jwt_identity()
         user_id = User.query.filter_by(name=current_user).first().id
         subjects = Subject.query.filter_by(user_id=user_id).all()
-        return dict(status="ok", data=dict(subjects=Subject.serialize_list(elements=subjects)))
+        final_subjects = []
+        for subject in subjects:
+            final_subjects.append({
+            'id': subject.id,
+            'name': subject.name,
+            'division': subject.division,
+            'score': subject.score,
+            'condition': subject.condition,
+            'theory_ddhhhh': subject.theory_ddhhhh,
+            'theory_professor': subject.theory_professor,
+            'practice_ddhhhh': subject.practice_ddhhhh,
+            'practice_professor': subject.practice_professor,
+            'exams': subject.serialize_list(subject.exams),
+            'tasks': subject.serialize_list(subject.tasks),
+        })
+        return dict(status="ok", data=dict(subjects=final_subjects))
     return dict(status="error", msg="Request not allowed")
 
 
 # TASK METHODS
 
 
-@users.route('/task', methods=["POST", "DELETE", "GET", "PUT"])
+@users.route('/task', methods=["POST", "DELETE", "PUT"])
 @jwt_required
 def task():
     if request.method == "POST":
@@ -181,15 +213,8 @@ def task():
             subject_id
         )
         if registered_task['status'] == "ok":
-            return dict(status="ok", subject=registered_task['data'])
+            return dict(status="ok", task=registered_task['data'])
         return dict(status="error", msg=registered_task['msg'])
-
-    if request.method == "GET":
-        task_id_get = request.json.get("id", None)
-        task_to_get = Task.query.filter_by(id=task_id_get).first()
-        if task_to_get is None:
-            return dict(status="error", msg="task not found")
-        return dict(status="ok", data=dict(task=task_to_get.serialize()))
 
     if request.method == "DELETE":
         task_id_delete = request.json.get("id", None)
@@ -221,10 +246,22 @@ def task():
     return dict(status="error", msg="request not allowed")
 
 
-@users.route('/tasks', methods=["GET"])
+@users.route('/gettask', methods=["POST"])
 @jwt_required
-def get_tasks():
-    if request.method == "GET":
+def get_task():
+    if request.method == "POST":
+        task_id = request.json.get("id", None)
+        task = Task.query.filter_by(id=task_id).first()
+        if task is None:
+            return dict(status="error", msg="Task not found")
+        return dict(status="ok", data=dict(task=task.serialize()))
+    return dict(status="error", msg="Request not allowed")
+
+
+@users.route('/tasksbysubject', methods=["POST"])
+@jwt_required
+def get_tasksbysubject():
+    if request.method == "POST":
         subject_id_get_task = request.json.get("id", None)
         if is_subject_id_valid(subject_id_get_task):
             tasks = Task.query.filter_by(subject_id=subject_id_get_task).all()
@@ -233,10 +270,19 @@ def get_tasks():
     return dict(status="error", msg="Request not allowed")
 
 
+@users.route('/tasks', methods=["GET"])
+@jwt_required
+def get_tasks():
+    if request.method == "GET":
+        tasks = Task.query.all()
+        return dict(status="ok", data=dict(tasks=Task.serialize_list(elements=tasks)))
+    return dict(status="error", msg="Request not allowed")
+
+
 # EXAMS METHODS
 
 
-@users.route('/exam', methods=["POST", "DELETE", "GET", "PUT"])
+@users.route('/exam', methods=["POST", "DELETE", "PUT"])
 @jwt_required
 def exam():
     if request.method == "POST":
@@ -252,15 +298,8 @@ def exam():
             subject_id
         )
         if registered_exam['status'] == "ok":
-            return dict(status="ok", subject=registered_exam['data'])
+            return dict(status="ok", exam=registered_exam['data'])
         return dict(status="error", msg=registered_exam['msg'])
-
-    if request.method == "GET":
-        exam_id_get = request.json.get("id", None)
-        exam_to_get = Exam.query.filter_by(id=exam_id_get).first()
-        if exam_to_get is None:
-            return dict(status="error", msg="exam not found")
-        return dict(status="ok", data=dict(task=exam_to_get.serialize()))
 
     if request.method == "DELETE":
         exam_id_delete = request.json.get("id", None)
@@ -290,14 +329,34 @@ def exam():
     return dict(status="error", msg="request not allowed")
 
 
+@users.route('/getexam', methods=["POST"])
+@jwt_required
+def get_exam():
+    if request.method == "POST":
+        exam_id = request.json.get("id", None)
+        exam = Exam.query.filter_by(id=exam_id).first()
+        if exam is None:
+            return dict(status="error", msg="Exam not found")
+        return dict(status="ok", data=dict(exam=exam.serialize()))
+    return dict(status="error", msg="Request not allowed")
+
+
+@users.route('/examsbysubject', methods=["POST"])
+@jwt_required
+def get_examsbysubject():
+    if request.method == "POST":
+        subject_id_get_exam = request.json.get("id", None)
+        if is_subject_id_valid(subject_id_get_exam):
+            exams = Exam.query.filter_by(subject_id=subject_id_get_exam).all()
+            return dict(status="ok", data=dict(exams=Exam.serialize_list(elements=exams)))
+        return dict(status="error", msg="subject id not found")
+    return dict(status="error", msg="Request not allowed")
+
+
 @users.route('/exams', methods=["GET"])
 @jwt_required
 def get_exams():
     if request.method == "GET":
-        subject_id_get_exam = request.json.get("id", None)
-        if is_subject_id_valid(subject_id_get_exam):
-            exams = Exam.query.filter_by(subject_id=subject_id_get_exam).all()
-            return dict(status="ok", data=dict(exam=Exam.serialize_list(elements=exams)))
-        return dict(status="error", msg="subject id not found")
+        exams = Exam.query.all()
+        return dict(status="ok", data=dict(exams=Exam.serialize_list(elements=exams)))
     return dict(status="error", msg="Request not allowed")
-

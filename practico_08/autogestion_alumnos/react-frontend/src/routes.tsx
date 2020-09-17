@@ -7,7 +7,7 @@ import { isNotNil } from './utils/checks'
 import { Dashboard } from './components/dashboard'
 import { Task } from 'components/task'
 import { Test } from 'components/test'
-import {Subject} from 'components/subject'
+import { Subject } from 'components/subject'
 
 interface RoutesAppProps {
     cookies: Cookies
@@ -35,7 +35,6 @@ class RoutesApp extends React.Component<RoutesAppProps> {
 
 const App = (props: { cookies: Cookies }): JSX.Element => {
     const accessToken = props.cookies.get('access_token')
-    console.log(accessToken)
     if (accessToken && isNotNil(accessToken)) {
         return (
             <Switch>
@@ -74,7 +73,6 @@ const App = (props: { cookies: Cookies }): JSX.Element => {
 
 const Acc = (props: { cookies: Cookies }): JSX.Element => {
     const accessToken = props.cookies.get('access_token')
-    console.log(props.cookies.get('access_token'))
     if (accessToken && isNotNil(accessToken)) {
         return (
             <Switch>

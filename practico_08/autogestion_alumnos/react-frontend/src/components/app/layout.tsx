@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { Colors, Dimensions } from 'style'
+import { Dimensions } from 'style'
 import { JustChildren, Style, StyleMap } from 'utils/tsTypes'
 import { HorizontalStack } from 'common/components/flex'
 import { Navigation } from 'components/navigation'
@@ -8,7 +8,7 @@ import { Cookies } from 'react-cookie/lib'
 
 function RelativePositionAppContent(props: JustChildren): JSX.Element {
     const style: Style = {
-        backgroundColor: Colors.background.light3,
+        backgroundColor: '#222',
         display: 'block',
         position: 'relative',
         width: Dimensions.width.content + Dimensions.width.nav,
@@ -47,6 +47,8 @@ export class Layout extends React.Component<LayoutProps, LayoutState> {
             container: {
                 width: '100%',
                 height: '100%',
+                display: 'flex',
+                backgroundColor: '#222',
             },
             innerContainer: {
                 position: 'relative',
@@ -54,6 +56,8 @@ export class Layout extends React.Component<LayoutProps, LayoutState> {
                 minHeight: '100%',
                 margin: 'auto',
                 height: 'auto',
+                display: 'flex',
+                backgroundColor: '#222',
             },
         }
         return (
