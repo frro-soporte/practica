@@ -250,6 +250,19 @@ const TaskList = (props: {
             textAlign: 'center',
             width: '100%',
         },
+        taskLine: {
+            color: '#fff',
+            fontSize: '17px',
+            fontFamily: 'Arial',
+            margin: '40px 0',
+            display: 'block',
+            cursor: 'pointer',
+        },
+        taskDescription: {
+            position: 'relative',
+            left: '20px',
+            transition: '0.6s',
+        },
     }
     const [isAddTaskClicked, setIsAddTaskClicked] = useState(false)
 

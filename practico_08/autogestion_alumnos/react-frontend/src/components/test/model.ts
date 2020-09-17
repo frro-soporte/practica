@@ -1,17 +1,17 @@
 import axios from 'axios'
-import { TasksType, TaskType } from './common'
+import { TestsType, TestType } from './common'
 
-export class TaskModel {
+export class TestModel {
     constructor(private accessToken: string) {}
 
-    getTasks = async (
+    getTests = async (
         setErrorMessage: (error: string) => void
-    ): Promise<TasksType> => {
-        const response = await this.tryToGetTasks()
+    ): Promise<TestsType> => {
+        const response = await this.tryToGetTests()
 
         if (response.status === 'ok') {
-            const tasks = response.msg.tasks
-            return processTasks(tasks)
+            const tests = response.msg.exams
+            return processTests(tests)
         }
         if (response.msg === '') {
             setErrorMessage('Something went wrong, please try again')
@@ -20,9 +20,9 @@ export class TaskModel {
         return []
     }
 
-    tryToGetTasks = async (): Promise<{ msg: any; status: string }> => {
+    tryToGetTests = async (): Promise<{ msg: any; status: string }> => {
         const response = axios
-            .get('/tasks', {
+            .get('/exams', {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${this.accessToken}`,
@@ -43,25 +43,23 @@ export class TaskModel {
         return await response
     }
 
-    tryToSaveTask = async (
+    tryToSaveTest = async (
         description: string,
-        isDone: boolean,
         date: string,
         score: string,
         setErrorMessage: (value: string) => void,
         valueSelected: string
-    ): Promise<TasksType> => {
-        const response = await this.saveTask(
+    ): Promise<TestsType> => {
+        const response = await this.saveTest(
             description,
-            isDone,
             date,
             score,
             valueSelected
         )
 
         if (response.status === 'ok') {
-            const task = response.msg
-            return processTasks(task)
+            const test = response.msg
+            return processTests(test)
         }
         if (response.msg === '') {
             setErrorMessage('Something went wrong, please try again')
@@ -71,19 +69,17 @@ export class TaskModel {
         return []
     }
 
-    saveTask = async (
+    saveTest = async (
         description: string,
-        isDone: boolean,
         date: string,
         score: string,
         valueSelected: string
     ): Promise<{ msg: any; status: string }> => {
         const response = axios
             .post(
-                '/task',
+                '/exam',
                 {
                     description: description,
-                    isDone: isDone,
                     date: date,
                     score: score,
                     subjectId: valueSelected,
@@ -98,7 +94,7 @@ export class TaskModel {
             .then((response) => {
                 return {
                     status: response.data.status,
-                    msg: response.data.task || response.data.msg,
+                    msg: response.data.exam || response.data.msg,
                 }
             })
             .catch(() => {
@@ -110,25 +106,24 @@ export class TaskModel {
         return await response
     }
 
-    tryToModifyTask = async (task: TaskType): Promise<boolean> => {
-        const response = await this.changeTask(task)
+    tryToModifyTest = async (test: TestType): Promise<boolean> => {
+        const response = await this.changeTest(test)
 
         return response.status === 'ok'
     }
 
-    changeTask = async (
-        task: TaskType
+    changeTest = async (
+        test: TestType
     ): Promise<{ msg: any; status: string }> => {
         const response = axios
             .put(
-                '/task',
+                '/exam',
                 {
-                    id: task.id,
-                    description: task.description,
-                    isDone: task.isDone,
-                    date: task.date,
-                    score: task.score,
-                    subjectId: task.subjectId,
+                    id: test.id,
+                    description: test.description,
+                    date: test.date,
+                    score: test.score,
+                    subjectId: test.subjectId,
                 },
                 {
                     headers: {
@@ -153,29 +148,26 @@ export class TaskModel {
     }
 }
 
-export const processTasks = (tasks: any): TasksType => {
-    if (Array.isArray(tasks)) {
-        return tasks.map((task: any) => {
-            const isDone = task.is_done === 'true' || task.is_done === 'True'
+export const processTests = (tests: any): TestsType => {
+    console.log(tests)
+    if (Array.isArray(tests)) {
+        return tests.map((test: any) => {
             return {
-                date: task.date,
-                description: task.description,
-                id: task.id,
-                isDone: isDone,
-                score: task.score,
-                subjectId: task.subject_id,
+                date: test.date,
+                description: test.description,
+                id: test.id,
+                score: test.score,
+                subjectId: test.subject_id,
             }
         })
     }
-    const isDone = tasks.is_done === 'true' || tasks.is_done === 'True'
     return [
         {
-            date: tasks.date,
-            description: tasks.description,
-            id: tasks.id,
-            isDone: isDone,
-            score: tasks.score,
-            subjectId: tasks.subject_id,
+            date: tests.date,
+            description: tests.description,
+            id: tests.id,
+            score: tests.score,
+            subjectId: tests.subject_id,
         },
     ]
 }
