@@ -130,7 +130,17 @@ export const Test = (props: { cookies: Cookies }): JSX.Element => {
     }
 
     const dropdown: Style = {
-        width: '100%',
+        width: '350px',
+        marginTop: '50px',
+        marginBottom: '50px',
+
+    }
+    const title: Style = {
+        marginTop: '5%',
+        textAlign: 'center',
+        color: 'white',
+        fontSize: '20px',
+        fontFamily: 'Arial'
     }
 
     const [isOptionSelected, setIsOptionSelected] = useState(false)
@@ -148,13 +158,14 @@ export const Test = (props: { cookies: Cookies }): JSX.Element => {
     return (
         <Layout cookies={props.cookies}>
             <VerticalStack style={general}>
+                <label style={title}>Seleccione una materia:</label>
                 <Dropdown
                     style={dropdown}
                     isDisabled={isDropdownDisabled}
                     subjects={subjects}
                     onChange={onOptionSelected}
                 />
-                {errorMessage}
+                <label style={title}>{errorMessage}</label>
                 <MaybeTestList
                     tests={tests}
                     accessToken={accessToken}
@@ -219,6 +230,7 @@ const TestList = (props: {
             borderTop: '50px solid white',
             width: '350px',
             borderRadius: '25px',
+            marginBottom: '25px'
         },
         subtitle: {
             color: '#fff',
@@ -374,6 +386,7 @@ const MaybeTestForm = (props: MaybeTestFormProps): JSX.Element | null => {
             marginBottom: '4%',
             borderRadius: '5px',
             cursor: 'pointer',
+            padding: '5px',
             textAlign: 'center',
             width: '100%',
         },
@@ -385,6 +398,7 @@ const MaybeTestForm = (props: MaybeTestFormProps): JSX.Element | null => {
             boxShadow: '0 1px 1px rgba(0, 0, 0, 0.25)',
             color: 'white',
             fontSize: '14px',
+            padding: '5px',
             marginTop: '2%',
             marginBottom: '4%',
             borderRadius: '5px',

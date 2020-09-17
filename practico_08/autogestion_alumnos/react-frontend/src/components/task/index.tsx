@@ -134,7 +134,16 @@ export const Task = (props: { cookies: Cookies }): JSX.Element => {
     }
 
     const dropdown: Style = {
-        width: '100%',
+        width: '350px',
+        marginTop: '50px',
+        marginBottom: '50px',
+    }
+    const title: Style = {
+        marginTop: '5%',
+        textAlign: 'center',
+        color: 'white',
+        fontSize: '20px',
+        fontFamily: 'Arial'
     }
 
     const [isOptionSelected, setIsOptionSelected] = useState(false)
@@ -152,13 +161,14 @@ export const Task = (props: { cookies: Cookies }): JSX.Element => {
     return (
         <Layout cookies={props.cookies}>
             <VerticalStack style={general}>
+                <label style={title}>Seleccione una materia:</label>
                 <Dropdown
                     style={dropdown}
                     isDisabled={isDropdownDisabled}
                     subjects={subjects}
                     onChange={onOptionSelected}
                 />
-                {errorMessage}
+                <label style={title}>{errorMessage}</label>
                 <MaybeTaskList
                     tasks={tasks}
                     accessToken={accessToken}
