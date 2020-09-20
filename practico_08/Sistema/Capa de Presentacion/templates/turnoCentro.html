@@ -33,10 +33,35 @@
             <br>
             {{form.ddlSacerdotes(class_="form-control")}}  
             <br>
+            {{form.ddlDias(class_="form-control")}}
+            <br>
+            {{form.ddlTurnos(class_="form-control")}}
+            <br>
             <div class="text-center">
                 <a href="/" class="btn btn-outline-primary">Enviar mail de Confirmacion</a>
             </div>
         </div>
     </div>
 </div>
+<script>
+    let sacerdote_select = document.getElementById('ddlSacerdotes');
+    let dia_select = document.getElementById('ddlDias')
+    let turno_select = document.getElementById('ddlTurnos')
+
+    sacerdote_select.onchange = function() {
+        idSacerdote = sacerdote_select.value;
+        var idCentro = {{centro.idCentro}}
+        
+        fetch('/diasDisponiblesxSacerdoteyCentro/'+ idSacerdote + '/'+ idCentro ).then(function(response){
+            response.json().then(function(data){
+               let optionHTML = '';
+                for (let dia of data.dias){
+                    optionHTML += '<option value="' + dia.id +'">' + dia.desc + '</option>';
+                }
+
+                dia_select.innerHTML = optionHTML;
+            })
+        });
+    }
+</script>
 {% endblock %}

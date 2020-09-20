@@ -3,8 +3,8 @@ import flask
 import sys
 sys.path.append('c:/Users/ppaez/Documents/Repositorios/frro-soporte-2020-23/practico_08/Sistema/Capa de Datos')
 
-from Metodos import DatosCiudades, DatosSacerdotes, DatosCentros
-from flask import Flask, redirect, url_for, render_template, request, session, flash, send_from_directory
+from Metodos import DatosCiudades, DatosSacerdotes, DatosCentros, DatosTurnos
+from flask import Flask, redirect, url_for, render_template, request, session, flash, send_from_directory, jsonify
 from datetime import timedelta, datetime
 from flask_wtf import FlaskForm
 from wtforms import SelectField
@@ -19,6 +19,8 @@ class Controles(FlaskForm):
     ddlciudades = SelectField('ddlciudades', choices=[])
     ddlCentros = SelectField('ddlCentros', choices=[])
     ddlSacerdotes = SelectField('ddlSacerdotes', choices=[])
+    ddlDias = SelectField('ddlDias', choices = [])
+    ddlTurnos = SelectField('ddlTurnos', choices = [])
 
 @app.route('/', methods=['GET'])
 def home():
@@ -67,8 +69,24 @@ def turnoSacerdote(idSacerdote):
 
     dc = DatosCentros()
     form = Controles()
-    form.ddlCentros.choices = [(centro.idCentro, centro.nombre + " , " + centro.direccion) for centro in dc.GetAll()]
+    form.ddlCentros.choices = [(centro.idCentro, centro.nombre + " , " + centro.direccion) for centro in dc.GetAllxSacerdote(sacerdote.idSacerdote)]
+    #[(dia.nro, dia.desc) for dia in dt.GetDiasDisponiblesxSacerdoteyCentro(sacerdote.idSacerdote,)]
     return render_template('turnoSacerdote.html', image_name = rutaImagen, sacerdote = sacerdote, form = form)
+
+@app.route('/diasDisponiblesxSacerdoteyCentro/<int:idSacerdote>/<int:idCentro>')
+def getDiasDisponiblesxCentro (idSacerdote, idCentro):
+    dt = DatosTurnos()
+    
+    diasLista = dt.GetDiasDisponiblesxSacerdoteyCentro(idSacerdote, idCentro)
+    diasListaDict = []
+    for dia in diasLista:
+        diaDict = {}
+        diaDict['id']=dia[0]
+        diaDict['desc']=dia[1]
+        diasListaDict.append(diaDict)
+    
+    return jsonify({'dias': diasListaDict})
+
 
 @app.route('/turnoCentro/<int:idCentro>')
 def turnoCentro(idCentro):
@@ -79,8 +97,11 @@ def turnoCentro(idCentro):
 
     ds = DatosSacerdotes()
     form = Controles()
-    form.ddlSacerdotes.choices = [(sacerdote.idSacerdote, sacerdote.apellidoNombre) for sacerdote in ds.GetAll()]
+    form.ddlSacerdotes.choices = [(sacerdote.idSacerdote, sacerdote.apellidoNombre) for sacerdote in ds.GetAllxCentro(centro.idCentro)]
+    form.ddlDias.choices = []
+    form.ddlTurnos.choices = []
     return render_template('turnoCentro.html', image_name= rutaImangen, centro = centro, form=form)
+
 
 @app.route('/logout')
 def logout(): 

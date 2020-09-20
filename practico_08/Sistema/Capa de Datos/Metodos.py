@@ -1,6 +1,7 @@
 from sqlalchemy import create_engine, asc, and_
 from sqlalchemy.orm import sessionmaker
 from Clases import Base, Centro, Sacerdote, Penitente, Turno, Ciudad, Disponibilidad
+from datetime import datetime, timedelta, time
 
 
 
@@ -151,7 +152,40 @@ class DatosTurnos(Datos):
         self.session.add(tur)
         self.session.commit()
         return tur
-   
+    
+    def GetTurnosxSacerdoteyCentro(self, idSacerdote, idCentro):
+        turnosAll = self.session.query(Turno).all()
+        turnosFiltrados = []
+        for t in turnosAll:
+            if(t.idSacerdote == idSacerdote and t.idCentro == idCentro):
+                turnosFiltrados.append(t)
+        return turnosFiltrados
+
+    def GetDiasDisponiblesxSacerdoteyCentro(self,idSacerdote,idCentro):
+        dd = DatosDisponibilidad()
+        disps = dd.GetAllxCentroySacerdote(idCentro, idSacerdote)
+        turnos = self.GetTurnosxSacerdoteyCentro(idSacerdote, idCentro)
+        diasDisponibles = []
+        for incremento in range(0,7):
+            cantTurnosDia = 0
+            diaActual = datetime.today() + timedelta(incremento)
+            for t in turnos:
+                if (t.fechayHoraTurno.date() == diaActual):
+                    cantTurnosDia = cantTurnosDia + 1
+            cantTurnosDisponibles = 0
+            for d in disps:
+                if (d.diaAtencion ==  diaActual.weekday()):
+                    minutos = (d.horaFinAtencion.hour - d.horaInicioAtencion.hour)*60 + d.horaFinAtencion.minute  
+                    if ((d.horaFinAtencion.hour - d.horaInicioAtencion.hour) != 0):
+                        minutos = minutos + (60 - d.horaFinAtencion.minute)
+                    cantTurnosDisponibles = cantTurnosDisponibles + minutos / 20
+                    desc = d.diaNombre + " " + str(diaActual.day)
+            if(cantTurnosDisponibles > cantTurnosDia):
+                diasDisponibles.append((diaActual,desc)) 
+
+        return  diasDisponibles
+        
+    
 class DatosDisponibilidad(Datos):
     def __init__(self):
         super().__init__() 
@@ -164,11 +198,11 @@ class DatosDisponibilidad(Datos):
 
     def GetAllxCentroySacerdote(self, idCentro, idSacerdote):
         disponibilidadesAll = self.session.query(Disponibilidad).all()
-        dispobilidadesFiltradas = []
+        disponibilidadesFiltradas = []
         for d in disponibilidadesAll:
             if (d.idCentro == idCentro and d.idSacerdote == idSacerdote):
-                dispobilidadesFiltradas.append(d)
-        return dispobilidadesFiltradas
+                disponibilidadesFiltradas.append(d)
+        return disponibilidadesFiltradas
     
    
         
@@ -188,14 +222,6 @@ class DatosCiudades(Datos):
 
 
 if __name__ == '__main__':
-    ds = DatosSacerdotes()
-    sacerdotes = ds.GetAll()
-    for s in sacerdotes:
-        print(s.apellidoNombre)
-        s.centrosyDisponibilidad = ds.GetCentrosyHorarios(s)
-        for  i in s.centrosyDisponibilidad:
-            print("centro: ", i[0].nombre)
-            atenciones = i[1:]
-            for j in atenciones:
-                for atencion in j:
-                    print("dia: ", atencion[0] ,"hora inicio: ", atencion[1], "hora fin: ", atencion[2])
+    dt = DatosTurnos()
+    lista = dt.GetDiasDisponiblesxSacerdoteyCentro(2,1)
+    print(lista) 

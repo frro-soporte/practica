@@ -13,13 +13,6 @@
                         {% for centro in sacerdotes[image_names.index(image_name)].centrosyDisponibilidad %}
                         <li>
                             <h7> {{centro[0].nombre}} - {{centro[0].direccion}} </h7>
-                            <ul>
-                                {% for atenciones in centro[1:] %}
-                                    {% for a in atenciones:%}
-                                        <li>{{a[0]}}: {{a[1].strftime("%H:%M")}}-{{a[2].strftime("%H:%M")}} </li>                                  
-                                    {% endfor%}
-                                {% endfor %}
-                            </ul>
                         </li>
                         {% endfor %} 
                    </ul>         
