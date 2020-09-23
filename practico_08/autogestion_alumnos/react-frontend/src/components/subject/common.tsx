@@ -12,6 +12,6 @@ export interface SubjectType {
     score?: string
     theoryProfessor?: string
     practiceProfessor?: string
-    exams: TestsType[]
-    tasks: TasksType[]
+    exams: TestsType
+    tasks: TasksType
 }
