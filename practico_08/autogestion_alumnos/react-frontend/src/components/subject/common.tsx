@@ -1,6 +1,7 @@
+import { TestsType } from 'components/test/common'
 import { TasksType } from '../task/common'
 
-export type SubjectsType = [] | SubjectType[]
+export type SubjectsType = SubjectType[]
 export interface SubjectType {
     id: string
     name: string
@@ -11,6 +12,6 @@ export interface SubjectType {
     score?: string
     theoryProfessor?: string
     practiceProfessor?: string
-    exams: any[] //TODO: type this!!!
+    exams: TestsType[]
     tasks: TasksType[]
 }

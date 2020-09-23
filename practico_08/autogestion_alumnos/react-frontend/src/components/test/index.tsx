@@ -301,9 +301,9 @@ const TestList = (props: {
         <div style={styles.box}>
             <h2 style={styles.subtitle}>Examenes</h2>
             {testsRow}
-            <div onClick={onClick} style={styles.addButton}>
+            <button onClick={onClick} style={styles.addButton}>
                 Agregar Examen
-            </div>
+            </button>
             <MaybeTestForm
                 isAddTestClicked={isAddTestClicked}
                 onCancel={() => setIsAddTestClicked(false)}
@@ -439,12 +439,12 @@ const MaybeTestForm = (props: MaybeTestFormProps): JSX.Element | null => {
             />
             {errorMessage}
             <HorizontalStack>
-                <div style={styles.confirm} onClick={onConfirm}>
+                <button style={styles.confirm} onClick={onConfirm}>
                     Confirmar
-                </div>
-                <div style={styles.cancel} onClick={onCancel}>
+                </button>
+                <button style={styles.cancel} onClick={onCancel}>
                     Cancelar
-                </div>
+                </button>
             </HorizontalStack>
         </VerticalStack>
     )

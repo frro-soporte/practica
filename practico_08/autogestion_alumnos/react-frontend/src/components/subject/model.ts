@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { SubjectType, SubjectsType } from './common'
 import { processTasks } from '../task/model'
+import { processTests } from 'components/test/model'
 
 export {}
 
@@ -106,9 +107,102 @@ export class SubjectModel {
                 score: subject.score,
                 theoryProfessor: subject.theory_professor,
                 practiceProfessor: subject.practice_professor,
-                exams: subject.exams,
+                exams: processTests(subject.exams),
                 tasks: processTasks(subject.tasks),
             }
         })
     }
+
+
+    tryToSaveSubject = async (
+        name: string,
+        division: string,
+        condition: string,
+        theoryDDHHHH: string,
+        practiceDDHHHH: string,
+        score: string,
+        theoryProfessor: string,
+        practiceProfessor: string,
+        setErrorMessage: (value: string) => void,
+    ): Promise<SubjectsType> => {
+        const response = await this.saveSubject(
+            name,
+            division,
+            condition,
+            theoryDDHHHH,
+            practiceDDHHHH,
+            score,
+            theoryProfessor,
+            practiceProfessor,
+        )
+
+        if (response.status === 'ok') {
+            const subject = response.msg
+            return this.parseSubjects(subject)
+        }
+        if (response.msg === '') {
+            setErrorMessage('Something went wrong, please try again')
+            return []
+        }
+        setErrorMessage(response.msg)
+        return []
+    }
+
+    saveSubject = async (
+        name: string,
+        division: string,
+        condition: string,
+        theoryDDHHHH: string,
+        practiceDDHHHH: string,
+        score: string,
+        theoryProfessor: string,
+        practiceProfessor: string,
+    ): Promise<{ msg: any; status: string }> => {
+        console.log(
+                'name', name,
+                'division', division,
+                'condition', condition,
+                'theoryddhhhh', theoryDDHHHH,
+                'practiceddhhhh', practiceDDHHHH,
+                'score', score,
+                'theory_professor', theoryProfessor,
+                'practice_professor', practiceProfessor,
+        )
+        const response = axios
+            .post(
+                '/subject',
+                {
+                    name: name,
+                    division: division,
+                    condition: condition,
+                    theoryddhhhh: theoryDDHHHH,
+                    practiceddhhhh: practiceDDHHHH,
+                    score: score,
+                    theory_professor: theoryProfessor,
+                    practice_professor: practiceProfessor,
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${this.accessToken}`,
+                    },
+                }
+            )
+            .then((response) => {
+                return {
+                    status: response.data.status,
+                    msg: response.data.subject || response.data.msg,
+                }
+            })
+            .catch(() => {
+                return {
+                    status: 'error',
+                    msg: '',
+                }
+            })
+        return await response
+    }
+
+    
 }
+

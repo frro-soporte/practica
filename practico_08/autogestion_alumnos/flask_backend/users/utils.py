@@ -20,9 +20,13 @@ def is_subject_id_valid(subject_id):
 def register_subject(subject_name, theory_hs, practice_hs, division, score, condition, theory_p, practice_p, username):
     user_id = User.query.filter_by(name=username).first().id
     try:
+        print('entra al try')
         registered_subject = Subject(name=subject_name, theory_ddhhhh=theory_hs, practice_ddhhhh=practice_hs, division=division, score=score, condition=condition, theory_professor=theory_p, practice_professor=practice_p, user_id=user_id)
+        print('crea el modelo')
         db.session.add(registered_subject)
+        print('agrega el modelo')
         db.session.commit()
+        print('commitea')
         return dict(status="ok", data=dict(registered_subject.serialize()))
     except:
         return dict(status="false")

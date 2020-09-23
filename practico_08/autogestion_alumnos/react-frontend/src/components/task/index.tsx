@@ -323,9 +323,9 @@ const TaskList = (props: {
         <div style={styles.box}>
             <h2 style={styles.subtitle}>Tareas</h2>
             {tasksRow}
-            <div onClick={onClick} style={styles.addButton}>
+            <button onClick={onClick} style={styles.addButton}>
                 Agregar Tarea
-            </div>
+            </button>
             <MaybeTaskForm
                 isAddTaskClicked={isAddTaskClicked}
                 onCancel={() => setIsAddTaskClicked(false)}
@@ -474,12 +474,12 @@ const MaybeTaskForm = (props: MaybeTaskFormProps): JSX.Element | null => {
             />
             {errorMessage}
             <HorizontalStack>
-                <div style={styles.confirm} onClick={onConfirm}>
+                <button style={styles.confirm} onClick={onConfirm}>
                     Confirmar
-                </div>
-                <div style={styles.cancel} onClick={onCancel}>
+                </button>
+                <button style={styles.cancel} onClick={onCancel}>
                     Cancelar
-                </div>
+                </button>
             </HorizontalStack>
         </VerticalStack>
     )
