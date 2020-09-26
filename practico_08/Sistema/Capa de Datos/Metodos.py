@@ -63,7 +63,7 @@ class DatosCentros(Datos):
 
     def GetSacerdotesyHorarios(self,centro):
         ds = DatosSacerdotes()
-        dd= DatosDisponibilidad()
+        dd = DatosDisponibilidad()
         sacerdotes = ds.GetAllxCentro(centro.idCentro)
         horarios = []
         sacerdotesyDisponibilidad = []
@@ -184,6 +184,26 @@ class DatosTurnos(Datos):
                 diasDisponibles.append((diaActual,desc)) 
 
         return  diasDisponibles
+
+    def ConfirmarTurno(self, idTurno):
+        turno = self.GetOne(idTurno)
+        turno.estado = 'confirmado'
+        self.session.commit()
+        return turno
+
+    def CancelarTurno(self, idTurno):
+        turno = self.GetOne(idTurno)
+        turno.estado = 'cancelado'
+        self.session.commit()
+        pass
+    
+    def GetOne(self, idTurno): 
+        try:
+            turno = self.session.query(Turno).filter(Turno.idTurno == idTurno).first()
+            return turno
+        except:
+            print ("No se encontro el turno: ", idTurno)
+            return None
         
     
 class DatosDisponibilidad(Datos):

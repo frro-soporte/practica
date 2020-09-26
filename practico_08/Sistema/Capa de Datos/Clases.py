@@ -21,10 +21,10 @@ class Sacerdote(Base):
         self.centrosyDisponibilidad = []
 
     __tablename__="sacerdotes"   
-    idSacerdote=Column(Integer,primary_key=True, autoincrement = True)
-    apellidoNombre=Column(String(100))
-    mail=Column(String(100))
-    celular=Column(Integer)
+    idSacerdote = Column(Integer,primary_key=True, autoincrement = True)
+    apellidoNombre = Column(String(100))
+    mail = Column(String(100))
+    celular = Column(Integer)
     idCiudad = Column(Integer, ForeignKey('ciudades.idCiudad'))
 
    
@@ -53,6 +53,7 @@ class Turno(Base):
     fechayHoraTurno = Column('fechayHoraTurno', DateTime)
     descripcionSacerdote = Column('descripcionSacerdote', String(250), nullable=True)
     descricpcionPenitente = Column('descricpcionPenitente', String(250), nullable=True)
+    estado = Column('estado', String(250), nullable=True)
 
 class Disponibilidad(Base):
 
