@@ -48,10 +48,10 @@
     let dia_select = document.getElementById('ddlDias')
     let turno_select = document.getElementById('ddlTurnos')
 
+    var idCentro = {{centro.idCentro}}
+    var idSacerdote = sacerdote_select.value;
+
     sacerdote_select.onchange = function() {
-        idSacerdote = sacerdote_select.value;
-        var idCentro = {{centro.idCentro}}
-        
         fetch('/diasDisponiblesxSacerdoteyCentro/'+ idSacerdote + '/'+ idCentro ).then(function(response){
             response.json().then(function(data){
                let optionHTML = '';
@@ -60,6 +60,19 @@
                 }
 
                 dia_select.innerHTML = optionHTML;
+            })
+        });
+    }
+
+    dia_select.onchange = function() {       
+        fetch('/periodosDisponiblesxSacerdoteyCentroyDia/'+ idSacerdote + '/'+ idCentro + '/' + diaSeleccionado).then(function(response){
+            response.json().then(function(data){
+               let optionHTML = '';
+                for (let p of data.periodos){
+                    optionHTML += '<option value="' + p.fechayHora +'">' + p.desc + '</option>';
+                }
+
+                turno_select.innerHTML = optionHTML;
             })
         });
     }

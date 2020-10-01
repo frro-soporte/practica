@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine, asc, and_
 from sqlalchemy.orm import sessionmaker
 from Clases import Base, Centro, Sacerdote, Penitente, Turno, Ciudad, Disponibilidad
-from datetime import datetime, timedelta, time
+from datetime import datetime, timedelta, time, date
 
 
 
@@ -153,7 +153,7 @@ class DatosTurnos(Datos):
         self.session.commit()
         return tur
     
-    def GetTurnosxSacerdoteyCentro(self, idSacerdote, idCentro):
+    def GetAllxSacerdoteyCentro(self, idSacerdote, idCentro):
         turnosAll = self.session.query(Turno).all()
         turnosFiltrados = []
         for t in turnosAll:
@@ -161,10 +161,18 @@ class DatosTurnos(Datos):
                 turnosFiltrados.append(t)
         return turnosFiltrados
 
+    def GetAllxSacerdoteCentroyDia(self, idSacerdote, idCentro, dia):
+        turnosAll = self.session.query(Turno).all()
+        turnosFiltrados = []
+        for t in turnosAll:
+            if(t.idSacerdote == idSacerdote and t.idCentro == idCentro and t.fechayHoraTurno == dia.date()):
+                turnosFiltrados.append(t)
+        return turnosFiltrados
+
     def GetDiasDisponiblesxSacerdoteyCentro(self,idSacerdote,idCentro):
         dd = DatosDisponibilidad()
         disps = dd.GetAllxCentroySacerdote(idCentro, idSacerdote)
-        turnos = self.GetTurnosxSacerdoteyCentro(idSacerdote, idCentro)
+        turnos = self.GetAllxSacerdoteyCentro(idSacerdote, idCentro)
         diasDisponibles = []
         for incremento in range(0,7):
             cantTurnosDia = 0
@@ -185,6 +193,29 @@ class DatosTurnos(Datos):
 
         return  diasDisponibles
 
+    def GetPeriodosDisponiblesxSacerdoteCentroyDia(self, idSacerdote, idCentro, dia):
+        turnos = self.GetAllxSacerdoteCentroyDia(idSacerdote, idCentro, dia)
+        dd = DatosDisponibilidad()
+        disps =  dd.GetAllxSacerdoteCentroyDia(idSacerdote, idCentro, dia)
+        periodosDisponibles = []
+        for d in disps:
+            minutos = (d.horaFinAtencion.hour - d.horaInicioAtencion.hour)*60 + d.horaFinAtencion.minute
+            cantPeriodos = minutos / 20
+            for numPeriodo in range(0,(cantPeriodos - 1))
+                bandera = False
+                horaActual = d.horaInicioAtencion.timedelta(minutes = (20 * numPeriodo)) 
+                for t in turnos:
+                    if (horaActual == t.fechayHoraTurno.time()):
+                        bandera = False
+                    else:
+                        bandera = True
+                if (bandera):
+                    #armar un datetime con dia y horaActual y una descripcion del rango
+                    periodosDisponibles.append((fechayHora, desc))
+
+
+        return 1
+    
     def ConfirmarTurno(self, idTurno):
         turno = self.GetOne(idTurno)
         turno.estado = 'confirmado'
@@ -223,9 +254,18 @@ class DatosDisponibilidad(Datos):
             if (d.idCentro == idCentro and d.idSacerdote == idSacerdote):
                 disponibilidadesFiltradas.append(d)
         return disponibilidadesFiltradas
+
+    def GetAllxCentroSacerdoteyDia(self, idCentro, idSacerdote, dia):
+        disponibilidadesAll = self.session.query(Disponibilidad).all()
+        disponibilidadesFiltradas = []
+        for d in disponibilidadesAll:
+            if (d.idCentro == idCentro and d.idSacerdote == idSacerdote and d.horaInicioAtencion == dia.date()):
+                disponibilidadesFiltradas.append(d)
+        return disponibilidadesFiltradas
     
    
-        
+
+
 
 class DatosCiudades(Datos):
     def __init__(self):

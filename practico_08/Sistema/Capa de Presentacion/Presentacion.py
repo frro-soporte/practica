@@ -74,9 +74,6 @@ def centro():
         c.sacerdotesyDisponibilidad = dc.GetSacerdotesyHorarios(c)
     return render_template('centros.html', image_names=image_names, centros = centros)
 
-# @app.route('/cancelarTurno')
-# def cancelarTurno():
-#     return render_template('cancelarTurno.html')
 
 @app.route('/turnoSacerdote/<int:idSacerdote>') 
 def turnoSacerdote(idSacerdote):
@@ -90,21 +87,6 @@ def turnoSacerdote(idSacerdote):
     form.ddlCentros.choices = [(centro.idCentro, centro.nombre + " , " + centro.direccion) for centro in dc.GetAllxSacerdote(sacerdote.idSacerdote)]
     #[(dia.nro, dia.desc) for dia in dt.GetDiasDisponiblesxSacerdoteyCentro(sacerdote.idSacerdote,)]
     return render_template('turnoSacerdote.html', image_name = rutaImagen, sacerdote = sacerdote, form = form)
-
-@app.route('/diasDisponiblesxSacerdoteyCentro/<int:idSacerdote>/<int:idCentro>')
-def getDiasDisponiblesxCentro (idSacerdote, idCentro):
-    dt = DatosTurnos()
-    
-    diasLista = dt.GetDiasDisponiblesxSacerdoteyCentro(idSacerdote, idCentro)
-    diasListaDict = []
-    for dia in diasLista:
-        diaDict = {}
-        diaDict['id']=dia[0]
-        diaDict['desc']=dia[1]
-        diasListaDict.append(diaDict)
-    
-    return jsonify({'dias': diasListaDict})
-
 
 @app.route('/turnoCentro/<int:idCentro>')
 def turnoCentro(idCentro):
@@ -120,6 +102,34 @@ def turnoCentro(idCentro):
     form.ddlTurnos.choices = []
     return render_template('turnoCentro.html', image_name= rutaImangen, centro = centro, form=form)
 
+
+@app.route('/diasDisponiblesxSacerdoteyCentro/<int:idSacerdote>/<int:idCentro>')
+def getDiasDisponiblesxCentro (idSacerdote, idCentro):
+    dt = DatosTurnos()
+    
+    diasLista = dt.GetDiasDisponiblesxSacerdoteyCentro(idSacerdote, idCentro)
+    diasListaDict = []
+    for dia in diasLista:
+        diaDict = {}
+        diaDict['id']=dia[0]
+        diaDict['desc']=dia[1]
+        diasListaDict.append(diaDict)
+    
+    return jsonify({'dias': diasListaDict})
+
+@app.route('/periodosDisponiblesxSacerdoteyCentroyDia/<int:idSacerdote>/<int:idCentro>/dia)
+def (idSacerdote, idCentro, dia):
+    dt = DatosTurnos()
+    diaFormat = datetime.strptime(dia,'%d/%m/%y') 
+    periodosLista = dt.GetDiasDisponiblesxSacerdoteCentroyDia(idSacerdote, idCentro, diaFormat)
+    periodosListaDict = []
+    for p in periodosLista:
+        pDict = {}
+        pDict['fechayHora']=p[0]
+        pDict['desc']=p[1]
+        periodosListaDict.append(pDict)
+
+    return jsonify({'periodos': periodosListaDict})
 
 @app.route('/logout')
 def logout(): 
@@ -188,11 +198,12 @@ def confirmarTurno(idTurno):
     centroNombre, sacerdoteNombre, mail = datosDeTurno(idTurno)
     return render_template('confirmarTurno.html', centroNombre = centroNombre, sacerdoteNombre = sacerdoteNombre, mail=mail)
 
+@app.route('/cancelarTurno')
+def cancelarTurno():
+    return render_template('cancelarTurno.html')
 
-
-@app.route('/cancelarTurno/', defaults={'idTurno' : 0})
-@app.route('/cancelarTurno/<int:idTurno>')
-def cancelarTurno(idTurno):
+@app.route('/turnoCancelado/', defaults={'idTurno' : 0})
+def turnoCancelado(idTurno):
     dt = DatosTurnos()
     turno = dt.GetOne(idTurno) 
     if ( turno == None):
@@ -200,7 +211,7 @@ def cancelarTurno(idTurno):
     # falta manejo de exceptions en caso de que falle el CancelarTurno
     dt.CancelarTurno(idTurno)
     centroNombre, sacerdoteNombre, mail = datosDeTurno(idTurno)
-    return render_template('cancelarTurno.html', centroNombre = centroNombre, sacerdoteNombre = sacerdoteNombre, mail=mail)
+    return render_template('turnoCancelado.html', centroNombre = centroNombre, sacerdoteNombre = sacerdoteNombre, mail=mail)
 
 
 if __name__ == '__main__':   
