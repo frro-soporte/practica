@@ -2,7 +2,9 @@ import os
 import flask
 import sys
 # sys.path.append('c:/Users/ppaez/Documents/Repositorios/frro-soporte-2020-23/practico_08/Sistema/Capa de Datos')
-sys.path.append('C:/Users/arias/Desktop/UTN/SGDPV/frro-soporte-2020-23/practico_08/Sistema/Capa de Datos')
+#sys.path.append('C:/Users/arias/Desktop/UTN/SGDPV/frro-soporte-2020-23/practico_08/Sistema/Capa de Datos')
+sys.path.append('/home/jco/Repositorios/frro-soporte-2020-23/practico_08/Sistema/Capa de Datos')
+
 
 from Metodos import DatosPenitentes, DatosCiudades, DatosSacerdotes, DatosCentros, DatosTurnos
 from flask import Flask, redirect, url_for, render_template, request, session, flash, send_from_directory, jsonify
@@ -57,7 +59,8 @@ def send_image(filename,tipo):
 @app.route('/sacerdotes')
 def sacerdotes():
     # image_names = os.listdir('C:/Users/ppaez/Documents/Repositorios/frro-soporte-2020-23/practico_08/Sistema/Capa de Presentacion/images/sacerdotes')
-    image_names = os.listdir('C:/Users/arias/Desktop/UTN/SGDPV/frro-soporte-2020-23/practico_08/Sistema/Capa de Presentacion/images/sacerdotes')
+    #image_names = os.listdir('C:/Users/arias/Desktop/UTN/SGDPV/frro-soporte-2020-23/practico_08/Sistema/Capa de Presentacion/images/sacerdotes')
+    image_names = os.listdir('/home/jco/Repositorios/frro-soporte-2020-23/practico_08/Sistema/Capa de Presentacion/images/sacerdotes')
     ds = DatosSacerdotes()
     sacerdotes = ds.GetAll()
     for s in sacerdotes:
@@ -67,7 +70,8 @@ def sacerdotes():
 @app.route('/centros')
 def centro():
     # image_names = os.listdir('C:/Users/ppaez/Documents/Repositorios/frro-soporte-2020-23/practico_08/Sistema/Capa de Presentacion/images/centros')
-    image_names = os.listdir('C:/Users/arias/Desktop/UTN/SGDPV/frro-soporte-2020-23/practico_08/Sistema/Capa de Presentacion/images/sacerdotes')
+    # image_names = os.listdir('C:/Users/arias/Desktop/UTN/SGDPV/frro-soporte-2020-23/practico_08/Sistema/Capa de Presentacion/images/sacerdotes')
+    image_names = os.listdir('/home/jco/Repositorios/frro-soporte-2020-23/practico_08/Sistema/Capa de Presentacion/images/centros')
     dc = DatosCentros()
     centros = dc.GetAll()
     for c in centros:
@@ -83,8 +87,11 @@ def turnoSacerdote(idSacerdote):
     sacerdote.centrosyDisponibilidad = ds.GetCentrosyHorarios(sacerdote)
 
     dc = DatosCentros()
+    dt = DatosTurnos()
     form = Controles()
     form.ddlCentros.choices = [(centro.idCentro, centro.nombre + " , " + centro.direccion) for centro in dc.GetAllxSacerdote(sacerdote.idSacerdote)]
+    form.ddlDias.choices = [(dia[0], dia[1]) for dia in dt.GetDiasDisponiblesxSacerdoteyCentro(idSacerdote, form.ddlCentros.choices[0][0])]
+    form.ddlTurnos.choices = [(turno[0], turno[1]) for turno in dt.GetPeriodosDisponiblesxSacerdoteCentroyDia(idSacerdote, form.ddlCentros.choices[0][0], form.ddlDias.choices[0][0])]
     #[(dia.nro, dia.desc) for dia in dt.GetDiasDisponiblesxSacerdoteyCentro(sacerdote.idSacerdote,)]
     return render_template('turnoSacerdote.html', image_name = rutaImagen, sacerdote = sacerdote, form = form)
 
@@ -95,11 +102,12 @@ def turnoCentro(idCentro):
     rutaImangen = centro.nombre.replace(" ", "") + ".png"
     centro.sacerdotesyDisponibilidad = dc.GetSacerdotesyHorarios(centro)
 
+    dt = DatosTurnos()
     ds = DatosSacerdotes()
     form = Controles()
     form.ddlSacerdotes.choices = [(sacerdote.idSacerdote, sacerdote.apellidoNombre) for sacerdote in ds.GetAllxCentro(centro.idCentro)]
-    form.ddlDias.choices = []
-    form.ddlTurnos.choices = []
+    form.ddlDias.choices = [(dia[0], dia[1]) for dia in dt.GetDiasDisponiblesxSacerdoteyCentro(form.ddlSacerdotes.choices[0][0], idCentro)]
+    form.ddlTurnos.choices = [(turno[0], turno[1]) for turno in dt.GetPeriodosDisponiblesxSacerdoteCentroyDia(form.ddlSacerdotes.choices[0][0], idCentro, form.ddlDias.choices[0][0])]
     return render_template('turnoCentro.html', image_name= rutaImangen, centro = centro, form=form)
 
 
@@ -117,11 +125,11 @@ def getDiasDisponiblesxCentro (idSacerdote, idCentro):
     
     return jsonify({'dias': diasListaDict})
 
-@app.route('/periodosDisponiblesxSacerdoteyCentroyDia/<int:idSacerdote>/<int:idCentro>/dia)
-def (idSacerdote, idCentro, dia):
+@app.route('/periodosDisponiblesxSacerdoteyCentroyDia/<int:idSacerdote>/<int:idCentro>/<dia>')
+def periodosDisponibles(idSacerdote, idCentro, dia):
+    diaFormat = datetime.strptime(dia, '%d-%m-%Y')
     dt = DatosTurnos()
-    diaFormat = datetime.strptime(dia,'%d/%m/%y') 
-    periodosLista = dt.GetDiasDisponiblesxSacerdoteCentroyDia(idSacerdote, idCentro, diaFormat)
+    periodosLista = dt.GetPeriodosDisponiblesxSacerdoteCentroyDia(idSacerdote, idCentro, diaFormat)
     periodosListaDict = []
     for p in periodosLista:
         pDict = {}

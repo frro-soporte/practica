@@ -50,9 +50,10 @@
     let turno_select = document.getElementById('ddlTurnos')
 
     var idSacerdote = {{sacerdote.idSacerdote}}
-    var idCentro = centro_select.value;
+    
 
     centro_select.onchange = function() {
+        idCentro = centro_select.value;
         fetch('/diasDisponiblesxSacerdoteyCentro/'+ idSacerdote + '/'+ idCentro ).then(function(response){
             response.json().then(function(data){
                let optionHTML = '';
@@ -66,8 +67,17 @@
     }
 
     dia_select.onchange = function() {
+        idCentro = centro_select.value;
         diaSeleccionado = dia_select.value;
-        fetch('/periodosDisponiblesxSacerdoteyCentroyDia/'+ idSacerdote + '/'+ idCentro + '/' + diaSeleccionado).then(function(response){
+
+        var dia= new Date(diaSeleccionado);
+        var dd = String(dia.getDate()).padStart(2, '0');
+        var mm = String(dia.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = dia.getFullYear();
+
+        diaFormat = dd + '-' + mm + '-' + yyyy;
+        fetch('/periodosDisponiblesxSacerdoteyCentroyDia/'+ idSacerdote + '/'+ idCentro + '/' + diaFormat).then(function(response){
+            
             response.json().then(function(data){
                let optionHTML = '';
                 for (let p of data.periodos){

@@ -165,7 +165,7 @@ class DatosTurnos(Datos):
         turnosAll = self.session.query(Turno).all()
         turnosFiltrados = []
         for t in turnosAll:
-            if(t.idSacerdote == idSacerdote and t.idCentro == idCentro and t.fechayHoraTurno == dia.date()):
+            if(t.idSacerdote == idSacerdote and t.idCentro == idCentro and t.fechayHoraTurno.date() == dia.date()):
                 turnosFiltrados.append(t)
         return turnosFiltrados
 
@@ -189,32 +189,29 @@ class DatosTurnos(Datos):
                     cantTurnosDisponibles = cantTurnosDisponibles + minutos / 20
                     desc = d.diaNombre + " " + str(diaActual.day)
             if(cantTurnosDisponibles > cantTurnosDia):
-                diasDisponibles.append((diaActual,desc)) 
+                diasDisponibles.append((diaActual,desc))
 
         return  diasDisponibles
 
-    def GetPeriodosDisponiblesxSacerdoteCentroyDia(self, idSacerdote, idCentro, dia):
-        turnos = self.GetAllxSacerdoteCentroyDia(idSacerdote, idCentro, dia)
+    def GetPeriodosDisponiblesxSacerdoteCentroyDia(self, idSacerdote, idCentro, diaFormat):
+        turnos = self.GetAllxSacerdoteCentroyDia(idSacerdote, idCentro, diaFormat)
         dd = DatosDisponibilidad()
-        disps =  dd.GetAllxSacerdoteCentroyDia(idSacerdote, idCentro, dia)
+        disps =  dd.GetAllxSacerdoteCentroyDia(idSacerdote, idCentro, diaFormat)
         periodosDisponibles = []
         for d in disps:
             minutos = (d.horaFinAtencion.hour - d.horaInicioAtencion.hour)*60 + d.horaFinAtencion.minute
-            cantPeriodos = minutos / 20
-            for numPeriodo in range(0,(cantPeriodos - 1))
-                bandera = False
-                horaActual = d.horaInicioAtencion.timedelta(minutes = (20 * numPeriodo)) 
+            cantPeriodos = int(minutos/ 20)
+            for numPeriodo in range(0,cantPeriodos):
+                bandera = True
+                horaActual = datetime(diaFormat.year,diaFormat.month, diaFormat.day, d.horaInicioAtencion.hour, d.horaInicioAtencion.minute) + timedelta(minutes = (20 * numPeriodo))
                 for t in turnos:
-                    if (horaActual == t.fechayHoraTurno.time()):
+                    if (horaActual.time() == t.fechayHoraTurno.time()):
                         bandera = False
-                    else:
-                        bandera = True
                 if (bandera):
-                    #armar un datetime con dia y horaActual y una descripcion del rango
+                    fechayHora = horaActual
+                    desc =str(horaActual.time())[:5] + '-' + str((horaActual + timedelta(minutes=20)).time())[:5] 
                     periodosDisponibles.append((fechayHora, desc))
-
-
-        return 1
+        return periodosDisponibles
     
     def ConfirmarTurno(self, idTurno):
         turno = self.GetOne(idTurno)
@@ -235,8 +232,7 @@ class DatosTurnos(Datos):
         except:
             print ("No se encontro el turno: ", idTurno)
             return None
-        
-    
+
 class DatosDisponibilidad(Datos):
     def __init__(self):
         super().__init__() 
@@ -255,11 +251,11 @@ class DatosDisponibilidad(Datos):
                 disponibilidadesFiltradas.append(d)
         return disponibilidadesFiltradas
 
-    def GetAllxCentroSacerdoteyDia(self, idCentro, idSacerdote, dia):
+    def GetAllxSacerdoteCentroyDia(self,idSacerdote , idCentro, dia):
         disponibilidadesAll = self.session.query(Disponibilidad).all()
         disponibilidadesFiltradas = []
         for d in disponibilidadesAll:
-            if (d.idCentro == idCentro and d.idSacerdote == idSacerdote and d.horaInicioAtencion == dia.date()):
+            if (d.idCentro == idCentro and d.idSacerdote == idSacerdote and d.diaAtencion == dia.weekday()):
                 disponibilidadesFiltradas.append(d)
         return disponibilidadesFiltradas
     
@@ -283,5 +279,6 @@ class DatosCiudades(Datos):
 
 if __name__ == '__main__':
     dt = DatosTurnos()
-    lista = dt.GetDiasDisponiblesxSacerdoteyCentro(2,1)
-    print(lista) 
+    lista = dt.GetPeriodosDisponiblesxSacerdoteCentroyDia(2,1,'8-10-2020')
+    for l in  lista:
+        print(l[1]) 
