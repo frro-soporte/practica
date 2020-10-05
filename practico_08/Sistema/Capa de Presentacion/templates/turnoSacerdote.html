@@ -65,8 +65,8 @@
         });
     }
 
-    dia_select.onchange = function() {      
-        diaSeleccionado = dia_select.value;      
+    dia_select.onchange = function() {
+        diaSeleccionado = dia_select.value;
         fetch('/periodosDisponiblesxSacerdoteyCentroyDia/'+ idSacerdote + '/'+ idCentro + '/' + diaSeleccionado).then(function(response){
             response.json().then(function(data){
                let optionHTML = '';
