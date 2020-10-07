@@ -143,6 +143,14 @@ class DatosSacerdotes(Datos):
             centrosyDisponibilidad.append([c,horarios])
         return centrosyDisponibilidad
 
+    def GetOneMail(self, mail): 
+        try:
+            sacerdote = self.session.query(Sacerdote).filter(Sacerdote.mail == mail).first()
+            return sacerdote
+        except:
+            print ("No se encontro el sacerdote con mail: ", mail)
+            return None
+
 
 class DatosTurnos(Datos):
     def __init__(self):

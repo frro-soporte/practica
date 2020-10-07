@@ -6,6 +6,9 @@ from sqlalchemy.dialects.oracle import BLOB
 
 Base = declarative_base()
 
+
+from flask_login import UserMixin
+
 class Ciudad(Base):
 
     __tablename__="ciudades"
@@ -15,8 +18,7 @@ class Ciudad(Base):
     nombre = Column(String(100))
     codigoPostal = Column(Integer)
 
-
-class Sacerdote(Base):
+class Sacerdote(UserMixin, Base):
     def __init(self):
         self.centrosyDisponibilidad = []
 
@@ -26,7 +28,9 @@ class Sacerdote(Base):
     mail = Column(String(100))
     celular = Column(Integer)
     idCiudad = Column(Integer, ForeignKey('ciudades.idCiudad'))
+    password = Column(String(250))
 
+    id = Column(Integer)
    
 
 class Centro(Base):
