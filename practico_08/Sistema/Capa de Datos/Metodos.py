@@ -69,7 +69,7 @@ class DatosCentros(Datos):
         sacerdotesyDisponibilidad = []
         for s in sacerdotes:
             horarios=[]
-            disponibilidades =  dd.GetAllxCentroySacerdote(centro.idCentro,s.idSacerdote)
+            disponibilidades =  dd.GetAllxCentroySacerdote(centro.idCentro,s.id)
             for d in disponibilidades:
                 horarios.append([d.diaNombre,d.horaInicioAtencion,d.horaFinAtencion])
             sacerdotesyDisponibilidad.append([s,horarios])
@@ -109,7 +109,7 @@ class DatosSacerdotes(Datos):
 
     def GetOne(self, idSacerdote): 
         try:
-            sacerdote = self.session.query(Sacerdote).filter(Sacerdote.idSacerdote == idSacerdote).first()
+            sacerdote = self.session.query(Sacerdote).filter(Sacerdote.id == idSacerdote).first()
             return sacerdote
         except:
             print ("No se encontro el sacerdote: ", idSacerdote)
@@ -132,12 +132,12 @@ class DatosSacerdotes(Datos):
     def GetCentrosyHorarios(self,sacerdote):
         dc = DatosCentros()
         dd= DatosDisponibilidad()
-        centros = dc.GetAllxSacerdote(sacerdote.idSacerdote)
+        centros = dc.GetAllxSacerdote(sacerdote.id)
         horarios = []
         centrosyDisponibilidad = []
         for c in centros:
             horarios=[]
-            disponibilidades =  dd.GetAllxCentroySacerdote(c.idCentro,sacerdote.idSacerdote)
+            disponibilidades =  dd.GetAllxCentroySacerdote(c.idCentro,sacerdote.id)
             for d in disponibilidades:
                 horarios.append([d.diaNombre,d.horaInicioAtencion,d.horaFinAtencion])
             centrosyDisponibilidad.append([c,horarios])
@@ -156,11 +156,22 @@ class DatosTurnos(Datos):
     def __init__(self):
         super().__init__()   
 
-    def add(self,tur):
-        self.session.add(tur)
-        self.session.commit()
-        return tur
-    
+    def InsertFiltrado(self,turno):
+        if (self.GetOnexSacerdoteCentroyFechayHora(turno.idSacerdote, turno.idCentro, turno.fechayHoraTurno) == []):
+            self.session.add(turno)
+            self.session.commit()
+            return True
+        return False
+
+    def GetOnexSacerdoteCentroyFechayHora(self, idSacerdote, idCentro, fechayHora):
+        turnosAll = self.session.query(Turno).all()
+        turnosFiltrados = []
+        for t in turnosAll:
+            if(t.idSacerdote == idSacerdote and t.idCentro == idCentro and t.fechayHoraTurno == fechayHora):
+                turnosFiltrados.append(t)
+        return turnosFiltrados
+
+
     def GetAllxSacerdoteyCentro(self, idSacerdote, idCentro):
         turnosAll = self.session.query(Turno).all()
         turnosFiltrados = []
@@ -191,7 +202,7 @@ class DatosTurnos(Datos):
             cantTurnosDisponibles = 0
             for d in disps:
                 if (d.diaAtencion ==  diaActual.weekday()):
-                    minutos = (d.horaFinAtencion.hour - d.horaInicioAtencion.hour)*60 + d.horaFinAtencion.minute  
+                    minutos = (d.horaFinAtencion.hour - d.horaInicioAtencion.hour)*60 + d.horaFinAtencion.minute
                     if ((d.horaFinAtencion.hour - d.horaInicioAtencion.hour) != 0):
                         minutos = minutos + (60 - d.horaFinAtencion.minute)
                     cantTurnosDisponibles = cantTurnosDisponibles + minutos / 20
@@ -211,35 +222,39 @@ class DatosTurnos(Datos):
             cantPeriodos = int(minutos/ 20)
             for numPeriodo in range(0,cantPeriodos):
                 bandera = True
-                horaActual = datetime(diaFormat.year,diaFormat.month, diaFormat.day, d.horaInicioAtencion.hour, d.horaInicioAtencion.minute) + timedelta(minutes = (20 * numPeriodo))
+                fechayHoraActual = datetime(diaFormat.year,diaFormat.month, diaFormat.day, d.horaInicioAtencion.hour, d.horaInicioAtencion.minute) + timedelta(minutes = (20 * numPeriodo))
                 for t in turnos:
-                    if (horaActual.time() == t.fechayHoraTurno.time()):
+                    if (fechayHoraActual.time() == t.fechayHoraTurno.time()):
                         bandera = False
                 if (bandera):
-                    fechayHora = horaActual
-                    desc =str(horaActual.time())[:5] + '-' + str((horaActual + timedelta(minutes=20)).time())[:5] 
+                    fechayHora = datetime.strftime(fechayHoraActual, '%d-%m-%Y %H:%M:%S')
+                    desc =str(fechayHoraActual.time())[:5] + '-' + str((fechayHoraActual + timedelta(minutes=20)).time())[:5] 
                     periodosDisponibles.append((fechayHora, desc))
         return periodosDisponibles
     
-    def ConfirmarTurno(self, idTurno):
-        turno = self.GetOne(idTurno)
-        turno.estado = 'confirmado'
-        self.session.commit()
-        return turno
-
-    def CancelarTurno(self, idTurno):
-        turno = self.GetOne(idTurno)
-        turno.estado = 'cancelado'
-        self.session.commit()
-        pass
-    
-    def GetOne(self, idTurno): 
+    def GetOne(self, idTurno):
         try:
             turno = self.session.query(Turno).filter(Turno.idTurno == idTurno).first()
             return turno
         except:
             print ("No se encontro el turno: ", idTurno)
             return None
+
+
+    # obtener datos de un turno
+    def datosDeTurno(self, idTurno):
+        turno = self.GetOne(idTurno)
+
+        dc = DatosCentros()
+        centro = dc.GetOne(turno.idCentro)
+
+        ds = DatosSacerdotes()
+        sacerdote = ds.GetOne(turno.idSacerdote)
+
+        fechayHora = turno.fechayHoraTurno
+
+        return centro.nombre, sacerdote.apellidoNombre, fechayHora
+
 
 class DatosDisponibilidad(Datos):
     def __init__(self):
@@ -287,6 +302,5 @@ class DatosCiudades(Datos):
 
 if __name__ == '__main__':
     dt = DatosTurnos()
-    lista = dt.GetPeriodosDisponiblesxSacerdoteCentroyDia(2,1,'8-10-2020')
-    for l in  lista:
-        print(l[1]) 
+    turno = Turno(idTurno = 1, idSacerdote = 1, idCentro = 1, mail = "@")
+    print(dt.InsertFiltrado(turno))

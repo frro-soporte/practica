@@ -23,15 +23,12 @@ class Sacerdote(UserMixin, Base):
         self.centrosyDisponibilidad = []
 
     __tablename__="sacerdotes"   
-    idSacerdote = Column(Integer,primary_key=True, autoincrement = True)
+    id = Column(Integer,primary_key=True, autoincrement = True)
     apellidoNombre = Column(String(100))
     mail = Column(String(100))
     celular = Column(Integer)
     idCiudad = Column(Integer, ForeignKey('ciudades.idCiudad'))
     password = Column(String(250))
-
-    id = Column(Integer)
-   
 
 class Centro(Base):
     def __init(self,dni):
@@ -43,21 +40,18 @@ class Centro(Base):
     direccion = Column(String(100))
     sexoAtencion = Column(String(100))
     idCiudad = Column(Integer, ForeignKey('ciudades.idCiudad'))
-   
-
-
 
 
 class Turno(Base):
     __tablename__="turnos"
     idTurno = Column('idTurno', Integer, primary_key = True, autoincrement = True)
-    idSacerdote = Column('idSacerdote', Integer, ForeignKey('sacerdotes.idSacerdote'))
+    idSacerdote = Column('idSacerdote', Integer, ForeignKey('sacerdotes.id'))
     idCentro = Column('idCentro', Integer, ForeignKey('centros.idCentro'))
     mail =  Column('mail', String(100))
     fechayHoraTurno = Column('fechayHoraTurno', DateTime)
     descripcionSacerdote = Column('descripcionSacerdote', String(250), nullable=True)
     descricpcionPenitente = Column('descricpcionPenitente', String(250), nullable=True)
-    estado = Column('estado', String(250), nullable=True)
+
 
 class Disponibilidad(Base):
 
@@ -80,7 +74,7 @@ class Disponibilidad(Base):
    
     __tablename__ = "disponibilidades"
     idDisponibilidad = Column('idDisponibilidad', Integer, primary_key=True, autoincrement=True)
-    idSacerdote = Column('idSacerdote', Integer, ForeignKey('sacerdotes.idSacerdote'))
+    idSacerdote = Column('idSacerdote', Integer, ForeignKey('sacerdotes.id'))
     idCentro = Column('idCentro', Integer, ForeignKey('centros.idCentro'))
     diaAtencion = Column('diaAtencion', Integer)
     horaInicioAtencion = Column('horaInicioAtencion', Time)

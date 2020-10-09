@@ -15,13 +15,13 @@
                     <ul>
                         {% for atenciones in sacerdote[1:] %}
                             {% for a in atenciones:%}
-                                <li>{{a[0]}}: {{a[1].strftime("%H:%M")}}-{{a[2].strftime("%H:%M")}} </li>                                  
+                                <li>{{a[0]}}: {{a[1].strftime("%H:%M")}}-{{a[2].strftime("%H:%M")}} </li>
                             {% endfor%}
                         {% endfor %}
                     </ul>
                 </li>
                 {% endfor %}
-               
+
            </ul>
         </div>
     </div>
@@ -29,16 +29,24 @@
     <br>
     <div class="row">
         <div class="col-sm">
-            <input type="email" class="form-control" id="email" name="email" placeholder="Ingrese su email">
+            <input type="email" class="form-control" id="txtEmail" name="email" placeholder="Ingrese su email">
             <br>
-            {{form.ddlSacerdotes(class_="form-control")}}  
+            {{form.ddlSacerdotes(class_="form-control")}}
             <br>
             {{form.ddlDias(class_="form-control")}}
             <br>
             {{form.ddlTurnos(class_="form-control")}}
             <br>
             <div class="text-center">
-                <a href="/" class="btn btn-outline-primary">Enviar mail de Confirmacion</a>
+                <button id="btnEnviarMail" onclick = "btnEnviarMailPressed();" type="button" class="btn btn-outline-primary">Enviar mail de confirmacion</button>
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="row">
+        <div class="col-sm">
+            <div id="alertEnvioEmail" class="alert alert-primary collapse" role="alert">
+                Un mail fue enviado a tu casilla de correo, en el podrás confirmar el turno para que se haga efectivo
             </div>
         </div>
     </div>
@@ -47,6 +55,7 @@
     let sacerdote_select = document.getElementById('ddlSacerdotes');
     let dia_select = document.getElementById('ddlDias')
     let turno_select = document.getElementById('ddlTurnos')
+    let emailInput = document.getElementById('txtEmail')
 
     var idCentro = {{centro.idCentro}}
 
@@ -86,5 +95,15 @@
             })
         });
     }
+
+
+    function btnEnviarMailPressed(){
+        email = emailInput.value
+        idSacerdote = sacerdote_select.value;
+        horaTurno = turno_select.value;
+
+        fetch('/enviarMailConfirmacion/'+ email +'/'+idCentro+'/'+idSacerdote+'/'+horaTurno);
+        $('#alertEnvioEmail').show('fade');
+    };
 </script>
 {% endblock %}

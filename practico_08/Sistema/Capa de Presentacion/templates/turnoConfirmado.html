@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %} Confirmar Turno {% endblock %}
+{% block content %}
+    {% if centroNombre != "" %}
+            <h3> Se ha confirmado su turno en {{centroNombre}} con {{sacerdoteNombre}} - el dia {{ fecha }} a las {{ hora }}</h3>
+    {% else %}
+            <h3> No se ha podido confirmar su turno, vuelva a intentar darlo de alta </h3>
+    {% endif %}
+{% endblock %}

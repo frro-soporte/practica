@@ -15,12 +15,12 @@
                     <ul>
                         {% for atenciones in centro[1:] %}
                             {% for a in atenciones:%}
-                                <li>{{a[0]}}: {{a[1].strftime("%H:%M")}}-{{a[2].strftime("%H:%M")}} </li>                                  
+                                <li>{{a[0]}}: {{a[1].strftime("%H:%M")}}-{{a[2].strftime("%H:%M")}} </li>
                             {% endfor%}
                         {% endfor %}
                     </ul>
                 </li>
-                {% endfor %} 
+                {% endfor %}
            </ul>
         </div>
     </div>
@@ -29,16 +29,24 @@
     <div class="container">
         <div class="row">
             <div class="col-sm">
-                <input type="email" class="form-control" id="email" name="email" placeholder="Ingrese su email">
+                <input type="email" class="form-control" id="txtEmail" name="email" placeholder="Ingrese su email">
                 <br>
-                {{form.ddlCentros(class_="form-control")}}  
+                {{form.ddlCentros(class_="form-control")}}
                 <br>
                 {{form.ddlDias(class_="form-control")}}
                 <br>
                 {{form.ddlTurnos(class_="form-control")}}
                 <br>
                 <div class="text-center">
-                    <a href="/" class="btn btn-outline-primary">Enviar mail de Confirmacion</a>
+                    <button id="btnEnviarMail" onclick = "btnEnviarMailPressed();" type="button" class="btn btn-outline-primary">Enviar mail de confirmacion</button>
+                </div>
+            </div>
+        </div>
+        <br><br>
+        <div class="row">
+            <div class="col-sm">
+                <div id="alertEnvioEmail" class="alert alert-primary collapse text-center" role="alert">
+                    Un mail fue enviado a tu casilla de correo, en el podrás confirmar el turno para que se haga efectivo
                 </div>
             </div>
         </div>
@@ -48,9 +56,10 @@
     let centro_select = document.getElementById('ddlCentros');
     let dia_select = document.getElementById('ddlDias')
     let turno_select = document.getElementById('ddlTurnos')
+    let emailInput = document.getElementById('txtEmail')
 
-    var idSacerdote = {{sacerdote.idSacerdote}}
-    
+    var idSacerdote = {{sacerdote.id}}
+
 
     centro_select.onchange = function() {
         idCentro = centro_select.value;
@@ -77,7 +86,6 @@
 
         diaFormat = dd + '-' + mm + '-' + yyyy;
         fetch('/periodosDisponiblesxSacerdoteyCentroyDia/'+ idSacerdote + '/'+ idCentro + '/' + diaFormat).then(function(response){
-            
             response.json().then(function(data){
                let optionHTML = '';
                 for (let p of data.periodos){
@@ -88,5 +96,14 @@
             })
         });
     }
+
+    function btnEnviarMailPressed(){
+        email = emailInput.value
+        idCentro = centro_select.value;
+        horaTurno = turno_select.value;
+
+        fetch('/enviarMailConfirmacion/'+ email +'/'+idCentro+'/'+idSacerdote+'/'+horaTurno);
+        $('#alertEnvioEmail').show('fade');
+    };
 </script>
 {% endblock %}
