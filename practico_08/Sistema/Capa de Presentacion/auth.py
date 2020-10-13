@@ -21,11 +21,12 @@ def login_post():
     ds = DatosSacerdotes()
     sacerdote = ds.GetOneMail(mail)
 
-    if not sacerdote and not check_password_hash(sacerdote.password, password):
-        flash('Revisa el mail y la contraseña')       
+    # if not sacerdote and not check_password_hash(sacerdote.password, password):
+    if not sacerdote or not sacerdote.password ==password:
+        flash('Revisa el mail y la contraseña')             
         return redirect(url_for('auth.login'))    
     
-    # Crea la cookie y la sesion para este sacerdote
+    # Crea la cookie y la sesion para este sacerdote  
     login_user(sacerdote, remember=remember) 
 
     return redirect(url_for('profile'))
@@ -50,7 +51,8 @@ def signup_post():
     nuevo_sacerdote = Sacerdote()
     nuevo_sacerdote.apellidoNombre = apellidoNombre
     nuevo_sacerdote.mail = mail    
-    nuevo_sacerdote.password = generate_password_hash(password, method='sha256')
+    # nuevo_sacerdote.password = generate_password_hash(password, method='sha256')
+    nuevo_sacerdote.password = password 
 
     ds.Add(nuevo_sacerdote)
 

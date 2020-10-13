@@ -240,9 +240,8 @@ class DatosTurnos(Datos):
             print ("No se encontro el turno: ", idTurno)
             return None
 
-
     # obtener datos de un turno
-    def datosDeTurno(self, idTurno):
+    def getDatosDeTurno(self, idTurno):
         turno = self.GetOne(idTurno)
 
         dc = DatosCentros()
@@ -254,6 +253,17 @@ class DatosTurnos(Datos):
         fechayHora = turno.fechayHoraTurno
 
         return centro.nombre, sacerdote.apellidoNombre, fechayHora
+
+
+    def deleteOne(self, idTurno):
+        turno = self.GetOne(idTurno)
+        if not turno:
+            return False
+        else: 
+            self.session.delete(turno)
+            self.session.commit()
+            return True           
+            
 
 
 class DatosDisponibilidad(Datos):
@@ -291,7 +301,7 @@ class DatosCiudades(Datos):
          super().__init__() 
 
     def getAll(self):
-        ciudades= self.session.query(Ciudad).all()
+        ciudades = self.session.query(Ciudad).all()
         return ciudades
 
     def getOne(self, id):
