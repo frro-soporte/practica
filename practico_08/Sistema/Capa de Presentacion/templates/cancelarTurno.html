@@ -1,26 +1,41 @@
 {% extends "base.html" %}
 {% block title %} Cancelar Turno {% endblock %}
 {% block content %}
-<div class="column is-4 is-offset-4">
-    <h3 class="title">Cancelacion de turnos</h3>
-    <div class="box">
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <div class="notification is-danger">
-                {{ messages[0] }} 
+<div class="row">
+    <div class="w-50 mx-auto">
+      <div class="container">
+          <div class="row">
+                <h4>Le enviaremos un mail con los turnos registrados y la opcion de elimar el que desee</h4>
             </div>
-        {% endif %}
-        {% endwith %}
-        <form action="/cancelarTurno" method="POST">            
+          <div class="row">
+              
+              <div class="col-sm">
+                <input type="email" class="form-control" id="txtEmail" name="email" placeholder="Ingrese mail el que registro los turnos">                       
+              </div>
+              <br>
+              <div class="text-center">
+                    <button id="btnEnviarMail" onclick = "btnEnviarMailPressed();" type="button" class="btn btn-outline-primary">Enviar mail</button>
+               </div>
+          </div>
+          <br><br>
+          <div class="row">
+              <div class="col-sm">
+                  <div id="alertEnvioEmail" class="alert alert-primary collapse text-center" role="alert">
+                      Un mail se enviará a tu casilla de correo, en el podrás cancelar el o los turnos que hayas regitrado
+                  </div>
+              </div>
+          </div>
+      </div>  
+   </div>
+</div>  
+<script>
 
-            <div class="field">
-                <div class="control">
-                    <input class="input is-large" type="text" name="mail" placeholder="Mail" autofocus="">
-                </div>
-            </div>           
+    let emailInput = document.getElementById('txtEmail')
 
-            <button class="submit">Enviar</button>
-        </form>
-    </div>
-</div>
+    function btnEnviarMailPressed(){
+        email = emailInput.value
+        fetch('/enviarMailCancelacion/'+ email );
+        $('#alertEnvioEmail').show('fade');
+    };
+</script>
 {% endblock %}

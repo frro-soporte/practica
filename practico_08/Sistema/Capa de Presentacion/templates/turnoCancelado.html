@@ -1,5 +1,9 @@
 {% extends "base.html" %}
-{% block title %} Confirmar Turno {% endblock %}
+{% block title %} Turno Cancelado {% endblock %}
 {% block content %}
-    <h3> Se ha cancelado su turno en {{centroNombre}} con {{sacerdoteNombre}} - {{mail}}</h3>
+    {% if resultado %}
+            <h3> Se ha cancelado su turno en {{centroNombre}} con {{sacerdoteNombre}} - el dia {{ fecha }} a las {{ hora }}</h3>
+    {% else %}
+            <h3> No se ha podido  cancelar su turno, es probable que ya haya sido dado de baja</h3>
+    {% endif %}
 {% endblock %}

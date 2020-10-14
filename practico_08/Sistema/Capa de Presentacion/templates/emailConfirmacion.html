@@ -1,11 +1,3 @@
-{% block head %}
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css" />
-
-    <meta name="HandheldFriendly" content="true">
-{% endblock %}
 {% block content %}
 <h3>No se olvide de confirmar el turno</h3>
 <p>Si no lo confirma su turno no se hara efectivo y otro podra tomarlo</p>
@@ -21,7 +13,6 @@
     </div>
     <div class="col justify-content-center align-self-center">
         <div class="row">
-
             <a href="http://127.0.0.1:5000/confirmarTurno/{{ mail }}/{{centro.idCentro}}/{{sacerdote.id}}/{{ fecha }} {{ hora }}"  class="btn btn-outline-secondary">Confirmar Turno</a>
         </div>
     </div>

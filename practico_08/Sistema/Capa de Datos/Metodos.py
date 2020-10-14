@@ -240,6 +240,14 @@ class DatosTurnos(Datos):
             print ("No se encontro el turno: ", idTurno)
             return None
 
+    def getAllFuturosxPenitetes(self, mail):
+        turnos = self.session.query(Turno).filter(Turno.mail == mail).all()
+        turnosFiltrados = []
+        for t in turnos:
+            if t.fechayHoraTurno > datetime.now():
+                turnosFiltrados.append(t)
+        return turnosFiltrados                
+
     # obtener datos de un turno
     def getDatosDeTurno(self, idTurno):
         turno = self.GetOne(idTurno)
@@ -262,7 +270,7 @@ class DatosTurnos(Datos):
         else: 
             self.session.delete(turno)
             self.session.commit()
-            return True           
+            return turno           
             
 
 

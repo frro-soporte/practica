@@ -2,7 +2,7 @@
 {% block head%}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css" />
 {% endblock %}
-{% block title %} Login page {% endblock %}    
+{% block title %} Login de Sacerdotes {% endblock %}    
 
 {% block content %}
 <div class="column is-4 is-offset-4">
@@ -18,19 +18,19 @@
         <form method="POST" action="/login">
             <div class="field">
                 <div class="control">
-                    <input class="input is-large" type="email" name="email" placeholder="Your Email" autofocus="">
+                    <input class="input is-large" type="email" name="email" placeholder="Su mail" autofocus="">
                 </div>
             </div>
 
             <div class="field">
                 <div class="control">
-                    <input class="input is-large" type="password" name="password" placeholder="Your Password">
+                    <input class="input is-large" type="password" name="password" placeholder="Su contraseña">
                 </div>
             </div>
             <div class="field">
                 <label class="checkbox">
                     <input type="checkbox">
-                    Remember me
+                    Recuerdame
                 </label>
             </div>
             <button class="button is-block is-info is-large is-fullwidth">Login</button>

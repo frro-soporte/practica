@@ -1,8 +1,8 @@
 import os
 import flask
 import sys
-# sys.path.append('c:/Users/ppaez/Documents/Repositorios/frro-soporte-2020-23/practico_08/Sistema/Capa de Datos')
-sys.path.append('C:/Users/arias/Desktop/UTN/SGDPV/frro-soporte-2020-23/practico_08/Sistema/Capa de Datos')
+sys.path.append('c:/Users/ppaez/Documents/Repositorios/frro-soporte-2020-23/practico_08/Sistema/Capa de Datos')
+#sys.path.append('C:/Users/arias/Desktop/UTN/SGDPV/frro-soporte-2020-23/practico_08/Sistema/Capa de Datos')
 # sys.path.append('/home/jco/Repositorios/frro-soporte-2020-23/practico_08/Sistema/Capa de Datos')
 
 from Clases import Turno
@@ -79,8 +79,8 @@ def send_image(filename,tipo):
 
 @app.route('/sacerdotes')
 def sacerdotes():
-    # image_names = os.listdir('C:/Users/ppaez/Documents/Repositorios/frro-soporte-2020-23/practico_08/Sistema/Capa de Presentacion/images/sacerdotes')
-    image_names = os.listdir('C:/Users/arias/Desktop/UTN/SGDPV/frro-soporte-2020-23/practico_08/Sistema/Capa de Presentacion/images/sacerdotes')
+    image_names = os.listdir('C:/Users/ppaez/Documents/Repositorios/frro-soporte-2020-23/practico_08/Sistema/Capa de Presentacion/images/sacerdotes')
+    #image_names = os.listdir('C:/Users/arias/Desktop/UTN/SGDPV/frro-soporte-2020-23/practico_08/Sistema/Capa de Presentacion/images/sacerdotes')
     # image_names = os.listdir('/home/jco/Repositorios/frro-soporte-2020-23/practico_08/Sistema/Capa de Presentacion/images/sacerdotes')
     ds = DatosSacerdotes()
     sacerdotes = ds.GetAll()
@@ -90,7 +90,7 @@ def sacerdotes():
 
 @app.route('/centros')
 def centro():
-    # image_names = os.listdir('C:/Users/ppaez/Documents/Repositorios/frro-soporte-2020-23/practico_08/Sistema/Capa de Presentacion/images/centros')
+    image_names = os.listdir('C:/Users/ppaez/Documents/Repositorios/frro-soporte-2020-23/practico_08/Sistema/Capa de Presentacion/images/centros')
     image_names = os.listdir('C:/Users/arias/Desktop/UTN/SGDPV/frro-soporte-2020-23/practico_08/Sistema/Capa de Presentacion/images/sacerdotes')
     # image_names = os.listdir('/home/jco/Repositorios/frro-soporte-2020-23/practico_08/Sistema/Capa de Presentacion/images/centros')
     dc = DatosCentros()
@@ -234,21 +234,50 @@ def cancelarTurno():
     return render_template('cancelarTurno.html')
 
 
+@app.route('/enviarMailCancelacion/<emailPenitente>')
+def emailCancelacion(emailPenitente):
+    dt = DatosTurnos()
+    dc = DatosCentros()
+    ds = DatosSacerdotes()
+    turnos = dt.getAllFuturosxPenitetes(emailPenitente)
+    if turnos != []:
+        turnosDatos=[]
+        for t in turnos:
+            centro = dc.GetOne(t.idCentro)
+            sacerdote = ds.GetOne(t.idSacerdote)
+            turnosDatos.append((t.idTurno, centro.nombre, sacerdote.apellidoNombre, t.fechayHoraTurno.date(), t.fechayHoraTurno.time()))
+        msg = Message('Cancelacion de turnos de confesión', recipients=[emailPenitente])
+        msg.html =  render_template('emailCancelacion.html',turnosDatos = turnosDatos)
+        FlaskMailApp.send(msg)
+        return 'Mail enviado'
+    return 'Mail no enviado'
+
+@app.route('/eliminarTurno/<int:idTurno>')
+def eliminarTurno(idTurno):
+    dt = DatosTurnos()
+    turno = dt.deleteOne(idTurno)
+    if ( turno != False):
+        fecha = datetime.strftime(turno.fechayHoraTurno.date(), '%d-%m-%Y')
+        hora = turno.fechayHoraTurno.time()
+        dc = DatosCentros()
+        centro = dc.GetOne(turno.idCentro)
+        ds = DatosSacerdotes()
+        sacerdote = ds.GetOne(turno.idSacerdote)
+        resultado = True
+        return render_template('turnoCancelado.html', resultado = resultado, centro = centro.nombre,  sacerdoteNombre = sacerdote.apellidoNombre, fecha = fecha, hora = hora )
+    else:
+        resultado = False
+        return render_template('turnoCancelado.html', resultado = resultado, centro = "",  sacerdoteNombre = "", fecha = "", hora = "" )
 # @app.route('/cancelarTurno', methods=['POST'])
 # def enviarTurnos():
 #     flash('Se ha enviado un mail con sus turnos')
 #     mail = request.form.get('mail')
 #     pass
-
-
-# @app.route('/lala/<int:dato>')
-# def lala(dato):
-#     return 'el valor es' + dato
     
-# @app.route('/profile')
-# @login_required
-# def profile():
-#     return render_template('profile.html', name=current_user.apellidoNombre)
+@app.route('/profile')
+@login_required
+def profile():
+    return render_template('profile.html', name=current_user.apellidoNombre)
 
 
 if __name__ == '__main__':    
