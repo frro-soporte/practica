@@ -91,7 +91,7 @@ def sacerdotes():
 @app.route('/centros')
 def centro():
     image_names = os.listdir('C:/Users/ppaez/Documents/Repositorios/frro-soporte-2020-23/practico_08/Sistema/Capa de Presentacion/images/centros')
-    image_names = os.listdir('C:/Users/arias/Desktop/UTN/SGDPV/frro-soporte-2020-23/practico_08/Sistema/Capa de Presentacion/images/sacerdotes')
+    # image_names = os.listdir('C:/Users/arias/Desktop/UTN/SGDPV/frro-soporte-2020-23/practico_08/Sistema/Capa de Presentacion/images/sacerdotes')
     # image_names = os.listdir('/home/jco/Repositorios/frro-soporte-2020-23/practico_08/Sistema/Capa de Presentacion/images/centros')
     dc = DatosCentros()
     centros = dc.GetAll()
@@ -137,6 +137,20 @@ def getDiasDisponiblesxCentro (idSacerdote, idCentro):
     dt = DatosTurnos()
     
     diasLista = dt.GetDiasDisponiblesxSacerdoteyCentro(idSacerdote, idCentro)
+    diasListaDict = []
+    for dia in diasLista:
+        diaDict = {}
+        diaDict['id']=dia[0]
+        diaDict['desc']=dia[1]
+        diasListaDict.append(diaDict)
+    
+    return jsonify({'dias': diasListaDict})
+
+@app.route('/diasxSacerdoteyCentro/<int:idSacerdote>/<int:idCentro>')
+def getDiasxSacerdoteyCentro (idSacerdote, idCentro):
+    dt = DatosTurnos()
+    
+    diasLista = dt.GetDiasxSacerdoteyCentro(idSacerdote, idCentro)
     diasListaDict = []
     for dia in diasLista:
         diaDict = {}
@@ -193,7 +207,7 @@ def enviarMail(mailDestinatario, idCentro, idSacerdote, fechayHoraTurno):
     turno.idCentro = idCentro
     turno.idSacerdote = idSacerdote
     turno.mail = mailDestinatario
-    turno.fechayHoraTurno = datetime.strptime(fechayHoraTurno, '%d-%m-%Y %H:%M:%S')
+    turno.fechayHoraTurno = datetime.strptime(fechayHoraTurno, '%d-%m-%Y %H:%M')
     fecha = datetime.strftime(turno.fechayHoraTurno.date(), '%d-%m-%Y')
     hora = turno.fechayHoraTurno.time()
     mail = turno.mail
@@ -216,7 +230,7 @@ def confirmarTurno(mailDestinatario, idCentro, idSacerdote, fechayHoraTurno):
     turno.idCentro = idCentro
     turno.idSacerdote = idSacerdote
     turno.mail = mailDestinatario
-    turno.fechayHoraTurno = datetime.strptime(fechayHoraTurno, '%d-%m-%Y %H:%M:%S')
+    turno.fechayHoraTurno = datetime.strptime(fechayHoraTurno, '%d-%m-%Y %H:%M')
     fecha = datetime.strftime(turno.fechayHoraTurno.date(), '%d-%m-%Y')
     hora = turno.fechayHoraTurno.time()
     dt = DatosTurnos()
@@ -277,7 +291,25 @@ def eliminarTurno(idTurno):
 @app.route('/profile')
 @login_required
 def profile():
-    return render_template('profile.html', name=current_user.apellidoNombre)
+    dc = DatosCentros()
+    dt = DatosTurnos()
+    form = Controles()
+    form.ddlCentros.choices = [(centro.idCentro, centro.nombre + " , " + centro.direccion) for centro in dc.GetAllxSacerdote(current_user.id)]
+    form.ddlDias.choices = [(dia[0], dia[1]) for dia in dt.GetDiasxSacerdoteyCentro(current_user.id, form.ddlCentros.choices[0][0])]
+    return render_template('profile.html', sacerdote=current_user, form=form)
+
+@app.route('/turnosxCentroyDia/<int:idCentro>/<dia>')
+def turnoxCentro(idCentro, dia):
+    dt = DatosTurnos()
+    diaFormat = datetime.strptime(dia, '%d-%m-%Y')
+    turnos = dt.GetAllxCentroyDia(idCentro, diaFormat.date())
+    turnosListaDict = []
+    for t in turnos:
+        tDict = {}
+        tDict['fechayHora']= datetime.strftime(t.fechayHoraTurno, '%H:%M')
+        tDict['mail']= t.mail
+        turnosListaDict.append(tDict)
+    return jsonify({'turnos': turnosListaDict})
 
 
 if __name__ == '__main__':    
