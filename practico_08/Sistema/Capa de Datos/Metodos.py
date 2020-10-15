@@ -212,6 +212,19 @@ class DatosTurnos(Datos):
 
         return  diasDisponibles
 
+    def GetDiasxSacerdoteyCentro(self,idSacerdote,idCentro):
+        dd = DatosDisponibilidad()
+        disps = dd.GetAllxCentroySacerdote(idCentro, idSacerdote)
+        diasDisponibles = []
+        for incremento in range(0,7):
+            diaActual = datetime.today() + timedelta(incremento)
+            for d in disps:
+                if (d.diaAtencion ==  diaActual.weekday()):
+                    desc = d.diaNombre + " " + str(diaActual.day)
+                    diasDisponibles.append((diaActual,desc))
+                    break
+        return  diasDisponibles
+
     def GetPeriodosDisponiblesxSacerdoteCentroyDia(self, idSacerdote, idCentro, diaFormat):
         turnos = self.GetAllxSacerdoteCentroyDia(idSacerdote, idCentro, diaFormat)
         dd = DatosDisponibilidad()
@@ -246,7 +259,15 @@ class DatosTurnos(Datos):
         for t in turnos:
             if t.fechayHoraTurno > datetime.now():
                 turnosFiltrados.append(t)
-        return turnosFiltrados                
+        return turnosFiltrados    
+
+    def GetAllxCentroyDia(self, idCentro, dia):
+        turnos = self.session.query(Turno).filter(Turno.idCentro == idCentro).all()
+        turnosFiltrados = []
+        for t in turnos:    
+            if (t.fechayHoraTurno.date() == dia):
+                turnosFiltrados.append(t)
+        return turnosFiltrados        
 
     # obtener datos de un turno
     def getDatosDeTurno(self, idTurno):

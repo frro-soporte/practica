@@ -2,8 +2,8 @@
 {% block title %} Confirmar Turno {% endblock %}
 {% block content %}
     {% if centroNombre != "" %}
-            <h3> Se ha confirmado su turno en {{centroNombre}} con {{sacerdoteNombre}} - el dia {{ fecha }} a las {{ hora }}</h3>
+            <p> Se ha confirmado su turno en {{centroNombre}} con {{sacerdoteNombre}} - el dia {{ fecha }} a las {{ hora }}</p>
     {% else %}
-            <h3> No se ha podido confirmar su turno, vuelva a intentar darlo de alta </h3>
+            <p> No se ha podido confirmar su turno, vuelva a intentar darlo de alta </p>
     {% endif %}
 {% endblock %}

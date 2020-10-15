@@ -2,8 +2,8 @@
 {% block title %} Turno Cancelado {% endblock %}
 {% block content %}
     {% if resultado %}
-            <h3> Se ha cancelado su turno en {{centroNombre}} con {{sacerdoteNombre}} - el dia {{ fecha }} a las {{ hora }}</h3>
+            <p> Se ha cancelado su turno en {{centroNombre}} con {{sacerdoteNombre}} - el dia {{ fecha }} a las {{ hora }}</p>
     {% else %}
-            <h3> No se ha podido  cancelar su turno, es probable que ya haya sido dado de baja</h3>
+            <p> No se ha podido  cancelar su turno, es probable que ya haya sido dado de baja</p>
     {% endif %}
 {% endblock %}
