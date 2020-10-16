@@ -240,7 +240,7 @@ class DatosTurnos(Datos):
                     if (fechayHoraActual.time() == t.fechayHoraTurno.time()):
                         bandera = False
                 if (bandera):
-                    fechayHora = datetime.strftime(fechayHoraActual, '%d-%m-%Y %H:%M')
+                    fechayHora = datetime.strftime(fechayHoraActual, '%d-%m-%Y %H:%M:%S')
                     desc =str(fechayHoraActual.time())[:5] + '-' + str((fechayHoraActual + timedelta(minutes=20)).time())[:5] 
                     periodosDisponibles.append((fechayHora, desc))
         return periodosDisponibles
