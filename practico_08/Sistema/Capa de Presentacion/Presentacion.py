@@ -306,7 +306,7 @@ def turnoxCentro(idCentro, dia):
     turnosListaDict = []
     for t in turnos:
         tDict = {}
-        tDict['fechayHora']= datetime.strftime(t.fechayHoraTurno.time(), '%H:%M')
+        tDict['fechayHora']= datetime.strftime(t.fechayHoraTurno, '%H:%M')
         tDict['mail']= t.mail
         turnosListaDict.append(tDict)
     return jsonify({'turnos': turnosListaDict})
