@@ -1,9 +1,9 @@
 import os
 import flask
 import sys
-sys.path.append('c:/Users/ppaez/Documents/Repositorios/frro-soporte-2020-23/practico_08/Sistema/Capa de Datos')
+#sys.path.append('c:/Users/ppaez/Documents/Repositorios/frro-soporte-2020-23/practico_08/Sistema/Capa de Datos')
 #sys.path.append('C:/Users/arias/Desktop/UTN/SGDPV/frro-soporte-2020-23/practico_08/Sistema/Capa de Datos')
-# sys.path.append('/home/jco/Repositorios/frro-soporte-2020-23/practico_08/Sistema/Capa de Datos')
+sys.path.append('/home/jco/Repositorios/frro-soporte-2020-23/practico_08/Sistema/Capa de Datos')
 
 from Clases import Turno
 from Metodos import DatosPenitentes, DatosCiudades, DatosSacerdotes, DatosCentros, DatosTurnos
@@ -79,23 +79,25 @@ def send_image(filename,tipo):
 
 @app.route('/sacerdotes')
 def sacerdotes():
-    image_names = os.listdir('C:/Users/ppaez/Documents/Repositorios/frro-soporte-2020-23/practico_08/Sistema/Capa de Presentacion/images/sacerdotes')
+    #image_names = os.listdir('C:/Users/ppaez/Documents/Repositorios/frro-soporte-2020-23/practico_08/Sistema/Capa de Presentacion/images/sacerdotes')
     #image_names = os.listdir('C:/Users/arias/Desktop/UTN/SGDPV/frro-soporte-2020-23/practico_08/Sistema/Capa de Presentacion/images/sacerdotes')
-    # image_names = os.listdir('/home/jco/Repositorios/frro-soporte-2020-23/practico_08/Sistema/Capa de Presentacion/images/sacerdotes')
+    image_names = os.listdir('/home/jco/Repositorios/frro-soporte-2020-23/practico_08/Sistema/Capa de Presentacion/images/sacerdotes')
     ds = DatosSacerdotes()
     sacerdotes = ds.GetAll()
     for s in sacerdotes:
+        ds = DatosSacerdotes()
         s.centrosyDisponibilidad = ds.GetCentrosyHorarios(s)
     return render_template('sacerdotes.html', image_names=image_names, sacerdotes = sacerdotes)
 
 @app.route('/centros')
 def centro():
-    image_names = os.listdir('C:/Users/ppaez/Documents/Repositorios/frro-soporte-2020-23/practico_08/Sistema/Capa de Presentacion/images/centros')
+    #image_names = os.listdir('C:/Users/ppaez/Documents/Repositorios/frro-soporte-2020-23/practico_08/Sistema/Capa de Presentacion/images/centros')
     # image_names = os.listdir('C:/Users/arias/Desktop/UTN/SGDPV/frro-soporte-2020-23/practico_08/Sistema/Capa de Presentacion/images/sacerdotes')
-    # image_names = os.listdir('/home/jco/Repositorios/frro-soporte-2020-23/practico_08/Sistema/Capa de Presentacion/images/centros')
+    image_names = os.listdir('/home/jco/Repositorios/frro-soporte-2020-23/practico_08/Sistema/Capa de Presentacion/images/centros')
     dc = DatosCentros()
     centros = dc.GetAll()
     for c in centros:
+        dc = DatosCentros()
         c.sacerdotesyDisponibilidad = dc.GetSacerdotesyHorarios(c)
     return render_template('centros.html', image_names=image_names, centros = centros)
 
