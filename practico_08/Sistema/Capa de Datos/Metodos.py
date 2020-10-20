@@ -188,24 +188,12 @@ class DatosTurnos(Datos):
             self.session.close()
 
     def GetOnexSacerdoteCentroyFechayHora(self, idSacerdote, idCentro, fechayHora):
-<<<<<<< HEAD
         turnosAll = self.session.query(Turno).all()
         turnosFiltrados = []
         for t in turnosAll:
             if(t.idSacerdote == idSacerdote and t.idCentro == idCentro and t.fechayHoraTurno == fechayHora):
                 turnosFiltrados.append(t)
         return turnosFiltrados
-=======
-        try:
-            turnosAll = self.session.query(Turno).all()
-            turnosFiltrados = []
-            for t in turnosAll:
-                if(t.idSacerdote == idSacerdote and t.idCentro == idCentro and t.fechayHoraTurno == fechayHora):
-                    turnosFiltrados.append(t)
-            return turnosFiltrados
-        finally:
-            self.session.close()
->>>>>>> practico-8
 
     def GetAllxSacerdoteyCentro(self, idSacerdote, idCentro):
         try:
