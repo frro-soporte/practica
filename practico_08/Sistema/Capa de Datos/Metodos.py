@@ -178,14 +178,11 @@ class DatosTurnos(Datos):
         super().__init__()   
 
     def InsertFiltrado(self,turno):
-        try:
-            if (self.GetOnexSacerdoteCentroyFechayHora(turno.idSacerdote, turno.idCentro, turno.fechayHoraTurno) == []):
-                self.session.add(turno)
-                self.session.commit()
-                return True
-            return False
-        finally:
-            self.session.close()
+        if (self.GetOnexSacerdoteCentroyFechayHora(turno.idSacerdote, turno.idCentro, turno.fechayHoraTurno) == []):
+            self.session.add(turno)
+            self.session.commit()
+            return True
+        return False
 
     def GetOnexSacerdoteCentroyFechayHora(self, idSacerdote, idCentro, fechayHora):
         turnosAll = self.session.query(Turno).all()
