@@ -3,7 +3,7 @@
 <b-row>
   <b-col>
    <h3> Symbol Info</h3>
-   <b-spinner variant="success" type="grow" label="Spinning">Loading</b-spinner> 
+   <b-spinner variant="success" type="grow" label="Spinning">Loading</b-spinner>
   </b-col>
 </b-row>
 </b-container>
@@ -92,22 +92,14 @@ export default {
       return this.info
       ? this.info
       : ""
+    },
+    info: function(){  
+      return this.$store.getters([''])
     }
+    
   },
   async mounted() {
-    this.loading = true;
-    await this.$api
-      .getStockInfo("AAPL")
-      .then((response) => {
-        this.loading = false;
-        this.info = response.data;
-      })
-      .catch((error) => {
-        this.loading = false;
-
-        // eslint-disable-next-line no-console
-        console.log(error);
-      });
+    this.$store.dispatch('getInfo')
   },
 };
 </script>

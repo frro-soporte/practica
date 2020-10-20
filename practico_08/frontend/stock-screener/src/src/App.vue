@@ -1,7 +1,14 @@
 <template>
   <div id="app">
     <NavBar />
-    <b-container fluid>
+    <b-container fluid v-if="loading">
+      <b-row>
+        <b-col>
+          <b-spinner variant="success" type="grow" label="Spinning">Loading</b-spinner>
+        </b-col>
+      </b-row>
+    </b-container>
+    <b-container fluid v-else>
       <b-row>
         <b-col class="text-left p-0" xs="12" sm="12" lg="4" xl="4">
           <Info />
@@ -36,6 +43,8 @@ export default {
     NavBar,
     Info,
   },
+
+
 };
 </script>
 
