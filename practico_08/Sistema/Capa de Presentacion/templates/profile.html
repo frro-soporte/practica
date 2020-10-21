@@ -50,6 +50,7 @@
     }
 
     function btnInformePressed(){
+        var idSacerdote = {{sacerdote.id}}
         idCentro = centro_select.value;
         diaSeleccionado = dia_select.value;
         table = document.getElementById('tabla')
@@ -61,7 +62,7 @@
 
         diaFormat = dd + '-' + mm + '-' + yyyy;
 
-        fetch('/turnosxCentroyDia/'+ idCentro +'/'+ diaFormat).then(function(response){
+        fetch('/turnosxCentroDiaySacerdote/'+ idCentro +'/'+ diaFormat+'/'+ idSacerdote).then(function(response){
             response.json().then(function(data){
                 for(let turno of data.turnos){
                     var tr = document.createElement('tr');

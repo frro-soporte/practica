@@ -300,11 +300,11 @@ def profile():
     form.ddlDias.choices = [(dia[0], dia[1]) for dia in dt.GetDiasxSacerdoteyCentro(current_user.id, form.ddlCentros.choices[0][0])]
     return render_template('profile.html', sacerdote=current_user, form=form)
 
-@app.route('/turnosxCentroyDia/<int:idCentro>/<dia>')
-def turnoxCentro(idCentro, dia):
+@app.route('/turnosxCentroDiaySacerdote/<int:idCentro>/<dia>/<int:idSacerdote>')
+def turnoxCentro(idCentro, dia, idSacerdote):
     dt = DatosTurnos()
     diaFormat = datetime.strptime(dia, '%d-%m-%Y')
-    turnos = dt.GetAllxCentroyDia(idCentro, diaFormat.date())
+    turnos = dt.GetAllxCentroDiaySacerdote(idCentro, diaFormat.date(),idSacerdote)
     turnosListaDict = []
     for t in turnos:
         tDict = {}

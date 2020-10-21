@@ -301,12 +301,12 @@ class DatosTurnos(Datos):
         finally:
             self.session.close()
 
-    def GetAllxCentroyDia(self, idCentro, dia):
+    def GetAllxCentroDiaySacerdote(self, idCentro, dia, idSacerdote):
         try:
             turnos = self.session.query(Turno).filter(Turno.idCentro == idCentro).all()
             turnosFiltrados = []
             for t in turnos:    
-                if (t.fechayHoraTurno.date() == dia):
+                if (t.fechayHoraTurno.date() == dia and t.idSacerdote == idSacerdote):
                     turnosFiltrados.append(t)
             return turnosFiltrados
         finally:
