@@ -1,0 +1,20 @@
+{% block content %}
+<h3>No se olvide de confirmar el turno</h3>
+<p>Si no lo confirma su turno no se hara efectivo y otro podra tomarlo</p>
+<div class = "row">
+    <div class = "col">
+        <h4>Datos del turno</h4>
+           <ul>
+               <li>Centro: {{ centro.nombre }}</li>
+               <li>Sacerdote: {{ sacerdote.apellidoNombre }}</li>
+               <li>Fecha: {{ fecha }}</li>
+               <li>Hora: {{ hora }}</li>
+           </ul>
+    </div>
+    <div class="col justify-content-center align-self-center">
+        <div class="row">
+            <a href="http://127.0.0.1:5000/confirmarTurno/{{ mail }}/{{centro.idCentro}}/{{sacerdote.id}}/{{ fecha }} {{ hora }}"  class="btn btn-outline-secondary">Confirmar Turno</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

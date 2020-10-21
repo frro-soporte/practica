@@ -1,0 +1,22 @@
+{% block content %}
+<h3>Cancelacion de turno de confesion</h3>
+<p>Seleccione el turno que desea cancelar de la lista de sus turnos que le brindamos</p>
+{% for t in turnosDatos%}
+<div class = "row">
+    <div class = "col">
+            <h4>Datos del turno</h4>
+                <ul>
+                    <li>Centro: {{ t[1] }}</li>
+                    <li>Sacerdote: {{ t[2] }}</li>
+                    <li>Fecha: {{ t[3] }}</li>
+                    <li>Hora: {{ t[4] }}</li>
+                </ul>
+    </div>
+    <div class="col justify-content-center align-self-center">
+        <div class="row">
+            <a href="http://127.0.0.1:5000/eliminarTurno/{{ t[0] }}">Eliminar turno</a>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}

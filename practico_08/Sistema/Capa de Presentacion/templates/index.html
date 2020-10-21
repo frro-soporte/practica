@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %} Inicio {% endblock %}
+{% block content %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for msg in messages %}
+                <p>{{msg}}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <div class="row">
+        <div class="w-50 mx-auto">
+          <h1 class="title">Sistema de turnos para confesiones</h1>
+          <br>
+          <br>
+          <div class="container">
+              <div class="row">
+                  <div class="col-sm">
+                    <h3>Ciudad a consultar</h3>
+                  </div>
+                  <div class="col-sm">
+                        {{form.ddlciudades(class_="btn btn-secondary dropdown-toggle")}}                        
+                  </div>
+              </div>
+          </div>  
+       </div>
+    </div>  
+{% endblock %}

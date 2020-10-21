@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block head%}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css" />
+{% endblock %}
+{% block title %} Login de Sacerdotes {% endblock %}    
+
+{% block content %}
+<div class="column is-4 is-offset-4">
+    <h3 class="title">Login</h3>
+    <div class="box">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="notification is-danger">
+                {{ messages[0] }}
+            </div>
+        {% endif %}
+        {% endwith %}
+        <form method="POST" action="/login">
+            <div class="field">
+                <div class="control">
+                    <input class="input is-large" type="email" name="email" placeholder="Su mail" autofocus="">
+                </div>
+            </div>
+
+            <div class="field">
+                <div class="control">
+                    <input class="input is-large" type="password" name="password" placeholder="Su contraseña">
+                </div>
+            </div>
+            <button class="button is-block is-info is-large is-fullwidth">Login</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %} Cancelar Turno {% endblock %}
+{% block content %}
+<div class="row">
+    <div class="w-50 mx-auto">
+      <div class="container">
+          <div class="row">
+                <h4>Le enviaremos un mail con los turnos registrados y la opcion de elimar el que desee</h4>
+            </div>
+          <div class="row">
+              
+              <div class="col-sm">
+                <input type="email" class="form-control" id="txtEmail" name="email" placeholder="Ingrese mail el que registro los turnos">                       
+              </div>
+              <br>
+              <div class="text-center">
+                    <button id="btnEnviarMail" onclick = "btnEnviarMailPressed();" type="button" class="btn btn-outline-primary">Enviar mail</button>
+               </div>
+          </div>
+          <br><br>
+          <div class="row">
+              <div class="col-sm">
+                  <div id="alertEnvioEmail" class="alert alert-primary collapse text-center" role="alert">
+                      Un mail se enviará a tu casilla de correo, en el podrás cancelar el o los turnos que hayas regitrado
+                  </div>
+              </div>
+          </div>
+      </div>  
+   </div>
+</div>  
+<script>
+
+    let emailInput = document.getElementById('txtEmail')
+
+    function btnEnviarMailPressed(){
+        email = emailInput.value
+        fetch('/enviarMailCancelacion/'+ email );
+        $('#alertEnvioEmail').show('fade');
+    };
+</script>
+{% endblock %}

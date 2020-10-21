@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %} Perfil {% endblock %}
+{% block content %}
+<div class="row">
+    <div class="w-50 mx-auto">
+      <h3>Bienvenido padre {{ sacerdote.apellidoNombre }}</h3>
+      <div class="container">
+          <div class="row">
+              <p>Elija el centro y el dia de atencion, luego aprete el boton para ver los turnos registrados hasta el momento</p>
+          </div>
+          <div class="row">
+              <div class="col-sm">
+                {{form.ddlCentros(class_="form-control")}}
+              </div>
+              <div class="col-sm">
+                {{form.ddlDias(class_="form-control")}}
+              </div>
+              <br>
+              <div class="text-center">
+                <button id="btnInforme" onclick = "btnInformePressed();" type="button" class="btn btn-outline-primary">Ver Informe</button>
+              </div>
+          </div>
+          <br>
+          <div clas="row">
+            <table id="tabla" class="table">
+                <tr>
+                    <th scope="col">Hora</th>
+                    <th scope="col">Email</th>
+                </tr>
+            </table>
+          </div>
+      </div>
+    </div>
+<script>
+    let centro_select = document.getElementById('ddlCentros');
+    let dia_select = document.getElementById('ddlDias')
+    var idSacerdote = {{sacerdote.id}}
+
+    centro_select.onchange = function() {
+        idCentro = centro_select.value;
+        fetch('/diasxSacerdoteyCentro/'+ idSacerdote + '/'+ idCentro ).then(function(response){
+            response.json().then(function(data){
+               let optionHTML = '';
+                for (let dia of data.dias){
+                    optionHTML += '<option value="' + dia.id +'">' + dia.desc + '</option>';
+                }
+                dia_select.innerHTML = optionHTML;
+            })
+        });
+    }
+
+    function btnInformePressed(){
+        var idSacerdote = {{sacerdote.id}}
+        idCentro = centro_select.value;
+        diaSeleccionado = dia_select.value;
+        table = document.getElementById('tabla')
+
+        var dia= new Date(diaSeleccionado);
+        var dd = String(dia.getDate()).padStart(2, '0');
+        var mm = String(dia.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = dia.getFullYear();
+
+        diaFormat = dd + '-' + mm + '-' + yyyy;
+
+        fetch('/turnosxCentroDiaySacerdote/'+ idCentro +'/'+ diaFormat+'/'+ idSacerdote).then(function(response){
+            response.json().then(function(data){
+                for(let turno of data.turnos){
+                    var tr = document.createElement('tr');
+                    tr.innerHTML = '<td>' + turno.fechayHora + '</td>' +
+                    '<td>' + turno.mail + '</td>';
+                    table.appendChild(tr);
+                };
+            })
+        });
+    };
+</script>
+{% endblock %}

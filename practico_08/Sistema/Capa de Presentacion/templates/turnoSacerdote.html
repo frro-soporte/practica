@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% block title %} Alta Turno {% endblock %}
+{% block content %}
+<div class="container">
+    <h3>Alta de Turno - {{sacerdote.apellidoNombre}}</h3>
+    <div class="row">
+        <div class="col">
+            <img class="img-thumbnail rounded float-left" src=" {{url_for('send_image', filename=image_name, tipo=1)}}">
+        </div>
+        <div class="col">
+            <ul>
+                {% for centro in sacerdote.centrosyDisponibilidad %}
+                <li>
+                    <h7> {{centro[0].nombre}} - {{centro[0].direccion}} </h7>
+                    <ul>
+                        {% for atenciones in centro[1:] %}
+                            {% for a in atenciones:%}
+                                <li>{{a[0]}}: {{a[1].strftime("%H:%M")}}-{{a[2].strftime("%H:%M")}} </li>
+                            {% endfor%}
+                        {% endfor %}
+                    </ul>
+                </li>
+                {% endfor %}
+           </ul>
+        </div>
+    </div>
+    <br>
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                <input type="email" class="form-control" id="txtEmail" name="email" placeholder="Ingrese su email">
+                <br>
+                {{form.ddlCentros(class_="form-control")}}
+                <br>
+                {{form.ddlDias(class_="form-control")}}
+                <br>
+                {{form.ddlTurnos(class_="form-control")}}
+                <br>
+                <div class="text-center">
+                    <button id="btnEnviarMail" onclick = "btnEnviarMailPressed();" type="button" class="btn btn-outline-primary">Enviar mail de confirmacion</button>
+                </div>
+            </div>
+        </div>
+        <br><br>
+        <div class="row">
+            <div class="col-sm">
+                <div id="alertEnvioEmail" class="alert alert-primary collapse text-center" role="alert">
+                    Un mail se enviará a tu casilla de correo, en el podrás confirmar el turno para que se haga efectivo
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    let centro_select = document.getElementById('ddlCentros');
+    let dia_select = document.getElementById('ddlDias')
+    let turno_select = document.getElementById('ddlTurnos')
+    let emailInput = document.getElementById('txtEmail')
+
+    var idSacerdote = {{sacerdote.id}}
+
+
+    centro_select.onchange = function() {
+        idCentro = centro_select.value;
+        fetch('/diasDisponiblesxSacerdoteyCentro/'+ idSacerdote + '/'+ idCentro ).then(function(response){
+            response.json().then(function(data){
+               let optionHTML = '';
+                for (let dia of data.dias){
+                    optionHTML += '<option value="' + dia.id +'">' + dia.desc + '</option>';
+                }
+
+                dia_select.innerHTML = optionHTML;
+            })
+        });
+    }
+
+    dia_select.onchange = function() {
+        idCentro = centro_select.value;
+        diaSeleccionado = dia_select.value;
+
+        var dia= new Date(diaSeleccionado);
+        var dd = String(dia.getDate()).padStart(2, '0');
+        var mm = String(dia.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = dia.getFullYear();
+
+        diaFormat = dd + '-' + mm + '-' + yyyy;
+        fetch('/periodosDisponiblesxSacerdoteyCentroyDia/'+ idSacerdote + '/'+ idCentro + '/' + diaFormat).then(function(response){
+            response.json().then(function(data){
+               let optionHTML = '';
+                for (let p of data.periodos){
+                    optionHTML += '<option value="' + p.fechayHora +'">' + p.desc + '</option>';
+                }
+
+                turno_select.innerHTML = optionHTML;
+            })
+        });
+    }
+
+    function btnEnviarMailPressed(){
+        email = emailInput.value
+        idCentro = centro_select.value;
+        horaTurno = turno_select.value;
+
+        fetch('/enviarMailConfirmacion/'+ email +'/'+idCentro+'/'+idSacerdote+'/'+horaTurno);
+        $('#alertEnvioEmail').show('fade');
+    };
+</script>
+{% endblock %}
