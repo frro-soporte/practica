@@ -1,13 +1,5 @@
 <template>
-<b-container fluid v-if="loading">
-<b-row>
-  <b-col>
-   <h3> Symbol Info</h3>
-   <b-spinner variant="success" type="grow" label="Spinning">Loading</b-spinner>
-  </b-col>
-</b-row>
-</b-container>
-  <b-container fluid v-else>
+  <b-container fluid v-if="data">
     <b-row>
       <b-col xs="12" sm="12" lg="12" xl="12">
         <h3 class="card-text" v-b-toggle.collapse-1-inner size="sm">
@@ -82,18 +74,9 @@ export default {
     return {};
   },
   computed: {
-    symbol: function() {
-      return this.info
-      ? this.info
-      : ""
+    symbol: function () {
+      return this.data ? this.data : null;
     },
-    info: function(){  
-      return this.$store.getters([''])
-    }
-    
-  },
-  async mounted() {
-    this.$store.dispatch('getInfo')
   },
 };
 </script>
