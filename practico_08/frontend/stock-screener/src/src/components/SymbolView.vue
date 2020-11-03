@@ -5,7 +5,7 @@
     />
   </b-container>
 </template>
- 
+
 <script>
 import VueTradingView from "vue-trading-view";
 
@@ -29,4 +29,8 @@ export default {
 </script>
 
 <style scoped>
+#vue-trading-view>>>div {
+  width: 100px;
+}
+
 </style>
