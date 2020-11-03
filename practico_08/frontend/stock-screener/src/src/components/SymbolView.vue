@@ -1,12 +1,8 @@
 <template>
-  <b-container>
-    <b-row>
-      <b-col>
-        <b-card>
-          <VueTradingView :options="screenerOption" />
-        </b-card>
-      </b-col>
-    </b-row>
+  <b-container fluid>
+    <VueTradingView
+      :options="`{symbol:'NASDAQ:${this.symbol}',theme:'dark'}`"
+    />
   </b-container>
 </template>
  
@@ -16,25 +12,21 @@ import VueTradingView from "vue-trading-view";
 export default {
   name: "SymbolView",
   props: {
-    symbol: String,
+    symbol: {
+      type: String,
+      default: "AAPL",
+    },
   },
   components: {
     VueTradingView,
   },
-  computed: {
-    screenerOption: function () {
-      return {
-        symbol: this.symbol,
-        theme: "dark",
-      };
-    },
-  },
+  watch:{
+    symbol(){
+      this.$forceUpdate() 
+    }
+  }
 };
 </script>
 
 <style scoped>
-#vue-trading-view>>>div {
-  width: 500px;
-}
-
 </style>

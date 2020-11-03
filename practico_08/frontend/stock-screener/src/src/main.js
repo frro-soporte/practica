@@ -11,6 +11,7 @@ import { fas } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { store } from "@/store";
 
+
 library.add(fas);
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
