@@ -2,13 +2,19 @@
 # Devuelve un booleano en base a si encontro el registro y lo borro o no.
 
 import datetime
-
+import sqlite3 as db
 from practico_03.ejercicio_01 import reset_tabla
 from practico_03.ejercicio_02 import agregar_persona
 
 
 def borrar_persona(id_persona):
-    return False
+    var_db = db.connect('practico-03.db')
+    cursor = var_db.cursor()
+    query = "DELETE FROM Persona WHERE IdPersona = %s" % id_persona
+    cursor.execute(query)
+    var_db.commit()
+    return False if cursor.rowcount == 0 else True
+
 
 
 @reset_tabla
