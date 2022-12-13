@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+pyrofex
+sqlalchemy
+mysql-connector-python
+pydantic
+async-exit-stack
+async-generator
+python-multipart
+python-jose
+passlib
+bcrypt
+pandas

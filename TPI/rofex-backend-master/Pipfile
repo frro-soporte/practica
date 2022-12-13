@@ -1,0 +1,24 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+fastapi = "*"
+uvicorn = "*"
+mysql-connector-python = "*"
+bcrypt = "*"
+pydantic = "*"
+pyRofex = "*"
+SQLAlchemy = "*"
+async-exit-stack = "*"
+async_generator = "*"
+python-multipart = "*"
+passlib = "*"
+python-jose = {extras = ["cryptography"], version = "*"}
+pandas = "*"
+
+[requires]
+python_version = "3.8"

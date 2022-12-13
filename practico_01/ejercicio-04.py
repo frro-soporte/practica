@@ -3,4 +3,10 @@
 
 
 def conversor(grados):
-    pass
+    return grados * 9/5 + 32
+
+
+# (0°C × 9/5) + 32 = 32°F
+
+c = int(input("Ingrese Grados Celcius: "))
+print(conversor(c))
